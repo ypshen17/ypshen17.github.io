@@ -1,0 +1,737 @@
+/* ---------- Global ---------- */
+:root {
+  --accent: #0000bf;
+  --step: clamp(8px, 0.9vw, 18px);
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto Flex", sans-serif;
+  color: #000;
+  background: #fff;
+}
+
+h1, h2, h3 {
+  font-family: "Roboto Mono", monospace;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center;
+  font: 400 1rem "Roboto Flex", sans-serif;
+  color: #444;
+  padding: 2rem 1rem;
+}
+footer .picture-credit {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+/* NOTE: push inner pages down, clear the fixed header */
+.inner main { 
+  padding-top: 4rem /*clamp(4.5rem, 6vw, 6.5rem);*/
+}
+
+
+/* ???if the page gets linked with an in-page anchor, keep the H1 from hiding under the header */
+.project-title { 
+  scroll-margin-top: 4rem;  /* 6rem;*/
+}
+
+/* ---------- Global Nav ---------- */
+.global-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* top aligned */
+  padding: 2rem 4rem; /* NOTE */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 1000;
+  font-family: "Roboto Mono", monospace;
+}
+
+/* Left side */
+.global-nav .site-title {
+  font-size: 2rem; /* NOTE */
+  font-weight: 500; /* NOTE */
+  color: black;
+  text-decoration: none;
+}
+
+.global-nav .page-title {
+  margin-left: 2rem;
+  font-size: 2rem;
+  color: var(--accent); /* #0000bf */
+  text-transform: uppercase;
+}
+
+/* Right side */
+.global-nav .nav-right a {
+  margin-left: 1rem;
+  font-size: 1.2rem;
+  color: black;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.global-nav .nav-right a:hover {
+  text-decoration: underline;
+  /*color: var(--accent);
+  font-weight: bold;  NOTE */
+}
+
+
+/* ---------- Homepage ---------- */
+
+/* Stage 1 */
+.stage1 {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #fff;
+}
+
+#scatter span {
+  position: absolute;
+  font-family: "Roboto Mono", monospace;
+  font-size: 6rem; /* NOTE */
+  font-weight: bold;
+  color: #aaa;
+  user-select: none;
+}
+
+#name-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Roboto Mono", monospace;
+  font-size: 2.4rem;  
+  cursor: pointer;
+  color: black;
+}
+
+/* Stage 2 (overlay, not pushing page height) */
+.stage2 {
+  display: none;
+  opacity: 0;
+  position: absolute;   /* instead of relative */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+}
+
+
+#composition-container {
+  position: absolute;
+  font-size: 6rem;
+  font-weight: bold;
+  font-family: "Roboto Mono", monospace;
+  color: #aaa;
+}
+
+#name-fixed {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Roboto Mono", monospace;
+  font-size: 2.4rem;
+  color: black;
+}
+
+/* Home nav aligned to YIPENG SHEN */
+#home-nav {
+  position: absolute;
+  top: calc(50% + 1.5rem);
+  left: 0;
+  transform: none !important;
+  opacity: 0;
+  font-family: "Roboto Mono", monospace;
+  font-size: 1.8rem;
+  z-index: 2000;
+}
+
+#home-nav a {
+  color: black;
+  text-decoration: none;
+}
+
+#home-nav a:hover {
+  text-decoration: underline;
+}
+
+/* Background images */
+.smoke {
+  position: absolute;
+  left: 6%;
+  top: 9%;
+  width: 36%;
+  max-width: 40%;
+  opacity: 0;
+}
+
+.pieces {
+  position: absolute;
+  right: 0;
+  bottom: 15%;
+  width: 25%;
+  max-width: 30%;
+  opacity: 0;
+}
+
+
+
+/* ---------- Projects ---------- */
+
+/* Category filter */
+.projects-page {
+  padding: 6rem 4rem 4rem;
+}
+.projects-page .categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  /* margin: 2rem 0 2.5rem; */
+}
+.projects-page .categories.spread { justify-content: space-between; } 
+.projects-page .categories .cat {
+  appearance: none; -webkit-appearance: none;
+  background: none; border: 0; padding: 0; margin: 0;
+  font: 700 1.2rem "Roboto Mono", monospace; /* larger */
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: #000; cursor: pointer; position: relative; line-height: 1;
+  transition: color 0.2s ease;
+}
+.projects-page .categories .cat::after { /* underline */
+  content: ""; position: absolute; left: 0; right: 0; bottom: -6px;
+  height: 1px; background: transparent;
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.projects-page .categories .cat:hover { color: var(--accent); }
+.projects-page .categories .cat:hover::after {
+  background: var(--accent); transform: scaleX(1);
+}
+.projects-page .categories .cat.active { color: var(--accent); }
+.projects-page .categories .cat.active::after {
+  background: var(--accent); transform: scaleX(1);
+}
+.projects-page .categories .cat:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+@media (max-width: 640px) { .projects-page .categories { gap: 1rem; } }
+
+/* Square 4-col grid (auto-cropping covers) */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+@media (max-width: 1080px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .projects-grid { grid-template-columns: 1fr; }
+}
+
+.project-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;   /* force square cards */
+  overflow: hidden;
+  background: #eee;
+}
+.project-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* crop to square */
+  transition: transform 0.4s ease;
+}
+.project-card:hover img { transform: scale(1.05); }
+
+/* Card meta overlay (category above, title below) */
+.card-meta {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  padding: 1.2rem;
+  background: rgba(255, 255, 255, 0.5); /* opacity */
+  font-family: "Roboto Flex", sans-serif;
+}
+.card-cat {
+  font: 600 0.8rem "Roboto Mono", monospace; /* smaller */
+  text-transform: uppercase; /* letter-spacing: 0.08em;*/
+  color: var(--accent);
+  margin: 0 0 0.3rem 0;
+}
+.card-title {
+  margin: 0;
+  font: 700 1.2rem "Roboto Mono", monospace;
+  color: #000;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+.project-card:hover .card-title { 
+  text-decoration: underline; 
+  color: var(--accent); 
+}
+
+
+
+/* tags in detail pages */
+.project-cat {
+  font: 600 0.8rem "Roboto Mono", monospace;
+  color: #444;
+  /* margin: 0.25rem 0 0.25rem 0; NOTE */
+  line-height: 1.4;
+}
+.cat-tag {
+  display: inline-block;
+  margin: 0 0.4rem 0.4rem 0;
+  padding: 0.2rem 0.6rem;
+  font: 0.85rem "Roboto Mono", monospace;
+  border: 1px solid #aaa;
+  border-radius: 0.6rem; /* radius */
+  background: #fafafa;
+  color: #444;
+  transition: all 0.2s ease;
+}
+/* NOTE LATER 
+.cat-tag:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+*/
+
+/* Project detail: 50/50 split + square gallery */
+.project-detail {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.project-aside {
+  width: 50%;  /* Strictly 50% for the text */
+  /* padding: 4rem 3rem;*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* main, horizontal by default -- */
+  align-items: center;  /* cross, vertical by default, stretch if not set*/
+  text-align: left;
+}
+
+.project-body {
+  width: 50%;  /* Strictly 50% for the image */
+  /* padding: 4rem 3rem; */
+  display: flex;
+  justify-content: center;  /* main, horizontal by default -- */
+  align-items: center;  /* cross, vertical by default, stretch if not set*/
+  text-align: left;
+  font: 1.2rem, "Roboto Flex", sans-serif;
+}
+
+.project-meta {
+  width: 50%;  /* Strictly 50% for the image */
+  /* padding: 1rem; */
+  display: flex;
+  justify-content: center;  /* main, horizontal by default -- */
+  align-items: center;  /* cross, vertical by default, stretch if not set*/
+  text-align: left;
+  font: 1.2rem, "Roboto Flex", sans-serif;
+}
+
+.project-meta div { /* NOTE */
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+
+.project-cover-inline {
+  width: 100%;
+  max-width: 400px;  /* Ensure it doesn't take too much space */
+  height: auto;
+  margin: 0.25rem 0 0.25rem 0;
+  /* border: 1px solid #eee; */
+}
+
+@media (max-width: 960px) {
+  .project-detail {
+    flex-direction: column;  /* Stacks the left and right sections on mobile */
+  }
+
+  .project-aside, .project-body {
+    width: 100%;  /* Each section takes the full width on mobile */
+    /* padding: 2rem;  Optional: adjust padding for mobile */
+  }
+}
+
+
+/* Right square gallery */
+.project-media {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: #eaeaea;
+}
+.project-media img {
+  width: stretch; /* NOTE: fit right half */
+  height: auto;
+  object-fit: cover;
+}
+
+/* Dots navigation for images */
+.dots-right {
+  position: fixed;
+  right: 20px;  /* Position dots on the right edge */
+  top: 50%;  /* Vertically center the dots */
+  transform: translateY(-50%);  
+  z-index: 10;  /* Ensure they appear above other content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dots-right .dot {
+  width: 10px;
+  height: 10px;
+  margin: 5px 0;
+  background-color: transparent;
+  border: 1px solid #0000bf;
+  border-radius: 50%; /* circle */
+  cursor: pointer;
+  opacity: 70%; /* NOTE */
+}
+
+.dots-right .dot.active {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+
+/* Project detail: prev/next */
+.project-prevnext {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+  font-family: "Roboto Mono", monospace;
+  font-size: 1rem;
+}
+.project-prevnext a {
+  color: black;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.project-prevnext a:hover { text-decoration: underline; color: var(--accent); }
+
+
+
+
+
+
+/* ---------- Visions ---------- */
+.visions-intro {
+  padding: 12rem 32rem 8rem;
+  font: 1.2rem "Roboto Flex", sans-serif;
+  color: #444;
+  /* max-width: 50ch; */
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Define the fonts for each vision title */
+.vision-font-1 {
+  font-family: 'Climate Crisis', sans-serif;
+}
+.vision-font-2 {
+  font-family: 'Merriweather', serif;
+}
+.vision-font-3 {
+  font-family: 'Oswald', sans-serif;
+}
+.vision-font-4 {
+  font-family: 'Monoton', cursive;
+}
+.vision-font-5 {
+  font-family: 'Geo', sans-serif;
+}
+
+/* General Styling for Vision Titles */
+.vision-item-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  transition: font-family 0.3s ease; /* Smooth transition when the font changes */
+}
+
+/* Card Wrapper for Grid */
+.visions-list {
+  padding: 0 4rem;
+}
+
+@media (max-width: 768px) {
+  .vision-card-title {
+    font-size: 1.5rem; /* Smaller font for mobile */
+  }
+}
+
+/* Vision Grid Layout (2-column version) */
+.visions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2-column grid */
+  gap: 2rem;
+}
+@media (max-width: 1080px) {
+  .visions-grid { grid-template-columns: repeat(1, 1fr); } /* 1-column on smaller screens */
+}
+
+.vision-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;   /* force 3:2 aspect ratio for images */
+  overflow: hidden;
+  background: #eee;
+}
+.vision-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* crop to fit 3:2 aspect ratio */
+  transition: transform 0.4s ease;
+}
+.vision-card:hover img { 
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+/* Title Overlay (title over image) */
+.vision-card-title {
+  position: absolute; 
+  top: 2rem; left: 2rem;
+  font-size: 4rem;
+  font-family: 'FunkyFont', sans-serif;  /* Apply a funky font */
+  color: #fff;  /* White title text */
+  z-index: 10;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Slight shadow to make title stand out */
+}
+
+
+
+/* Single Vision Page Layout */
+.single-vision {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.single-vision-title {
+  padding: 12rem 32rem 4rem;
+  font-size: 4rem;
+  z-index: 10;
+  text-align: center;
+}
+
+.single-vision-content {
+  padding: 12rem 32rem 4rem;
+  font: 1.2rem "Roboto Flex", sans-serif;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  z-index: 10;
+}
+
+.single-vision-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('{{ page.background_image }}');
+  background-size: cover;
+  background-position: center;
+  z-index: -1; /* Behind the text */
+}
+
+
+/* ---------- Wondering (floating labels + card) ---------- */
+
+.wonder-page {
+  padding: 12rem 4rem 4rem;
+}
+
+.wonder-intro {
+  padding: 0 32rem;
+  font: 1.2rem "Roboto Flex", sans-serif;
+  color: #444;
+  width: 100%;
+  /*max-width: 50ch;*/
+  text-align: left;
+  justify-content: center;
+  align-items: center;
+}
+.wonder-world {
+  position: relative;
+  height: calc(60vh - 10rem); /* clears header + intro */
+  min-height: 30vh;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* floating label chip (DOM element linked to a physics body) */
+.wtag {
+  position: absolute;
+  padding: 0.35rem 0.8rem;
+  font: 600 1.5rem "Roboto Mono", monospace;
+  color: black;
+  background: #fff;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  user-select: none;
+  cursor: pointer;
+  transform-origin: center;
+}
+.wtag:hover { background: #fafafa; }
+.wtag.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  z-index: 5;
+}
+
+/* overlay & card (center) */
+.wonder-dim {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.06);
+  backdrop-filter: blur(1px);
+  z-index: 1000;
+}
+.wonder-card {
+  position: fixed;
+  top: 12vh; left: 50%;
+  transform: translateX(-50%);
+  width: min(720px, 92vw);
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  border-radius: 12px;
+  padding: 1.25rem 1.25rem 1.5rem;
+  z-index: 1001;
+}
+.wonder-close {
+  position: absolute; right: .6rem; top: .35rem;
+  background: none; border: 0; cursor: pointer;
+  font: 600 1.8rem "Roboto Mono", monospace; color: black;
+}
+.wonder-media img, .wonder-media video {
+  width: 100%; height: auto; display: block; margin: .5rem 0 1rem;
+}
+
+/* Reuse your cat-tag look inside the card */
+#wonderTags .cat-tag { margin-right: .4rem; }
+
+
+/* NOTE! wonder dots */
+.dots-wonder {
+  position: relative;
+  right: 6%;  /* Position dots on the right edge */
+  top: 50%;  /* Vertically center the dots */
+  transform: translateY(-50%);  
+  z-index: 1001;  /* Ensure they appear above other content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/*
+.dots-wonder .dot {
+  width: 10px;
+  height: 10px;
+  margin: 5px 0;
+  background-color: transparent;
+  border: 1px solid #0000bf;
+  border-radius: 50%; 
+  cursor: pointer;
+}
+
+.dots-wonder .dot.active {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+*/
+
+
+
+/* About page layout 50/50 split + square gallery */
+.about-page {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.about-aside {
+  width: 50%;  /* Strictly 50% for the text */
+  /* padding: 4rem 3rem;*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* main, horizontal by default -- */
+  align-items: center;  /* cross, vertical by default, stretch if not set*/
+  text-align: left;
+}
+
+.about-role {
+  color: black;
+  margin-bottom: 2rem;
+  width: 50%;  /* Strictly 50% for the image */
+  display: flex;
+  justify-content: center;  /* Center the image horizontally */
+  text-align: left;
+  font: 600 1.8rem, "Roboto Mono", monospace;
+}
+
+.about-body {
+  width: 50%;  /* Strictly 50% for the image */
+  display: flex;
+  justify-content: center;  /* main, horizontal by default -- */
+  align-items: center;  /* cross, vertical by default, stretch if not set*/
+  text-align: left;
+  font: 1.2rem, "Roboto Flex", sans-serif;
+}
+
+@media (max-width: 960px) {
+  .about-page {
+    flex-direction: column;  /* Stacks the left and right sections on mobile */
+  }
+  .about-aside, .about-media {
+    width: 100%;  /* Each section takes the full width on mobile */
+    /* padding: 2rem;  Optional: adjust padding for mobile */
+  }
+}
+
+/* Right-side media slider */
+.aboutt-media {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: #eaeaea;
+}
+.about-media img {
+  width: stretch; /* NOTE: fit right half */
+  height: auto;
+  object-fit: cover;
+}
+
+

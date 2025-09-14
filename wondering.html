@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Wondering</title>
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Wondering | Yipeng Shen</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Wondering" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Personal Website - Sonic Urbanism and Urban Design" />
+<meta property="og:description" content="Personal Website - Sonic Urbanism and Urban Design" />
+<link rel="canonical" href="https://ypshen17.github.io/wondering.html" />
+<meta property="og:url" content="https://ypshen17.github.io/wondering.html" />
+<meta property="og:site_name" content="Yipeng Shen" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Wondering" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Personal Website - Sonic Urbanism and Urban Design","headline":"Wondering","url":"https://ypshen17.github.io/wondering.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <!-- Fonts: Roboto Mono + Roboto Flex -->
+  <!-- Fonts+ -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto+Flex:opsz,wght@8..144,400..700&family=Climate+Crisis&family=Merriweather&family=Oswald&family=Monoton&family=Geo&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/styles.css">
+
+  <!-- Physics for Wondering (collisions) -->
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js" defer></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+  
+  <script src="/assets/gsap.js" defer></script>
+
+</head>
+
+    <meta name="robots" content="noindex, noarchive, nofollow">
+  </head>
+  <body class="inner">
+
+    
+      <!-- Global navigation (for all pages except home) -->
+<nav class="global-nav">
+  <!-- Left side: site title + page label -->
+  <div class="nav-left">
+    <a href="/" class="site-title">YIPENG SHEN</a>
+    <!-- Keep the page title static; it will always show the section name (Projects, Visions, etc.) -->
+    
+      <span class="page-title">
+        WONDERING
+        
+      </span>
+    
+  </div>
+
+  <!-- Right side: nav links -->
+  <div class="nav-right">
+    <a href="/projects">Projects</a> |
+    <a href="/visions">Visions</a> |
+    <a href="/wondering">Wondering</a> |
+    <a href="/about">About</a>
+    <a href="mailto:yipeng.shen@mail.polimi.it">✉</a>
+    <a href="https://instagram.com/azure_yp" target="_blank">IG</a>
+    <a href="https://linkedin.com/in/ypshen17" target="_blank">IN</a>
+  </div>
+</nav>
+
+    
+
+    <main>
+      <section class="frame wonder-page">
+  <div class="wonder-intro">
+    <p>
+      10,000 Hours Everything Everywhere. 
+    </p>
+    <p>
+      Notes, skills, and practices beyond 10,000 hours academic exploration.
+    </p>
+    <p>
+      Click a floating label to freeze and read.
+    </p>
+  </div>
+
+  <!-- Physics stage: floating labels -->
+  <div id="wonderWorld" class="wonder-world" aria-label="Floating wonder items"></div>
+
+  <!-- Right-side dots (same look as Projects) -->
+  <div class="dots-wonder" id="wonderDots" aria-label="Wonder items navigation"></div>
+
+  <!-- Dim + Card (shown on click) -->
+  <div id="wonderDim" class="wonder-dim" hidden></div>
+  <article id="wonderCard" class="wonder-card" hidden aria-live="polite">
+    <button id="wonderClose" class="wonder-close" aria-label="Close">x</button>
+    <h2 id="wonderTitle" class="about-name"></h2>
+    <p id="wonderTags" class="project-cat"></p>
+    <div id="wonderMedia" class="wonder-media"></div>
+    <div id="wonderContent" class="about-bio"></div>
+  </article>
+
+  <!-- Data from _wonder collection -->
+  <script id="wonder-data" type="application/json">
+  [
+    
+    
+    {
+      "id": "zine-making",
+      "title": "Creating Zines",
+      "tags": ["Art","DIY"],
+      "cover": "/assets/wondering/zine.jpg",
+      "url": "/wondering/zine-making/",
+      "html": "<p>Exploring the DIY culture of zine-making, where self-expression and creativity come together in small, hand-crafted publications.</p>"
+    },
+    
+    {
+      "id": "watercolor",
+      "title": "Practicing Watercolor",
+      "tags": ["Fine Art","Perception"],
+      "cover": "/assets/wondering/watercolor.jpg",
+      "url": "/wondering/watercolor/",
+      "html": "<p>A short reflection about watercolor and how it trains attention to light, fluidity, and atmosphere.</p>"
+    },
+    
+    {
+      "id": "trip-planning",
+      "title": "Planning Next Adventure, for me, for you",
+      "tags": ["Travel","Exploration"],
+      "cover": "/assets/wondering/travel-planning.jpg",
+      "url": "/wondering/trip-planning/",
+      "html": "<p>The art of crafting detailed travel itineraries that balance exploration with relaxation, immersing myself in new cultures and experiences.</p>"
+    },
+    
+    {
+      "id": "travel",
+      "title": "Exploring New Cultures",
+      "tags": ["Travel","Culture"],
+      "cover": "/assets/wondering/cultural-exploration.jpg",
+      "url": "/wondering/travel/",
+      "html": "<p>Traveling with the goal of learning from different cultures, exploring how history, language, and customs shape daily life around the world.</p>"
+    },
+    
+    {
+      "id": "sketch",
+      "title": "Sketching",
+      "tags": ["Art","Creativity"],
+      "cover": "/assets/wondering/sketch.jpg",
+      "url": "/wondering/sketch/",
+      "html": "<p>Using sketch to document nature, cultivating a deep connection to fluidity and form through simple sketches.</p>"
+    },
+    
+    {
+      "id": "reading",
+      "title": "Reading not for anything",
+      "tags": ["Literature","Reflection"],
+      "cover": "/assets/wondering/reading.jpg",
+      "url": "/wondering/reading/",
+      "html": "<p>Exploring how reading diverse genres shapes our understanding of the world, fostering both personal growth and empathy.</p>"
+    },
+    
+    {
+      "id": "pottery",
+      "title": "Crafting with Clay",
+      "tags": ["Art","Craft"],
+      "cover": "/assets/wondering/pottery.jpg",
+      "url": "/wondering/pottery/",
+      "html": "<p>The process of pottery, where creativity meets the tactile world, shaping clay into functional art through hands-on technique and patience.</p>"
+    },
+    
+    {
+      "id": "piano",
+      "title": "Daily Piano Practice",
+      "tags": ["Music","Harmony"],
+      "cover": "/assets/wondering/piano.jpg",
+      "url": "/wondering/piano/",
+      "html": "<p>Piano practice as a foundation for structured listening and creating harmonic depth in sound design.</p>"
+    },
+    
+    {
+      "id": "photo",
+      "title": "Capturing the Moment",
+      "tags": ["Art","Perception"],
+      "cover": "/assets/wondering/photography.jpg",
+      "url": "/wondering/photo/",
+      "html": "<p>Using photography as a method to capture fleeting moments, honing attention to detail and light.</p>"
+    },
+    
+    {
+      "id": "origami",
+      "title": "The Art of Origami",
+      "tags": ["Art","Craft"],
+      "cover": "/assets/wondering/origami.jpg",
+      "url": "/wondering/origami/",
+      "html": "<p>Origami as a meditative practice that transforms a simple sheet of paper into intricate shapes, connecting creativity with precision.</p>"
+    },
+    
+    {
+      "id": "listening",
+      "title": "Listening to Everything",
+      "tags": ["Music","Exploration"],
+      "cover": "/assets/wondering/listening.jpg",
+      "url": "/wondering/listening/",
+      "html": "<p>Listening to music across genres and cultures, broadening the auditory landscape and understanding rhythm, melody, and emotion.</p>"
+    },
+    
+    {
+      "id": "leather",
+      "title": "Working with Leather",
+      "tags": ["Craft","Design"],
+      "cover": "/assets/wondering/leather.jpg",
+      "url": "/wondering/leather/",
+      "html": "<p>Leatherworking as a craft that combines design and practicality, creating durable and beautiful items from raw materials.</p>"
+    },
+    
+    {
+      "id": "gardening",
+      "title": "Balcony Gardening",
+      "tags": ["Nature","Ecology"],
+      "cover": "/assets/wondering/gardening.jpg",
+      "url": "/wondering/gardening/",
+      "html": "<p>Reflecting on balcony gardening as a personal space for ecological cycles and seasonal rhythms.</p>"
+    },
+    
+    {
+      "id": "elec-guitar",
+      "title": "Learning Electric Guitar",
+      "tags": ["Music","Sound"],
+      "cover": "/assets/wondering/guitar-electric.jpg",
+      "url": "/wondering/elec-guitar/",
+      "html": "<p>A journey of learning electric guitar, focusing on amplification and sonic layering techniques.</p>"
+    },
+    
+    {
+      "id": "digital-art",
+      "title": "Exploring Digital Art",
+      "tags": ["Art","Technology"],
+      "cover": "/assets/wondering/digital-art.jpg",
+      "url": "/wondering/digital-art/",
+      "html": "<p>Reflecting on the potential of digital tools to create art that transcends traditional boundaries and experiments with new mediums.</p>"
+    },
+    
+    {
+      "id": "citywalk",
+      "title": "Exploring Urban Soundscapes",
+      "tags": ["Sound","Urbanism","city"],
+      "cover": "/assets/wondering/citywalk.jpg",
+      "url": "/wondering/citywalk/",
+      "html": "<p>Soundwalks as an immersive practice to explore and analyze the hidden sonic layers of the urban environment.</p>"
+    },
+    
+    {
+      "id": "calligraphy",
+      "title": "The Art of Calligraphy",
+      "tags": ["Art","Craft"],
+      "cover": "/assets/wondering/calligraphy.jpg",
+      "url": "/wondering/calligraphy/",
+      "html": "<p>Delving into the graceful art of calligraphy, exploring its history, techniques, and the meditative process of creating beautiful letters.</p>"
+    },
+    
+    {
+      "id": "acoust-guitar",
+      "title": "Practicing Acoustic Guitar",
+      "tags": ["Music","Rhythm"],
+      "cover": "/assets/wondering/guitar-acoustic.jpg",
+      "url": "/wondering/acoust-guitar/",
+      "html": "<p>Exploring how acoustic guitar practice enhances rhythmic sensitivity and auditory perception, useful for soundwalks.</p>"
+    }
+    
+  ]
+  </script>
+</section>
+
+    </main>
+
+    <footer>
+  <p>&copy; 2025 Yipeng Shen</p>
+
+  
+</footer>
+
+  </body>
+</html>
