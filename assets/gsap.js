@@ -201,8 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-// ---------- WONDERING: Floating labels + card ----------
+// ---------- WONDERING: Floating labels + card + category filter ----------
 document.addEventListener('DOMContentLoaded', () => {
   const worldEl   = document.getElementById('wonderWorld');
   if (!worldEl) return; // not on Wondering
@@ -224,23 +223,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const prevBtn   = document.getElementById('wonderPrev');
   const nextBtn   = document.getElementById('wonderNext');
 
-  // build floating nodes
   const nodes = [];
-  data.forEach((item, i) => {
-    const el = document.createElement('button');
-    el.className = 'wtag';
-    el.textContent = (item.title || `Item ${i+1}`).toUpperCase();
-    worldEl.appendChild(el);
-    nodes.push({ el, item });
-  });
+  let current = -1;
+  let pulseTween = null;
 
   // --- non-overlapping floating animation ---
-  function generateNonOverlappingPosition(existing, radius = 160) {
+  function generateNonOverlappingPosition(existing, radius = 200) {
     let x, y, tries = 0;
     const r = worldEl.getBoundingClientRect();
     do {
-      x = Math.random() * (r.width - 160);
-      y = Math.random() * (r.height - 160);
+      x = 40 + Math.random() * (r.width - 200);
+      y = 40 + Math.random() * (r.height - 120);
       tries++;
     } while (
       existing.some(pos => Math.hypot(pos.x - x, pos.y - y) < radius) &&
@@ -249,24 +242,37 @@ document.addEventListener('DOMContentLoaded', () => {
     return { x, y };
   }
 
-  const usedPositions = [];
-  const floatTimeline = gsap.timeline({ repeat: -1, yoyo: true });
-  nodes.forEach(({ el }) => {
-    const { x, y } = generateNonOverlappingPosition(usedPositions, 160);
-    usedPositions.push({ x, y });
-    el.style.transform = `translate(${x}px, ${y}px)`;
+  function buildNodes(dataset) {
+    // clear old
+    gsap.globalTimeline.clear();
+    worldEl.innerHTML = "";
+    nodes.length = 0;
 
-    floatTimeline.to(el, {
-      x: `+=random(-80,80)`,
-      y: `+=random(-60,60)`,
-      rotation: `random(-8,8)`,
-      duration: 6,
-      ease: 'sine.inOut'
-    }, 0);
-  });
+    const usedPositions = [];
+    dataset.forEach((item, i) => {
+      const el = document.createElement('button');
+      el.className = 'wtag';
+      el.textContent = (item.short || item.title || `Item ${i+1}`).toUpperCase();
+      worldEl.appendChild(el);
+      nodes.push({ el, item });
 
-  let current = -1;
-  let pulseTween = null;
+      const { x, y } = generateNonOverlappingPosition(usedPositions, 220);
+      usedPositions.push({ x, y });
+
+      gsap.set(el, { x, y, opacity: 0.7 });
+      gsap.to(el, {
+        x: x + gsap.utils.random(-100, 100),
+        y: y + gsap.utils.random(-80, 80),
+        rotation: gsap.utils.random(-6, 6),
+        duration: gsap.utils.random(8, 14),
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+
+      el.addEventListener('click', () => openCard(i));
+    });
+  }
 
   function openCard(i) {
     if (i < 0) i = nodes.length - 1;
@@ -276,13 +282,14 @@ document.addEventListener('DOMContentLoaded', () => {
     nodes.forEach((n, k) => n.el.classList.toggle('active', k === i));
 
     // freeze float
-    floatTimeline.pause();
+    gsap.globalTimeline.pause();
 
-    // pulse effect
+    // pulse effect on selected tag
     if (pulseTween) pulseTween.kill();
     const el = nodes[i].el;
     pulseTween = gsap.to(el, {
       scale: 1.1,
+      opacity: 1,
       duration: 0.8,
       repeat: -1,
       yoyo: true,
@@ -315,25 +322,59 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pulseTween) {
       pulseTween.kill();
       pulseTween = null;
-      nodes.forEach(n => gsap.set(n.el, { scale: 1 }));
+      nodes.forEach(n => gsap.set(n.el, { scale: 1, opacity: 0.7 }));
     }
 
-    floatTimeline.resume();
+    gsap.globalTimeline.resume();
   }
 
-  // click handlers
-  nodes.forEach(({ el }, i) => el.addEventListener('click', () => openCard(i)));
+  // close handlers
   dim.addEventListener('click', closeCard);
   closeBtn?.addEventListener('click', closeCard);
-
-  // inside-card navigation
   prevBtn?.addEventListener('click', () => {
     if (current !== -1) openCard(current - 1);
   });
   nextBtn?.addEventListener('click', () => {
     if (current !== -1) openCard(current + 1);
   });
+
+  // ---- CATEGORY FILTER ----
+  const catBar = document.getElementById('wonder-categories');
+  const originalData = [...data];
+  if (catBar) {
+    const buttons = catBar.querySelectorAll('.cat');
+
+    function rebuildNodes(filtered) {
+      closeCard(); // always close when switching
+      buildNodes(filtered);
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        if (filter === 'all') {
+          rebuildNodes(originalData);
+        } else {
+          rebuildNodes(originalData.filter(item => item.category === filter));
+        }
+      });
+    });
+  }
+
+  // initial build
+  buildNodes(originalData);
 });
+
+
+
+
+
+
+
+
+
 
   // -----------about-------------------
 document.addEventListener("DOMContentLoaded", function() {
