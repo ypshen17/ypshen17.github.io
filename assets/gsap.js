@@ -201,10 +201,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// ---------- WONDERING: Floating labels + card with collision avoidance + filters ----------
+// ---------- WONDERING: Floating "air bubble" labels + card ----------
 document.addEventListener('DOMContentLoaded', () => {
-  const worldEl   = document.getElementById('wonderWorld');
-  if (!worldEl) return; // not on Wondering
+  const worldEl = document.getElementById('wonderWorld');
+  if (!worldEl) return;
 
   // Data from page
   let data = [];
@@ -223,85 +223,72 @@ document.addEventListener('DOMContentLoaded', () => {
   const prevBtn   = document.getElementById('wonderPrev');
   const nextBtn   = document.getElementById('wonderNext');
 
+  // --- Particle setup ---
   const nodes = [];
+  const rect = worldEl.getBoundingClientRect();
 
-  function spawnNodes(dataset) {
-    // Clear previous
-    worldEl.innerHTML = "";
-    nodes.length = 0;
+  data.forEach((item, i) => {
+    const el = document.createElement('button');
+    el.className = 'wtag';
+    el.textContent = (item.short || item.title || `Item ${i+1}`).toUpperCase();
+    worldEl.appendChild(el);
 
-    const usedPositions = [];
-    dataset.forEach((item, i) => {
-      const el = document.createElement('button');
-      el.className = 'wtag';
-      el.style.position = 'absolute'; // ensure float
-      el.textContent = (item.short || item.title || `Item ${i+1}`).toUpperCase();
-      worldEl.appendChild(el);
-      nodes.push({ el, item });
+    const box = el.getBoundingClientRect();
+    const node = {
+      el,
+      w: box.width,
+      h: box.height,
+      x: Math.random() * (rect.width - box.width),
+      y: Math.random() * (rect.height - box.height),
+      vx: (Math.random() - 0.5) * 0.4, // gentle drift speed
+      vy: (Math.random() - 0.5) * 0.4,
+      seed: Math.random() * 1000 // for noise-like sway
+    };
+    nodes.push(node);
+  });
 
-      const { x, y } = generateNonOverlappingPosition(usedPositions, 220);
-      usedPositions.push({ x, y });
+  // --- Animation loop ---
+  function tick(t) {
+    const now = t * 0.001; // seconds
 
-      gsap.set(el, { x, y, opacity: 0.7 });
-
-      gsap.to(el, {
-        x: x + gsap.utils.random(-100, 100),
-        y: y + gsap.utils.random(-80, 80),
-        rotation: gsap.utils.random(-6, 6),
-        duration: gsap.utils.random(8, 14),
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut'
-      });
-
-      el.addEventListener('click', () => openCard(i));
-    });
-  }
-
-  // Positioning helper
-  function generateNonOverlappingPosition(existing, radius = 200) {
-    let x, y, tries = 0;
-    const r = worldEl.getBoundingClientRect();
-    do {
-      x = 40 + Math.random() * (r.width - 200);
-      y = 40 + Math.random() * (r.height - 120);
-      tries++;
-    } while (
-      existing.some(pos => Math.hypot(pos.x - x, pos.y - y) < radius) &&
-      tries < 300
-    );
-    return { x, y };
-  }
-
-  // Lightweight collision avoidance
-  function resolveCollisions() {
-    const padding = 10; // space between
     for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+
+      // drift + noise sway
+      a.x += a.vx + Math.sin(now + a.seed) * 0.05;
+      a.y += a.vy + Math.cos(now + a.seed) * 0.05;
+
+      // bounce off walls
+      if (a.x < 0 || a.x + a.w > rect.width) a.vx *= -1;
+      if (a.y < 0 || a.y + a.h > rect.height) a.vy *= -1;
+
+      // collision check
       for (let j = i + 1; j < nodes.length; j++) {
-        const aBox = nodes[i].el.getBoundingClientRect();
-        const bBox = nodes[j].el.getBoundingClientRect();
+        const b = nodes[j];
+        const dx = (a.x + a.w/2) - (b.x + b.w/2);
+        const dy = (a.y + a.h/2) - (b.y + b.h/2);
+        const dist = Math.hypot(dx, dy);
+        const minDist = (a.w + b.w) / 2.2; // spacing
 
-        if (!(aBox.right < bBox.left || aBox.left > bBox.right ||
-              aBox.bottom < bBox.top || aBox.top > bBox.bottom)) {
-          // Overlap detected → nudge apart
-          const dx = (aBox.left + aBox.width/2) - (bBox.left + bBox.width/2);
-          const dy = (aBox.top + aBox.height/2) - (bBox.top + bBox.height/2);
-          const dist = Math.max(Math.hypot(dx, dy), 1);
-          const overlap = (Math.min(aBox.width, bBox.width) / 2) + padding - dist/2;
-
-          if (overlap > 0) {
-            const moveX = (dx / dist) * overlap;
-            const moveY = (dy / dist) * overlap;
-            gsap.to(nodes[i].el, { x: `+=${moveX/2}`, y: `+=${moveY/2}`, duration: 0.3 });
-            gsap.to(nodes[j].el, { x: `-=${moveX/2}`, y: `-=${moveY/2}`, duration: 0.3 });
-          }
+        if (dist < minDist && dist > 0) {
+          const overlap = (minDist - dist) / 2;
+          const nx = dx / dist, ny = dy / dist;
+          a.x += nx * overlap;
+          a.y += ny * overlap;
+          b.x -= nx * overlap;
+          b.y -= ny * overlap;
         }
       }
-    }
-  }
-  setInterval(resolveCollisions, 500); // every 0.5s
 
-  // --- Card system ---
+      // apply transform
+      a.el.style.transform = `translate(${a.x}px, ${a.y}px)`;
+    }
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // --- Card system (same as before) ---
   let current = -1;
   let pulseTween = null;
 
@@ -312,18 +299,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nodes.forEach((n, k) => n.el.classList.toggle('active', k === i));
 
-    gsap.globalTimeline.pause();
-    if (pulseTween) pulseTween.kill();
-
+    if (pulseTween) pulseTween.cancel();
     const el = nodes[i].el;
-    pulseTween = gsap.to(el, {
-      scale: 1.1,
-      opacity: 1,
-      duration: 0.8,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut'
-    });
+    el.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.1)' }],
+      { duration: 800, iterations: Infinity, direction: 'alternate', easing: 'ease-in-out' });
+    pulseTween = el;
 
     const obj = nodes[i];
     titleEl.textContent = obj.item.title || 'Untitled';
@@ -346,46 +326,18 @@ document.addEventListener('DOMContentLoaded', () => {
     nodes.forEach(n => n.el.classList.remove('active'));
     dim.hidden = true;
     card.hidden = true;
-
     if (pulseTween) {
-      pulseTween.kill();
+      pulseTween.getAnimations?.().forEach(a => a.cancel());
       pulseTween = null;
-      nodes.forEach(n => gsap.set(n.el, { scale: 1, opacity: 0.7 }));
     }
-
-    gsap.globalTimeline.resume();
   }
 
+  nodes.forEach(({ el }, i) => el.addEventListener('click', () => openCard(i)));
   dim.addEventListener('click', closeCard);
   closeBtn?.addEventListener('click', closeCard);
-
   prevBtn?.addEventListener('click', () => { if (current !== -1) openCard(current - 1); });
   nextBtn?.addEventListener('click', () => { if (current !== -1) openCard(current + 1); });
-
-  // ---- Category filter ----
-  const catBar = document.getElementById('wonder-categories');
-  if (catBar) {
-    const buttons = catBar.querySelectorAll('.cat');
-    const originalData = [...data];
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        if (filter === 'all') {
-          spawnNodes(originalData);
-        } else {
-          spawnNodes(originalData.filter(item => item.category === filter));
-        }
-      });
-    });
-  }
-
-  // Spawn initial set
-  spawnNodes(data);
 });
-
 
 
 

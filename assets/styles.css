@@ -315,11 +315,12 @@ footer .picture-credit {
 
 /* Card meta overlay (category above, title below) */
 .card-meta {
-  position: absolute; /* bottom: 0; left: 0; width: 100%;*/
+  position: absolute; bottom: 0; left: 0; width: 100%;
   align-items: center;
   padding: 1.2rem;
   background: rgba(255, 255, 255, 0.75); /* opacity */
   font-family: "Roboto Flex", sans-serif;
+  z-index: 1000; /* on top of images */
 }
 .card-cat {
   font: 600 0.8rem "Roboto Mono", monospace; /* smaller */
@@ -370,7 +371,7 @@ footer .picture-credit {
 }
 
 .project-aside {
-  width: 50%;  /* Strictly 50% for the text */
+  width: 70%;  /* Strictly 50% for the text */
   /* padding: 4rem 3rem;*/
   display: flex;
   flex-direction: column;
@@ -380,7 +381,7 @@ footer .picture-credit {
 }
 
 .project-body {
-  width: 50%;  /* Strictly 50% for the image */
+  width: 70%;  /* Strictly 50% for the image */
   /* padding: 4rem 3rem; */
   display: flex;
   justify-content: center;  /* main, horizontal by default -- */
@@ -390,7 +391,7 @@ footer .picture-credit {
 }
 
 .project-meta {
-  width: 50%;  /* Strictly 50% for the image */
+  width: 70%;  /* Strictly 50% for the image */
   /* padding: 1rem; */
   display: flex;
   justify-content: center;  /* main, horizontal by default -- */
@@ -474,7 +475,7 @@ footer .picture-credit {
 .project-prevnext {
   display: flex;
   justify-content: space-between;
-  margin: 0.8rem;
+  margin: 0.4rem;
   font-family: "Roboto Mono", monospace;
   font-size: 0.8rem;
 }
@@ -494,7 +495,7 @@ footer .picture-credit {
 .visions-intro {
   /* margin: 0 auto 2rem 4rem; aligns with left padding of nav (4rem)
   padding: 12rem 32rem 8rem; */
-  padding: 4rem;
+  padding: 6rem 4rem 4rem;
   font: 1.2rem "Roboto Flex", sans-serif;
   color: #444;
   max-width: 70ch; 
@@ -569,7 +570,7 @@ footer .picture-credit {
 /* Title Overlay (title over image) */
 .vision-card-title {
   position: absolute; 
-  top: 2rem; left: 2rem;
+  top: 4rem; left: 4rem;
   font-size: 4rem;
   font-family: 'FunkyFont', sans-serif;  /* Apply a funky font */
   color: #fff;  /* White title text */
@@ -619,7 +620,7 @@ footer .picture-credit {
 /* ---------- Wondering (floating labels + card) ---------- */
 
 .wonder-page {
-  padding: 4rem;
+  padding: 6rem 4rem 4rem;
 }
 
 .wonder-intro {
@@ -639,8 +640,8 @@ footer .picture-credit {
   position: relative;
   height: 60vh;          /* ensure space for floating labels */
   min-height: 400px;     /* never collapse into tiny box */
-  margin-left: 4rem;     /* align with intro + heading */
-  margin-right: 4rem;    /* balance on both sides */
+  /* margin-left: 4rem;     align with intro + heading 
+  margin-right: 4rem;     balance on both sides */
   overflow: hidden;
   background: #fff;
 }
@@ -686,7 +687,7 @@ footer .picture-credit {
   border: 1px solid #ddd;
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
   /* border-radius: 12px;*/
-  padding: 1.25rem 1.25rem 1.5rem;
+  padding: 1.5rem;
   z-index: 1001;
 }
 .wonder-close {
@@ -810,7 +811,7 @@ footer .picture-credit {
 .about-role {
   color: black;
   margin-bottom: 2rem;
-  width: 50%;  /* Strictly 50% for the image */
+  width: 70%;  /* Strictly 50% for the image */
   display: flex;
   justify-content: center;  /* Center the image horizontally */
   text-align: left;
@@ -819,7 +820,7 @@ footer .picture-credit {
 }
 
 .about-body {
-  width: 50%;  /* Strictly 50% for the image */
+  width: 70%;  /* Strictly 50% for the image */
   display: flex;
   justify-content: center;  /* main, horizontal by default -- */
   align-items: center;  /* cross, vertical by default, stretch if not set*/
