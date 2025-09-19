@@ -140,8 +140,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // fade in stage2 and nav
-    tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
-    tl.to([homeNav, ".smoke", ".pieces"], { opacity: 0.4, duration: 0.8 }, "-=0.2"); //opacity!
+    tl.to(stage2, { opacity: 1, duration: 0.1 }, 0.2); //speed!
+    tl.to([homeNav, ".smoke", ".pieces"], { opacity: 0.7, duration: 0.8 }, "-=0.2"); //opacity!
 
     // once landed, keep only 11 letters
     tl.add(() => {
