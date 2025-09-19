@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return { x, y };
   }
 
+  // scatter animation
   scatterLetters.forEach((letter) => {
     const { x, y } = generateNonOverlappingPosition();
     gsap.set(letter, {
@@ -55,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fontSize: "6rem",
     });
     gsap.to(letter, {
-      duration: 11,
+      duration: 11, // floating duration (was 17 → now 11)
       x: x + (Math.random() * 60 - 30),
       y: y + (Math.random() * 60 - 30),
       repeat: -1,
@@ -109,30 +110,35 @@ document.addEventListener("DOMContentLoaded", () => {
     alignStage2();
 
     const slots = Array.from(compositionContainer.querySelectorAll(".slot"));
+    const compBox = compositionContainer.getBoundingClientRect();
+    const scatterBox = scatterContainer.getBoundingClientRect();
+
     const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
 
     // animate ALL 33 scattered letters into slots
     scatterLetters.forEach((scatter, i) => {
       const slotIndex = i % WORD.length;
-      const target = slots[slotIndex].getBoundingClientRect();
-      const containerBox = compositionContainer.getBoundingClientRect();
+      const targetBox = slots[slotIndex].getBoundingClientRect();
+
+      // relative coords (scatter container space)
+      const targetX = targetBox.left - scatterBox.left;
+      const targetY = targetBox.top - scatterBox.top;
 
       tl.to(scatter, {
-        x: target.left - containerBox.left,
-        y: target.top - containerBox.top,
+        x: targetX,
+        y: targetY,
         fontSize: "6rem",
         opacity: 1,
         duration: 1.2
-      }, i * 0.02); // slight stagger
+      }, i * 0.02); // staggered arrival
     });
 
     // fade in stage2 and nav
     tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
     tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
 
-    // once they’ve landed, keep only one layer of each letter
+    // once landed, keep only 11 letters
     tl.add(() => {
-      // clear container and reparent the first 11
       compositionContainer.innerHTML = "";
       for (let i = 0; i < WORD.length; i++) {
         const letter = scatterLetters[i];
@@ -141,8 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
         letter.style.display = "inline-block";
         gsap.set(letter, { x: 0, y: 0, clearProps: "transform" });
       }
-
-      // fade out extras smoothly
       scatterLetters.slice(WORD.length).forEach(letter => {
         gsap.to(letter, { opacity: 0, duration: 0.8 });
       });
