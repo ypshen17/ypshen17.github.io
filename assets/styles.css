@@ -175,7 +175,7 @@ footer .picture-credit {
   line-height: 1;
   font-family: "Roboto Mono", monospace;
   font-weight: bold;
-  font-size: clamp(2rem, 8vw, 6rem);         /* COMPOSITION: 6rem */
+  font-size: 6rem;         /* COMPOSITION: 6rem */
   color: #aaa;             /* …and #aaa */
 }
 
@@ -183,6 +183,8 @@ footer .picture-credit {
 #composition-container .slot {
   visibility: hidden;
 }
+
+
 
 
 

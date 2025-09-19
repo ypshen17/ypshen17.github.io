@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fontSize: "6rem",
     });
     gsap.to(letter, {
-      duration: 9, // floating duration (was 17 → now 11)
+      duration: 11, // floating duration (was 17 → now 11)
       x: x + (Math.random() * 60 - 30),
       y: y + (Math.random() * 60 - 30),
       repeat: -1,
@@ -134,14 +134,14 @@ document.addEventListener("DOMContentLoaded", () => {
         y: "+=" + dy,
         fontSize: "6rem",
         opacity: 1,
-        duration: 2, //speed!(instead of 1.2)
-        delay: i * 0.03 // slightly more stagger (instead of 0.02)
+        duration: 1.2,
+        delay: i * 0.02
       }, 0);
     });
 
     // fade in stage2 and nav
-    tl.to(stage2, { opacity: 1, duration: 0.4 }, 0.2); //speed!overlay appears in 0.4s (fast)
-    tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.4 }, "-=0.1"); //opacity!speed!support elements fade in within 0.5s
+    tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
+    tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
 
     // once landed, keep only 11 letters
     tl.add(() => {
@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
         gsap.set(letter, { x: 0, y: 0, clearProps: "transform" });
       }
       scatterLetters.slice(WORD.length).forEach(letter => {
-        gsap.to(letter, { opacity: 0, duration: 1.2 }); //slower Extras fade-out
+        gsap.to(letter, { opacity: 0, duration: 0.8 });
       });
     });
   });
