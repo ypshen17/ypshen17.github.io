@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
   };
 
-  // create scattered letters (3 copies of COMPOSITION)
+  // create 3× scattered letters
   const scatterLetters = [];
   for (let i = 0; i < 3; i++) {
     for (const ch of WORD) {
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // random positions
+  // random non-overlapping positions
   const usedPositions = [];
   const margin = 120;
   function generateNonOverlappingPosition(radius = margin) {
@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // align composition container with YIPENG SHEN
   function alignStage2() {
     const nameBox = nameFixed.getBoundingClientRect();
     const compWidth = compositionContainer.offsetWidth;
@@ -83,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const alignStage2Debounced = debounce(() => {
     if (stage2.style.display === "block") alignStage2();
   }, 120);
-
   window.addEventListener("resize", alignStage2Debounced);
 
   // ---- transition ----
@@ -93,47 +93,63 @@ document.addEventListener("DOMContentLoaded", () => {
     stage2.style.display = "block";
     compositionContainer.innerHTML = "";
 
+    // create hidden reference word for measuring
+    for (const ch of WORD) {
+      const slot = document.createElement("span");
+      slot.className = "slot";
+      slot.textContent = ch;
+      compositionContainer.appendChild(slot);
+    }
+
     await waitForFonts();
+    if (document.readyState !== "complete") {
+      await new Promise(r => window.addEventListener("load", r, { once: true }));
+    }
 
     alignStage2();
 
-    // only use the first 11 scattered letters
-    const letters = scatterLetters.slice(0, WORD.length);
-
-    // make sure container has flex layout
-    compositionContainer.style.display = "flex";
-
+    const slots = Array.from(compositionContainer.querySelectorAll(".slot"));
     const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
 
-    // animate each scattered letter into final aligned position
-    letters.forEach((letter, i) => {
-      tl.to(letter, {
-        x: i * (letter.offsetWidth + 4), // align horizontally by index
-        y: 0,
+    // animate ALL 33 scattered letters into slots
+    scatterLetters.forEach((scatter, i) => {
+      const slotIndex = i % WORD.length;
+      const target = slots[slotIndex].getBoundingClientRect();
+      const containerBox = compositionContainer.getBoundingClientRect();
+
+      tl.to(scatter, {
+        x: target.left - containerBox.left,
+        y: target.top - containerBox.top,
+        fontSize: "6rem",
         opacity: 1,
         duration: 1.2
-      }, i * 0.05);
+      }, i * 0.02); // slight stagger
     });
 
-    // fade out all the extra scattered letters
-    tl.to(scatterLetters.slice(WORD.length), { opacity: 0, duration: 0.6 }, 0);
-
-    // after animation, move letters into the composition container
-    tl.add(() => {
-      letters.forEach(l => {
-        compositionContainer.appendChild(l);
-        l.style.position = "relative";
-        l.style.left = "0";
-        l.style.top = "0";
-        gsap.set(l, { x: 0, y: 0, clearProps: "transform" });
-      });
-    });
-
-    // fade in nav + visuals
+    // fade in stage2 and nav
     tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
     tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
+
+    // once they’ve landed, keep only one layer of each letter
+    tl.add(() => {
+      // clear container and reparent the first 11
+      compositionContainer.innerHTML = "";
+      for (let i = 0; i < WORD.length; i++) {
+        const letter = scatterLetters[i];
+        compositionContainer.appendChild(letter);
+        letter.style.position = "relative";
+        letter.style.display = "inline-block";
+        gsap.set(letter, { x: 0, y: 0, clearProps: "transform" });
+      }
+
+      // fade out extras smoothly
+      scatterLetters.slice(WORD.length).forEach(letter => {
+        gsap.to(letter, { opacity: 0, duration: 0.8 });
+      });
+    });
   });
 });
+
 
 
 
