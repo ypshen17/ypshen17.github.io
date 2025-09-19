@@ -203,6 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // ---------- WONDERING: Floating/colliding labels + card ----------
+// ---------- WONDERING: Floating labels + card ----------
 document.addEventListener('DOMContentLoaded', () => {
   const worldEl = document.getElementById('wonderWorld');
   if (!worldEl) return; // not on Wondering
@@ -214,14 +215,14 @@ document.addEventListener('DOMContentLoaded', () => {
     data = JSON.parse(raw);
   } catch (e) { data = []; }
 
-  const dotsWrap = document.getElementById('wonderDots');
-  const dim = document.getElementById('wonderDim');
-  const card = document.getElementById('wonderCard');
-  const titleEl = document.getElementById('wonderTitle');
-  const tagsEl = document.getElementById('wonderTags');
-  const mediaEl = document.getElementById('wonderMedia');
-  const contentEl = document.getElementById('wonderContent');
-  const closeBtn = document.getElementById('wonderClose');
+  const dotsWrap   = document.getElementById('wonderDots');
+  const dim        = document.getElementById('wonderDim');
+  const card       = document.getElementById('wonderCard');
+  const titleEl    = document.getElementById('wonderTitle');
+  const tagsEl     = document.getElementById('wonderTags');
+  const mediaEl    = document.getElementById('wonderMedia');
+  const contentEl  = document.getElementById('wonderContent');
+  const closeBtn   = document.getElementById('wonderClose');
 
   // Build right dots
   const dots = [];
@@ -234,18 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dots.push(b);
   });
 
-  // Physics (Matter.js) if available; else fallback to GSAP float
-  const hasMatter = typeof window.Matter !== 'undefined';
-  let engine, RunnerRef, bodies = [], nodes = [];
-  let running = true;
-  let current = -1;
-
-  function layoutBounds() {
-    const r = worldEl.getBoundingClientRect();
-    return { w: r.width, h: r.height };
-  }
-
-  // Create chips
+  const nodes = [];
   data.forEach((item, i) => {
     const el = document.createElement('button');
     el.className = 'wtag';
@@ -254,95 +244,44 @@ document.addEventListener('DOMContentLoaded', () => {
     nodes.push({ el, item });
   });
 
-  if (hasMatter) {
-    const { Engine, Runner, World, Bodies, Body, Events, Composite } = Matter;
-    engine = Engine.create();
-    RunnerRef = Runner.create();
-    Runner.run(RunnerRef, engine);
+  // --- floating animation ---
+  const floatTimeline = gsap.timeline({ repeat: -1, yoyo: true });
+  nodes.forEach(({ el }) => {
+    const r = worldEl.getBoundingClientRect();
+    const x = Math.random() * (r.width - 120);
+    const y = Math.random() * (r.height - 160);
+    el.style.transform = `translate(${x}px, ${y}px)`;
 
-    function addWalls() {
-      const { w, h } = layoutBounds();
-      const walls = [
-        Bodies.rectangle(w/2, -50, w+200, 100, { isStatic: true }),
-        Bodies.rectangle(w/2, h+50, w+200, 100, { isStatic: true }),
-        Bodies.rectangle(-50, h/2, 100, h+200, { isStatic: true }),
-        Bodies.rectangle(w+50, h/2, 100, h+200, { isStatic: true }),
-      ];
-      World.add(engine.world, walls);
-      return walls;
-    }
-    let walls = addWalls();
+    floatTimeline.to(el, {
+      x: `+=random(-80,80)`,
+      y: `+=random(-60,60)`,
+      rotation: `random(-8,8)`,
+      duration: 6,
+      ease: 'sine.inOut'
+    }, 0); // all start together
+  });
 
-    // Make a body for each label sized to its DOM box
-    nodes.forEach(({ el }, i) => {
-      const { w, h } = layoutBounds();
-      // first set a temporary position so we can read size
-      el.style.transform = `translate(${(Math.random()*w)|0}px, ${(Math.random()*h*0.5)|0}px)`;
-      const bw = Math.max(60, el.offsetWidth);
-      const bh = Math.max(28, el.offsetHeight);
-      const body = Bodies.rectangle(
-        40 + Math.random()*(w-80),
-        40 + Math.random()*(h-160),
-        bw, bh,
-        { restitution: 0.9, friction: 0.001, frictionAir: 0.01 }
-      );
-      Body.setAngularVelocity(body, (Math.random()-0.5)*0.2);
-      bodies.push(body);
-      World.add(engine.world, body);
-    });
+  let current = -1;
+  let pulseTween = null; // store the pulse effect so we can kill it later
 
-    // Ticker: position DOM nodes from physics bodies
-    Matter.Events.on(engine, 'afterUpdate', () => {
-      for (let i = 0; i < nodes.length; i++) {
-        const { el } = nodes[i];
-        const b = bodies[i];
-        el.style.transform = `translate(${(b.position.x - el.offsetWidth/2)}px, ${(b.position.y - el.offsetHeight/2)}px) rotate(${b.angle}rad)`;
-      }
-    });
-
-    // Resize: rebuild walls
-    const onResize = () => {
-      const world = engine.world;
-      walls.forEach(w => Matter.Composite.remove(world, w));
-      walls = addWalls();
-    };
-    window.addEventListener('resize', onResize);
-
-  } else {
-    // Fallback: gentle float (no collisions)
-    nodes.forEach(({ el }) => {
-      const { w, h } = layoutBounds();
-      const x = Math.random() * (w - 120);
-      const y = Math.random() * (h - 160);
-      el.style.transform = `translate(${x}px, ${y}px)`;
-      gsap.to(el, {
-        x: `random(-80,80,1)`,
-        y: `random(-60,60,1)`,
-        rotation: `random(-8,8)`,
-        duration: 6,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut'
-      });
-    });
-  }
-
-  // Open card for index i
   function openCard(i) {
     current = i;
     const obj = nodes[i];
-    // dots
     dots.forEach((d, k) => d.classList.toggle('active', k === i));
-    // tag highlight
     nodes.forEach((n, k) => n.el.classList.toggle('active', k === i));
 
-    // freeze physics
-    if (hasMatter && running) {
-      running = false;
-      Runner.stop(RunnerRef);
-    } else if (!hasMatter) {
-      gsap.globalTimeline.pause();
-    }
+    // freeze float
+    floatTimeline.pause();
+
+    // add pulse to selected tag
+    const el = nodes[i].el;
+    pulseTween = gsap.to(el, {
+      scale: 1.1,
+      duration: 0.6,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
+    });
 
     // fill card
     titleEl.textContent = obj.item.title || 'Untitled';
@@ -360,25 +299,25 @@ document.addEventListener('DOMContentLoaded', () => {
     card.hidden = false;
   }
 
-  // Close card
   function closeCard() {
     current = -1;
     nodes.forEach(n => n.el.classList.remove('active'));
     dim.hidden = true;
     card.hidden = true;
 
-    if (hasMatter && !running) {
-      running = true;
-      Runner.run(RunnerRef, engine);
-    } else if (!hasMatter) {
-      gsap.globalTimeline.resume();
+    // kill pulse
+    if (pulseTween) {
+      pulseTween.kill();
+      pulseTween = null;
+      nodes.forEach(n => gsap.set(n.el, { scale: 1 })); // reset scale
     }
+
+    // resume float
+    floatTimeline.resume();
   }
 
   // Click handlers
-  nodes.forEach(({ el }, i) => {
-    el.addEventListener('click', () => openCard(i));
-  });
+  nodes.forEach(({ el }, i) => el.addEventListener('click', () => openCard(i)));
   dotsWrap.addEventListener('click', (e) => {
     const b = e.target.closest('.dot'); if (!b) return;
     openCard(parseInt(b.dataset.index, 10));
@@ -386,8 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
   dim.addEventListener('click', closeCard);
   closeBtn?.addEventListener('click', closeCard);
 });
-
-
 
 
 
