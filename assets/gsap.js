@@ -201,12 +201,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// ---------- WONDERING: Floating "air bubble" labels + card ----------
+// ---------- WONDERING: Floating labels + card (drift + collision) ----------
 document.addEventListener('DOMContentLoaded', () => {
   const worldEl = document.getElementById('wonderWorld');
   if (!worldEl) return;
 
-  // Data from page
+  // Parse data from page
   let data = [];
   try {
     const raw = document.getElementById('wonder-data')?.textContent || '[]';
@@ -223,122 +223,118 @@ document.addEventListener('DOMContentLoaded', () => {
   const prevBtn   = document.getElementById('wonderPrev');
   const nextBtn   = document.getElementById('wonderNext');
 
-  // --- Particle setup ---
-  const nodes = [];
+  // Build floating nodes
   const rect = worldEl.getBoundingClientRect();
+  const nodes = [];
 
   data.forEach((item, i) => {
     const el = document.createElement('button');
     el.className = 'wtag';
-    el.textContent = (item.short || item.title || `Item ${i+1}`).toUpperCase();
+    el.textContent = (item.short || item.title || "").toUpperCase() || `UNTITLED ${i+1}`;
     worldEl.appendChild(el);
 
-    const box = el.getBoundingClientRect();
+    // Measure size after attaching
+    let box = el.getBoundingClientRect();
+    let w = box.width || 100, h = box.height || 40;
+
     const node = {
       el,
-      w: box.width,
-      h: box.height,
-      x: Math.random() * (rect.width - box.width),
-      y: Math.random() * (rect.height - box.height),
-      vx: (Math.random() - 0.5) * 0.4, // gentle drift speed
-      vy: (Math.random() - 0.5) * 0.4,
-      seed: Math.random() * 1000 // for noise-like sway
+      w, h,
+      x: Math.random() * (rect.width - w),
+      y: Math.random() * (rect.height - h),
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      seed: Math.random() * 1000
     };
+
+    gsap.set(el, { x: node.x, y: node.y, opacity: 0.7 });
     nodes.push(node);
   });
 
-  // --- Animation loop ---
-  function tick(t) {
-    const now = t * 0.001; // seconds
+  // Drift animation
+  function animate() {
+    const bounds = worldEl.getBoundingClientRect();
+    nodes.forEach(n => {
+      n.x += n.vx;
+      n.y += n.vy;
 
+      // Bounce off edges
+      if (n.x < 0 || n.x + n.w > bounds.width) n.vx *= -1;
+      if (n.y < 0 || n.y + n.h > bounds.height) n.vy *= -1;
+
+      gsap.set(n.el, { x: n.x, y: n.y });
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Collision avoidance
+  function resolveCollisions() {
+    const padding = 6;
     for (let i = 0; i < nodes.length; i++) {
-      const a = nodes[i];
-
-      // drift + noise sway
-      a.x += a.vx + Math.sin(now + a.seed) * 0.05;
-      a.y += a.vy + Math.cos(now + a.seed) * 0.05;
-
-      // bounce off walls
-      if (a.x < 0 || a.x + a.w > rect.width) a.vx *= -1;
-      if (a.y < 0 || a.y + a.h > rect.height) a.vy *= -1;
-
-      // collision check
       for (let j = i + 1; j < nodes.length; j++) {
-        const b = nodes[j];
-        const dx = (a.x + a.w/2) - (b.x + b.w/2);
-        const dy = (a.y + a.h/2) - (b.y + b.h/2);
-        const dist = Math.hypot(dx, dy);
-        const minDist = (a.w + b.w) / 2.2; // spacing
-
-        if (dist < minDist && dist > 0) {
-          const overlap = (minDist - dist) / 2;
-          const nx = dx / dist, ny = dy / dist;
-          a.x += nx * overlap;
-          a.y += ny * overlap;
-          b.x -= nx * overlap;
-          b.y -= ny * overlap;
+        const a = nodes[i], b = nodes[j];
+        if (a.x < b.x + b.w && a.x + a.w > b.x &&
+            a.y < b.y + b.h && a.y + a.h > b.y) {
+          // Push apart
+          const dx = (a.x + a.w/2) - (b.x + b.w/2);
+          const dy = (a.y + a.h/2) - (b.y + b.h/2);
+          const dist = Math.max(Math.hypot(dx, dy), 1);
+          const overlap = (Math.min(a.w, b.w) / 2) + padding - dist/2;
+          if (overlap > 0) {
+            const ox = (dx / dist) * overlap;
+            const oy = (dy / dist) * overlap;
+            a.x += ox/2; b.x -= ox/2;
+            a.y += oy/2; b.y -= oy/2;
+          }
         }
       }
-
-      // apply transform
-      a.el.style.transform = `translate(${a.x}px, ${a.y}px)`;
     }
-
-    requestAnimationFrame(tick);
   }
-  requestAnimationFrame(tick);
+  setInterval(resolveCollisions, 500);
 
-  // --- Card system (same as before) ---
-  let current = -1;
-  let pulseTween = null;
-
+  // --- Card system (unchanged) ---
+  let current = -1, pulseTween = null;
   function openCard(i) {
     if (i < 0) i = nodes.length - 1;
     if (i >= nodes.length) i = 0;
     current = i;
-
     nodes.forEach((n, k) => n.el.classList.toggle('active', k === i));
 
-    if (pulseTween) pulseTween.cancel();
-    const el = nodes[i].el;
-    el.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.1)' }],
-      { duration: 800, iterations: Infinity, direction: 'alternate', easing: 'ease-in-out' });
-    pulseTween = el;
+    if (pulseTween) pulseTween.kill();
+    pulseTween = gsap.to(nodes[i].el, {
+      scale: 1.1, opacity: 1,
+      duration: 0.8, repeat: -1, yoyo: true, ease: 'sine.inOut'
+    });
 
-    const obj = nodes[i];
-    titleEl.textContent = obj.item.title || 'Untitled';
+    const obj = nodes[i].item;
+    titleEl.textContent = obj.title || 'Untitled';
     tagsEl.innerHTML = '';
-    (obj.item.tags || []).forEach(t => {
+    (obj.tags || []).forEach(t => {
       const s = document.createElement('span');
       s.className = 'cat-tag';
       s.textContent = `#${t}`;
       tagsEl.appendChild(s);
     });
-    mediaEl.innerHTML = obj.item.cover ? `<img src="${obj.item.cover}" alt="">` : '';
-    contentEl.innerHTML = obj.item.html || '';
+    mediaEl.innerHTML = obj.cover ? `<img src="${obj.cover}" alt="">` : '';
+    contentEl.innerHTML = obj.html || '';
 
-    dim.hidden = false;
-    card.hidden = false;
+    dim.hidden = false; card.hidden = false;
   }
 
   function closeCard() {
     current = -1;
     nodes.forEach(n => n.el.classList.remove('active'));
-    dim.hidden = true;
-    card.hidden = true;
-    if (pulseTween) {
-      pulseTween.getAnimations?.().forEach(a => a.cancel());
-      pulseTween = null;
-    }
+    dim.hidden = true; card.hidden = true;
+    if (pulseTween) { pulseTween.kill(); pulseTween = null; }
   }
 
   nodes.forEach(({ el }, i) => el.addEventListener('click', () => openCard(i)));
   dim.addEventListener('click', closeCard);
   closeBtn?.addEventListener('click', closeCard);
-  prevBtn?.addEventListener('click', () => { if (current !== -1) openCard(current - 1); });
-  nextBtn?.addEventListener('click', () => { if (current !== -1) openCard(current + 1); });
+  prevBtn?.addEventListener('click', () => current !== -1 && openCard(current - 1));
+  nextBtn?.addEventListener('click', () => current !== -1 && openCard(current + 1));
 });
-
 
 
 
