@@ -53,11 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.set(letter, {
       x,
       y,
-      opacity: 1,
+      opacity: 0.25,
       fontSize: "6rem",
     });
     gsap.to(letter, {
-      duration: 6,
+      duration: 17,
       x: x + (Math.random() * 60 - 30),
       y: y + (Math.random() * 60 - 30),
       repeat: -1,
@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     stage2.style.display = "block";
     compositionContainer.innerHTML = "";
 
+    // Create the final word layout
     for (const ch of WORD) {
       const span = document.createElement("span");
       span.textContent = ch;
@@ -109,14 +110,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const finalLetters = [...compositionContainer.querySelectorAll("span")];
 
+    // Fade in final word
+    gsap.to(finalLetters, { opacity: 1, duration: 1, delay: 1 });
+
     // Animate the first 11 letters (COMPOSITION)
     finalLetters.forEach((target, i) => {
       const scatter = scatterLetters[i];
+      const targetBox = target.getBoundingClientRect();
+      const containerBox = compositionContainer.getBoundingClientRect();
       gsap.to(scatter, {
-        x: target.offsetLeft + compositionContainer.offsetLeft,
-        y: target.offsetTop + compositionContainer.offsetTop,
+        x: targetBox.left - containerBox.left,
+        y: targetBox.top - containerBox.top,
         fontSize: "6rem",
-        opacity: 1, // <- keep them visible
+        opacity: 1, // keep them visible
         duration: 1.5,
         ease: "power3.inOut",
         delay: i * 0.05
@@ -124,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Fade out the rest (letters 12+)
-    scatterLetters.slice(11).forEach(letter => {
+    scatterLetters.slice(WORD.length).forEach(letter => {
       gsap.to(letter, { opacity: 0, duration: 1 });
     });
 

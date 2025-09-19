@@ -170,12 +170,11 @@ footer .picture-credit {
 
 
 #composition-container span {
-  position: absolute;
+  position: relative;  /* not absolute */
   display: inline-block;
-  will-change: transform;
-  transform: translate(0, 0);
-  opacity: 0;
+  opacity: 0;          /* start hidden, fade them in */
 }
+
 
 
 
@@ -187,6 +186,7 @@ footer .picture-credit {
   font-family: "Roboto Mono", monospace;
   font-size: 2.4rem;
   color: black;
+  z-index: 2000;
 }
 
 /* Home nav aligned to YIPENG SHEN */
