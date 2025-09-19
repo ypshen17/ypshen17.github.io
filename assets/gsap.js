@@ -143,26 +143,47 @@ document.addEventListener("DOMContentLoaded", () => {
     tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
     tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
 
-    // once landed, keep them all visible briefly
+    // cleanup after flight
     tl.add(() => {
-      // do nothing here → let all 33 sit overlapped for a beat
-    }, "+=0.2");
+      const compBox = compositionContainer.getBoundingClientRect();
 
-    // cleanup: keep only 11, fade out extras
-    tl.add(() => {
+      // clear and rebuild with only 11
       compositionContainer.innerHTML = "";
+
       for (let i = 0; i < WORD.length; i++) {
         const letter = scatterLetters[i];
+
+        // get current absolute position BEFORE moving
+        const rect = letter.getBoundingClientRect();
+        const x = rect.left - compBox.left;
+        const y = rect.top - compBox.top;
+
+        // move into container
         compositionContainer.appendChild(letter);
-        letter.style.position = "relative";
-        letter.style.display = "inline-block";
-        gsap.set(letter, { x: 0, y: 0, clearProps: "transform" });
+
+        // lock its old position inside container coords
+        gsap.set(letter, {
+          position: "absolute",
+          left: 0,
+          top: 0,
+          x,
+          y
+        });
+
+        // animate to natural inline layout
+        gsap.to(letter, {
+          x: 0,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out"
+        });
       }
 
+      // fade out extras smoothly
       scatterLetters.slice(WORD.length).forEach(letter => {
-        gsap.to(letter, { opacity: 0, duration: 1.5, delay: 0.1 });
+        gsap.to(letter, { opacity: 0, duration: 1.5 });
       });
-    });
+    }, "+=0.2"); // wait a beat after landing
   });
 });
 
