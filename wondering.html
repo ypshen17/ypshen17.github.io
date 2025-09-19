@@ -77,15 +77,9 @@
     <main>
       <section class="frame wonder-page">
   <div class="wonder-intro">
-    <p>
-      10,000 Hours Everything Everywhere.
-    </p>
-    <p>
-      Notes, skills, and practices beyond 10,000 hours academic exploration.
-    </p>
-    <p>
-      Click a floating keyword to freeze and read.
-    </p>
+    <p>10,000 Hours Everything Everywhere.</p>
+    <p>Notes, skills, and practices beyond 10,000 hours academic exploration.</p>
+    <p>Click a floating keyword to freeze and read.</p>
   </div>
 
   <!-- Category filter bar -->
@@ -468,54 +462,6 @@
   ]
   </script>
 </section>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('#wonder-categories .cat');
-    const worldEl = document.getElementById('wonderWorld');
-    let data = [];
-
-    try {
-      const raw = document.getElementById('wonder-data')?.textContent || '[]';
-      data = JSON.parse(raw);
-    } catch (e) { data = []; }
-
-    // Store original dataset
-    const originalData = [...data];
-
-    buttons.forEach(button => {
-      button.addEventListener('click', () => {
-        const filter = button.getAttribute('data-filter');
-
-        buttons.forEach(b => b.classList.remove('active'));
-        button.classList.add('active');
-
-        if (filter === 'all') {
-          data = [...originalData];
-        } else {
-          data = originalData.filter(item => item.category === filter);
-        }
-
-        // Re-render floating world with filtered data
-        renderWonderWorld(data, worldEl);
-      });
-    });
-
-    // Initial render
-    renderWonderWorld(data, worldEl);
-  });
-
-  // Stub: replace with your existing function that builds floating labels/cards
-  function renderWonderWorld(data, container) {
-    container.innerHTML = "";
-    data.forEach(item => {
-      const el = document.createElement('div');
-      el.className = 'wonder-label';
-      el.textContent = item.short;
-      container.appendChild(el);
-    });
-  }
-</script>
 
     </main>
 
