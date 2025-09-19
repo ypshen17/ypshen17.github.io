@@ -315,9 +315,10 @@ footer .picture-credit {
 
 /* Card meta overlay (category above, title below) */
 .card-meta {
-  position: absolute; bottom: 0; left: 0; width: 100%;
+  position: absolute; /* bottom: 0; left: 0; width: 100%;*/
+  align-items: center;
   padding: 1.2rem;
-  background: rgba(255, 255, 255, 0.5); /* opacity */
+  background: rgba(255, 255, 255, 0.75); /* opacity */
   font-family: "Roboto Flex", sans-serif;
 }
 .card-cat {
@@ -344,15 +345,15 @@ footer .picture-credit {
   font: 600 0.8rem "Roboto Mono", monospace;
   color: #444;
   /* margin: 0.25rem 0 0.25rem 0; NOTE */
-  line-height: 1.4;
+  line-height: 1;
 }
 .cat-tag {
   display: inline-block;
   margin: 0 0.4rem 0.4rem 0;
-  padding: 0.2rem 0.6rem;
+  padding: 0rem 0.6rem;
   font: 0.85rem "Roboto Mono", monospace;
   border: 1px solid #aaa;
-  border-radius: 0.6rem; /* radius */
+  border-radius: 0.4rem; /* radius */
   background: #fafafa;
   color: #444;
   transition: all 0.2s ease;
@@ -473,9 +474,9 @@ footer .picture-credit {
 .project-prevnext {
   display: flex;
   justify-content: space-between;
-  margin: 1rem;
+  margin: 0.8rem;
   font-family: "Roboto Mono", monospace;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 .project-prevnext a {
   color: black;
@@ -493,10 +494,10 @@ footer .picture-credit {
 .visions-intro {
   /* margin: 0 auto 2rem 4rem; aligns with left padding of nav (4rem)
   padding: 12rem 32rem 8rem; */
-  padding: 4rem 2rem;
+  padding: 4rem;
   font: 1.2rem "Roboto Flex", sans-serif;
   color: #444;
-  max-width: 50ch; 
+  max-width: 70ch; 
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -534,7 +535,7 @@ footer .picture-credit {
 
 @media (max-width: 768px) {
   .vision-card-title {
-    font-size: 1.5rem; /* Smaller font for mobile */
+    font-size: 1.5rem; /* Smaller font for mobile? */
   }
 }
 
@@ -618,19 +619,20 @@ footer .picture-credit {
 /* ---------- Wondering (floating labels + card) ---------- */
 
 .wonder-page {
-  padding: 4rem 2rem;
+  padding: 4rem;
 }
 
 .wonder-intro {
-  max-width: 40ch; /* keeps the text compact */
-  margin: 0 auto; /*2rem 4rem;  aligns with left padding of nav (4rem) */
+  max-width: 70ch; /* keeps the text compact */
+  /*margin: 4rem; 2rem 4rem;  aligns with left padding of nav (4rem) */
   font: 1.2rem "Roboto Flex", sans-serif;
   color: #444;
-  width: 100%;
   text-align: left;
-  justify-content: center;
+  justify-content: left;
+  /* justify-content: center;
   align-items: center;
-  line-height: 1.4; /* tighter spacing */
+  width: 100%;
+  line-height: 1.4; tighter spacing */
 }
 
 .wonder-world {
@@ -647,7 +649,7 @@ footer .picture-credit {
 .wtag {
   position: absolute;  /* must be absolute */
   font-weight: bold;
-  font: 2.5rem "Roboto Mono", monospace;
+  font: 2rem "Roboto Mono", monospace;
   color: #aaa;
   background: none;
   border: none;
@@ -699,10 +701,11 @@ footer .picture-credit {
 /* optional tags inside card */
 #wonderTags .cat-tag { margin-right: .4rem; }
 
-/* inside-card navigation */
+/* inside-card navigation ??down*/
 .wonder-nav {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   margin: 0.5rem 0 1rem;
 }
 .wonder-arrow {
@@ -812,7 +815,7 @@ footer .picture-credit {
   justify-content: center;  /* Center the image horizontally */
   text-align: left;
   font-weight: bold;
-  font: 2rem, "Roboto Mono", monospace;
+  font: 4rem, "Roboto Mono", monospace;
 }
 
 .about-body {
@@ -822,7 +825,7 @@ footer .picture-credit {
   align-items: center;  /* cross, vertical by default, stretch if not set*/
   text-align: left;
   color: #444;
-  font: 1.2rem, "Roboto Flex", sans-serif;
+  font: 2.4rem, "Roboto Flex", sans-serif;
 }
 
 @media (max-width: 960px) {
