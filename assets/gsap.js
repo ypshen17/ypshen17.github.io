@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
         y: "+=" + dy,
         fontSize: "6rem",
         opacity: 1,
-        duration: 1.5, //speed!
+        duration: 2, //speed!
         delay: i * 0.02
       }, 0);
     });
