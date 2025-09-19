@@ -78,33 +78,39 @@
       <section class="frame wonder-page">
   <div class="wonder-intro">
     <p>
-      10,000 Hours Everything Everywhere. 
+      10,000 Hours Everything Everywhere.
     </p>
     <p>
       Notes, skills, and practices beyond 10,000 hours academic exploration.
     </p>
     <p>
-      Click a floating label to freeze and read.
+      Click a floating keyword to freeze and read.
     </p>
   </div>
 
-  <!-- Physics stage: floating labels -->
+  <!-- Floating labels -->
   <div id="wonderWorld" class="wonder-world" aria-label="Floating wonder items"></div>
 
-  <!-- Right-side dots (same look as Projects) -->
-  <div class="dots-wonder" id="wonderDots" aria-label="Wonder items navigation"></div>
-
-  <!-- Dim + Card (shown on click) -->
+  <!-- Dim + Card -->
   <div id="wonderDim" class="wonder-dim" hidden></div>
   <article id="wonderCard" class="wonder-card" hidden aria-live="polite">
-    <button id="wonderClose" class="wonder-close" aria-label="Close">x</button>
+    <!-- close -->
+    <button id="wonderClose" class="wonder-close" aria-label="Close">×</button>
+
+    <!-- arrows inside card -->
+    <div class="wonder-nav">
+      <button id="wonderPrev" class="wonder-arrow" aria-label="Previous">←</button>
+      <button id="wonderNext" class="wonder-arrow" aria-label="Next">→</button>
+    </div>
+
+    <!-- card content -->
     <h2 id="wonderTitle" class="about-name"></h2>
     <p id="wonderTags" class="project-cat"></p>
     <div id="wonderMedia" class="wonder-media"></div>
     <div id="wonderContent" class="about-bio"></div>
   </article>
 
-  <!-- Data from _wonder collection -->
+  <!-- Data from _wondering collection -->
   <script id="wonder-data" type="application/json">
   [
     

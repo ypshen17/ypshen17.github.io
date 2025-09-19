@@ -625,11 +625,11 @@ footer .picture-credit {
   font: 1.2rem "Roboto Flex", sans-serif;
   color: #444;
   width: 100%;
-  /*max-width: 50ch;*/
   text-align: left;
   justify-content: center;
   align-items: center;
 }
+
 .wonder-world {
   position: relative;
   height: calc(60vh - 10rem); /* clears header + intro */
@@ -638,30 +638,28 @@ footer .picture-credit {
   background: #fff;
 }
 
-/* floating label chip (DOM element linked to a physics body) */
+/* floating labels (like homepage letters) */
 .wtag {
   position: absolute;
   font: 600 2.5rem "Roboto Mono", monospace;
   color: #000;
-  background: none;          /* no chip background */
-  border: none;              /* no border */
-  border-radius: 0;          /* remove rounding */
+  background: none;
+  border: none;
+  border-radius: 0;
   user-select: none;
   cursor: pointer;
   transform-origin: center center;
   will-change: transform;
   line-height: 1;
-  padding: 0;                /* remove padding */
+  padding: 0;
 }
-
 .wtag:hover {
-  color: var(--accent);      /* subtle hover highlight */
+  color: var(--accent);
 }
-
 .wtag.active {
   color: var(--accent);
   z-index: 5;
-  text-shadow: 0 0 6px rgba(0,0,0,0.15); /* optional glow */
+  text-shadow: 0 0 6px rgba(0,0,0,0.15);
 }
 
 /* overlay & card */
@@ -671,7 +669,6 @@ footer .picture-credit {
   backdrop-filter: blur(1px);
   z-index: 1000;
 }
-
 .wonder-card {
   position: fixed;
   top: 12vh; left: 50%;
@@ -684,13 +681,11 @@ footer .picture-credit {
   padding: 1.25rem 1.25rem 1.5rem;
   z-index: 1001;
 }
-
 .wonder-close {
   position: absolute; right: .6rem; top: .35rem;
   background: none; border: 0; cursor: pointer;
   font: 600 1.8rem "Roboto Mono", monospace; color: black;
 }
-
 .wonder-media img, .wonder-media video {
   width: 100%; height: auto; display: block; margin: .5rem 0 1rem;
 }
@@ -698,19 +693,23 @@ footer .picture-credit {
 /* optional tags inside card */
 #wonderTags .cat-tag { margin-right: .4rem; }
 
-
-/* wonder dots (right navigation) */
-.dots-wonder {
-  position: relative;
-  right: 6%;
-  top: 50%;
-  transform: translateY(-50%);  
-  z-index: 1001;
+/* inside-card navigation */
+.wonder-nav {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem 0 1rem;
 }
-
+.wonder-arrow {
+  font: 700 1.5rem "Roboto Mono", monospace;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--accent);
+  padding: 0.25rem 0.5rem;
+}
+.wonder-arrow:hover {
+  color: black;
+}
 
 
 /* About page layout 50/50 split + square gallery */

@@ -202,10 +202,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// ---------- WONDERING: Floating/colliding labels + card ----------
 // ---------- WONDERING: Floating labels + card ----------
 document.addEventListener('DOMContentLoaded', () => {
-  const worldEl = document.getElementById('wonderWorld');
+  const worldEl   = document.getElementById('wonderWorld');
   if (!worldEl) return; // not on Wondering
 
   // Data from page
@@ -215,26 +214,17 @@ document.addEventListener('DOMContentLoaded', () => {
     data = JSON.parse(raw);
   } catch (e) { data = []; }
 
-  const dotsWrap   = document.getElementById('wonderDots');
-  const dim        = document.getElementById('wonderDim');
-  const card       = document.getElementById('wonderCard');
-  const titleEl    = document.getElementById('wonderTitle');
-  const tagsEl     = document.getElementById('wonderTags');
-  const mediaEl    = document.getElementById('wonderMedia');
-  const contentEl  = document.getElementById('wonderContent');
-  const closeBtn   = document.getElementById('wonderClose');
+  const dim       = document.getElementById('wonderDim');
+  const card      = document.getElementById('wonderCard');
+  const titleEl   = document.getElementById('wonderTitle');
+  const tagsEl    = document.getElementById('wonderTags');
+  const mediaEl   = document.getElementById('wonderMedia');
+  const contentEl = document.getElementById('wonderContent');
+  const closeBtn  = document.getElementById('wonderClose');
+  const prevBtn   = document.getElementById('wonderPrev');
+  const nextBtn   = document.getElementById('wonderNext');
 
-  // Build right dots
-  const dots = [];
-  data.forEach((_, i) => {
-    const b = document.createElement('button');
-    b.className = 'dot' + (i === 0 ? ' active' : '');
-    b.setAttribute('aria-label', `Open item ${i + 1}`);
-    b.dataset.index = String(i);
-    dotsWrap.appendChild(b);
-    dots.push(b);
-  });
-
+  // build floating nodes
   const nodes = [];
   data.forEach((item, i) => {
     const el = document.createElement('button');
@@ -244,12 +234,26 @@ document.addEventListener('DOMContentLoaded', () => {
     nodes.push({ el, item });
   });
 
-  // --- floating animation ---
+  // --- non-overlapping floating animation ---
+  function generateNonOverlappingPosition(existing, radius = 160) {
+    let x, y, tries = 0;
+    const r = worldEl.getBoundingClientRect();
+    do {
+      x = Math.random() * (r.width - 160);
+      y = Math.random() * (r.height - 160);
+      tries++;
+    } while (
+      existing.some(pos => Math.hypot(pos.x - x, pos.y - y) < radius) &&
+      tries < 300
+    );
+    return { x, y };
+  }
+
+  const usedPositions = [];
   const floatTimeline = gsap.timeline({ repeat: -1, yoyo: true });
   nodes.forEach(({ el }) => {
-    const r = worldEl.getBoundingClientRect();
-    const x = Math.random() * (r.width - 120);
-    const y = Math.random() * (r.height - 160);
+    const { x, y } = generateNonOverlappingPosition(usedPositions, 160);
+    usedPositions.push({ x, y });
     el.style.transform = `translate(${x}px, ${y}px)`;
 
     floatTimeline.to(el, {
@@ -258,32 +262,35 @@ document.addEventListener('DOMContentLoaded', () => {
       rotation: `random(-8,8)`,
       duration: 6,
       ease: 'sine.inOut'
-    }, 0); // all start together
+    }, 0);
   });
 
   let current = -1;
-  let pulseTween = null; // store the pulse effect so we can kill it later
+  let pulseTween = null;
 
   function openCard(i) {
+    if (i < 0) i = nodes.length - 1;
+    if (i >= nodes.length) i = 0;
     current = i;
-    const obj = nodes[i];
-    dots.forEach((d, k) => d.classList.toggle('active', k === i));
+
     nodes.forEach((n, k) => n.el.classList.toggle('active', k === i));
 
     // freeze float
     floatTimeline.pause();
 
-    // add pulse to selected tag
+    // pulse effect
+    if (pulseTween) pulseTween.kill();
     const el = nodes[i].el;
     pulseTween = gsap.to(el, {
       scale: 1.1,
-      duration: 0.6,
+      duration: 0.8,
       repeat: -1,
       yoyo: true,
       ease: 'sine.inOut'
     });
 
     // fill card
+    const obj = nodes[i];
     titleEl.textContent = obj.item.title || 'Untitled';
     tagsEl.innerHTML = '';
     (obj.item.tags || []).forEach(t => {
@@ -292,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
       s.textContent = `#${t}`;
       tagsEl.appendChild(s);
     });
-    mediaEl.innerHTML = obj.item.cover ? `<img src="${obj.item.cover}" alt="${obj.item.title || ''}">` : '';
+    mediaEl.innerHTML = obj.item.cover ? `<img src="${obj.item.cover}" alt="">` : '';
     contentEl.innerHTML = obj.item.html || '';
 
     dim.hidden = false;
@@ -305,28 +312,28 @@ document.addEventListener('DOMContentLoaded', () => {
     dim.hidden = true;
     card.hidden = true;
 
-    // kill pulse
     if (pulseTween) {
       pulseTween.kill();
       pulseTween = null;
-      nodes.forEach(n => gsap.set(n.el, { scale: 1 })); // reset scale
+      nodes.forEach(n => gsap.set(n.el, { scale: 1 }));
     }
 
-    // resume float
     floatTimeline.resume();
   }
 
-  // Click handlers
+  // click handlers
   nodes.forEach(({ el }, i) => el.addEventListener('click', () => openCard(i)));
-  dotsWrap.addEventListener('click', (e) => {
-    const b = e.target.closest('.dot'); if (!b) return;
-    openCard(parseInt(b.dataset.index, 10));
-  });
   dim.addEventListener('click', closeCard);
   closeBtn?.addEventListener('click', closeCard);
+
+  // inside-card navigation
+  prevBtn?.addEventListener('click', () => {
+    if (current !== -1) openCard(current - 1);
+  });
+  nextBtn?.addEventListener('click', () => {
+    if (current !== -1) openCard(current + 1);
+  });
 });
-
-
 
   // -----------about-------------------
 document.addEventListener("DOMContentLoaded", function() {
