@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return { x, y };
   }
 
+  // Scatter stage
   scatterLetters.forEach((letter) => {
     const { x, y } = generateNonOverlappingPosition();
     gsap.set(letter, {
@@ -88,17 +89,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("resize", alignStage2Debounced);
 
+  // ---- Stage 2 transition ----
   nameCenter.addEventListener("click", async () => {
     gsap.killTweensOf(scatterLetters);
 
     stage2.style.display = "block";
     compositionContainer.innerHTML = "";
 
-    // Create the final word layout
+    // Invisible slots to measure final layout
     for (const ch of WORD) {
-      const span = document.createElement("span");
-      span.textContent = ch;
-      compositionContainer.appendChild(span);
+      const slot = document.createElement("span");
+      slot.className = "slot";
+      slot.textContent = ch;
+      compositionContainer.appendChild(slot);
     }
 
     await waitForFonts();
@@ -108,35 +111,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
     alignStage2();
 
-    const finalLetters = [...compositionContainer.querySelectorAll("span")];
+    const slots = Array.from(compositionContainer.querySelectorAll(".slot"));
 
-    // Fade in final word
-    gsap.to(finalLetters, { opacity: 1, duration: 1, delay: 1 });
+    const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
 
-    // Animate the first 11 letters (COMPOSITION)
-    finalLetters.forEach((target, i) => {
+    // Fly the first 11 scattered letters into their slots
+    slots.forEach((slot, i) => {
       const scatter = scatterLetters[i];
-      const targetBox = target.getBoundingClientRect();
-      const containerBox = compositionContainer.getBoundingClientRect();
-      gsap.to(scatter, {
-        x: targetBox.left - containerBox.left,
-        y: targetBox.top - containerBox.top,
+      const box = slot.getBoundingClientRect();
+
+      tl.to(scatter, {
+        x: box.left,
+        y: box.top,
         fontSize: "6rem",
-        opacity: 1, // keep them visible
-        duration: 1.5,
-        ease: "power3.inOut",
-        delay: i * 0.05
+        opacity: 1,
+        duration: 1.2
+      }, i * 0.05);
+    });
+
+    // Fade out extra scattered letters (from 2nd & 3rd copies)
+    tl.to(scatterLetters.slice(WORD.length), { opacity: 0, duration: 0.6 }, 0);
+
+    // Fade in stage2 and nav
+    tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
+    tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
+
+    // Reparent the scattered letters into the composition container
+    tl.add(() => {
+      slots.forEach((slot, i) => {
+        const letter = scatterLetters[i];
+        slot.replaceWith(letter);
+        letter.style.position = "relative";
+        letter.style.display  = "inline-block";
+        letter.style.left = "0";
+        letter.style.top  = "0";
       });
-    });
 
-    // Fade out the rest (letters 12+)
-    scatterLetters.slice(WORD.length).forEach(letter => {
-      gsap.to(letter, { opacity: 0, duration: 1 });
+      gsap.set(scatterLetters.slice(0, WORD.length), { x: 0, y: 0, clearProps: "transform" });
     });
-
-    // Fade in stage 2 and nav
-    gsap.to(stage2, { opacity: 1, duration: 1, delay: 0.5 });
-    gsap.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 1, delay: 1.5 });
   });
 });
 

@@ -164,16 +164,26 @@ footer .picture-credit {
   left: 0;
   top: 0;
   transform: none; /* Ensure no centering or transform override */
-  opacity: 1;
+  opacity: 0.25;
   z-index: 30;
 }
 
 
 #composition-container span {
-  position: relative;  /* not absolute */
+  position: relative;      /* natural inline layout */
   display: inline-block;
-  opacity: 0;          /* start hidden, fade them in */
+  line-height: 1;
+  font-family: "Roboto Mono", monospace;
+  font-weight: bold;
+  font-size: 6rem;         /* COMPOSITION: 6rem */
+  color: #aaa;             /* …and #aaa */
 }
+
+/* the measurement slots are invisible but occupy space */
+#composition-container .slot {
+  visibility: hidden;
+}
+
 
 
 
