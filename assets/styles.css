@@ -92,21 +92,27 @@ footer .picture-credit {
 /* ---------- Homepage ---------- */
 
 /* Stage 1 */
-.stage1 {
-  position: relative;
-  width: 100%;
+#scatter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #fff;
+  pointer-events: none;
+  z-index: 10;
 }
 
 #scatter span {
   position: absolute;
+  display: inline-block;
   font-family: "Roboto Mono", monospace;
-  font-size: 6rem; /* NOTE */
+  font-size: 6rem;
   font-weight: bold;
   color: #aaa;
   user-select: none;
+  will-change: transform;
+  transform: translate(0, 0);
 }
 
 #name-center {
@@ -124,13 +130,11 @@ footer .picture-credit {
 .stage2 {
   display: none;
   opacity: 0;
-  position: absolute;   /* instead of relative */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 0; /* shorthand for top: 0; left: 0; right: 0; bottom: 0; */
   overflow: hidden;
   background: #fff;
+  pointer-events: none;
 }
 
 
@@ -140,7 +144,16 @@ footer .picture-credit {
   font-weight: bold;
   font-family: "Roboto Mono", monospace;
   color: #aaa;
+  z-index: 30;
 }
+
+#composition-container span {
+  position: absolute;
+  display: inline-block;
+  will-change: transform;
+  transform: translate(0, 0);
+}
+
 
 #name-fixed {
   position: absolute;
