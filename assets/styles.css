@@ -22,7 +22,7 @@ a {
 
 /* ---------- Footer ---------- */
 footer {
-  position: flex;
+  position: relative;
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
@@ -156,10 +156,10 @@ footer .picture-credit {
   position: absolute;
   display: flex;
   gap: 0.25rem;
-  font-size: 7.2rem;
-  font-weight: 400;
+  font-size: 6rem;
+  font-weight: bold;
   font-family: "Roboto Mono", monospace;
-  color: #000;
+  color: #aaa;
   line-height: 1;
   left: 0;
   top: 0;
@@ -170,10 +170,11 @@ footer .picture-credit {
 
 
 #composition-container span {
-  position: relative; /* CHANGE from absolute to relative */
+  position: absolute;
   display: inline-block;
   will-change: transform;
   transform: translate(0, 0);
+  opacity: 0;
 }
 
 

@@ -53,11 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.set(letter, {
       x,
       y,
-      opacity: 0.25,
-      fontSize: "7.2rem",
+      opacity: 1,
+      fontSize: "6rem",
     });
     gsap.to(letter, {
-      duration: 40,
+      duration: 6,
       x: x + (Math.random() * 60 - 30),
       y: y + (Math.random() * 60 - 30),
       repeat: -1,
@@ -108,35 +108,27 @@ document.addEventListener("DOMContentLoaded", () => {
     alignStage2();
 
     const finalLetters = [...compositionContainer.querySelectorAll("span")];
-    const nameBox = nameFixed.getBoundingClientRect();
-    const centerX = nameBox.left + nameBox.width / 2;
-    const centerY = window.innerHeight / 2;
-    const baseX = centerX - (WORD.length * 60) / 2;
-    const baseY = centerY - 9 * 16;
 
-    finalLetters.forEach((_, i) => {
-      const letter = scatterLetters[i];
-      const letterBox = letter.getBoundingClientRect();
-      const offsetX = letterBox.left;
-      const offsetY = letterBox.top;
-
-      gsap.to(letter, {
-        x: baseX + i * 60 - offsetX,
-        y: baseY - offsetY,
-        fontSize: "7.2rem",
-        opacity: 1,
+    // Animate the first 11 letters (COMPOSITION)
+    finalLetters.forEach((target, i) => {
+      const scatter = scatterLetters[i];
+      gsap.to(scatter, {
+        x: target.offsetLeft + compositionContainer.offsetLeft,
+        y: target.offsetTop + compositionContainer.offsetTop,
+        fontSize: "6rem",
+        opacity: 1, // <- keep them visible
         duration: 1.5,
         ease: "power3.inOut",
-        delay: i * 0.05,
+        delay: i * 0.05
       });
     });
 
-    // Fade out the extra scattered letters
+    // Fade out the rest (letters 12+)
     scatterLetters.slice(11).forEach(letter => {
       gsap.to(letter, { opacity: 0, duration: 1 });
     });
 
-    // Fade in new stage content
+    // Fade in stage 2 and nav
     gsap.to(stage2, { opacity: 1, duration: 1, delay: 0.5 });
     gsap.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 1, delay: 1.5 });
   });
