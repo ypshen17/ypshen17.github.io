@@ -491,11 +491,12 @@ footer .picture-credit {
 
 /* ---------- Visions ---------- */
 .visions-intro {
-  margin: 0 auto 2rem 4rem; /* aligns with left padding of nav (4rem)
+  /* margin: 0 auto 2rem 4rem; aligns with left padding of nav (4rem)
   padding: 12rem 32rem 8rem; */
+  padding: 4rem 2rem;
   font: 1.2rem "Roboto Flex", sans-serif;
   color: #444;
-  /* max-width: 50ch; */
+  max-width: 50ch; 
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -586,19 +587,18 @@ footer .picture-credit {
 }
 
 .single-vision-title {
-  padding: 12rem 32rem 4rem;
+  padding: 4rem 4rem;
   font-size: 4rem;
   z-index: 10;
   text-align: center;
 }
 
 .single-vision-content {
-  padding: 12rem 32rem 4rem;
   font: 1.2rem "Roboto Flex", sans-serif;
-  text-align: center;
+  text-align: left;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 60%;
   z-index: 10;
 }
 
@@ -618,12 +618,12 @@ footer .picture-credit {
 /* ---------- Wondering (floating labels + card) ---------- */
 
 .wonder-page {
-  padding: 12rem 4rem 4rem;
+  padding: 4rem 2rem;
 }
 
 .wonder-intro {
   max-width: 40ch; /* keeps the text compact */
-  margin: 0 auto 2rem 4rem; /* aligns with left padding of nav (4rem) */
+  margin: 0 auto; /*2rem 4rem;  aligns with left padding of nav (4rem) */
   font: 1.2rem "Roboto Flex", sans-serif;
   color: #444;
   width: 100%;
@@ -635,27 +635,29 @@ footer .picture-credit {
 
 .wonder-world {
   position: relative;
-  height: calc(60vh - 10rem); /* clears header + intro */
-  min-height: 40vh;
+  height: 60vh;          /* ensure space for floating labels */
+  min-height: 400px;     /* never collapse into tiny box */
+  margin-left: 4rem;     /* align with intro + heading */
+  margin-right: 4rem;    /* balance on both sides */
   overflow: hidden;
   background: #fff;
 }
 
 /* floating labels (like homepage letters) */
 .wtag {
-  position: absolute;
+  position: absolute;  /* must be absolute */
   font-weight: bold;
   font: 2.5rem "Roboto Mono", monospace;
   color: #aaa;
   background: none;
   border: none;
-  border-radius: 0;
-  user-select: none;
   cursor: pointer;
+  /*border-radius: 0;
+  user-select: none;
   transform-origin: center center;
   will-change: transform;
   line-height: 1;
-  padding: 0;
+  padding: 0;*/
 }
 .wtag:hover {
   color: var(--accent);

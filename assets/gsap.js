@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// ---------- WONDERING: Floating labels + card with collision avoidance ----------
+// ---------- WONDERING: Floating labels + card with collision avoidance + filters ----------
 document.addEventListener('DOMContentLoaded', () => {
   const worldEl   = document.getElementById('wonderWorld');
   if (!worldEl) return; // not on Wondering
@@ -224,13 +224,39 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn   = document.getElementById('wonderNext');
 
   const nodes = [];
-  data.forEach((item, i) => {
-    const el = document.createElement('button');
-    el.className = 'wtag';
-    el.textContent = (item.short || item.title || `Item ${i+1}`).toUpperCase();
-    worldEl.appendChild(el);
-    nodes.push({ el, item });
-  });
+
+  function spawnNodes(dataset) {
+    // Clear previous
+    worldEl.innerHTML = "";
+    nodes.length = 0;
+
+    const usedPositions = [];
+    dataset.forEach((item, i) => {
+      const el = document.createElement('button');
+      el.className = 'wtag';
+      el.style.position = 'absolute'; // ensure float
+      el.textContent = (item.short || item.title || `Item ${i+1}`).toUpperCase();
+      worldEl.appendChild(el);
+      nodes.push({ el, item });
+
+      const { x, y } = generateNonOverlappingPosition(usedPositions, 220);
+      usedPositions.push({ x, y });
+
+      gsap.set(el, { x, y, opacity: 0.7 });
+
+      gsap.to(el, {
+        x: x + gsap.utils.random(-100, 100),
+        y: y + gsap.utils.random(-80, 80),
+        rotation: gsap.utils.random(-6, 6),
+        duration: gsap.utils.random(8, 14),
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+
+      el.addEventListener('click', () => openCard(i));
+    });
+  }
 
   // Positioning helper
   function generateNonOverlappingPosition(existing, radius = 200) {
@@ -246,25 +272,6 @@ document.addEventListener('DOMContentLoaded', () => {
     );
     return { x, y };
   }
-
-  // Initial placement + float
-  const usedPositions = [];
-  nodes.forEach(({ el }) => {
-    const { x, y } = generateNonOverlappingPosition(usedPositions, 220);
-    usedPositions.push({ x, y });
-
-    gsap.set(el, { x, y, opacity: 0.7 });
-
-    gsap.to(el, {
-      x: x + gsap.utils.random(-100, 100),
-      y: y + gsap.utils.random(-80, 80),
-      rotation: gsap.utils.random(-6, 6),
-      duration: gsap.utils.random(8, 14),
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut'
-    });
-  });
 
   // Lightweight collision avoidance
   function resolveCollisions() {
@@ -349,15 +356,35 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.globalTimeline.resume();
   }
 
-  nodes.forEach(({ el }, i) => el.addEventListener('click', () => openCard(i)));
   dim.addEventListener('click', closeCard);
   closeBtn?.addEventListener('click', closeCard);
 
   prevBtn?.addEventListener('click', () => { if (current !== -1) openCard(current - 1); });
   nextBtn?.addEventListener('click', () => { if (current !== -1) openCard(current + 1); });
+
+  // ---- Category filter ----
+  const catBar = document.getElementById('wonder-categories');
+  if (catBar) {
+    const buttons = catBar.querySelectorAll('.cat');
+    const originalData = [...data];
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        if (filter === 'all') {
+          spawnNodes(originalData);
+        } else {
+          spawnNodes(originalData.filter(item => item.category === filter));
+        }
+      });
+    });
+  }
+
+  // Spawn initial set
+  spawnNodes(data);
 });
-
-
 
 
 
