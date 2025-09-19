@@ -491,7 +491,8 @@ footer .picture-credit {
 
 /* ---------- Visions ---------- */
 .visions-intro {
-  padding: 12rem 32rem 8rem;
+  margin: 0 auto 2rem 4rem; /* aligns with left padding of nav (4rem)
+  padding: 12rem 32rem 8rem; */
   font: 1.2rem "Roboto Flex", sans-serif;
   color: #444;
   /* max-width: 50ch; */
@@ -621,19 +622,21 @@ footer .picture-credit {
 }
 
 .wonder-intro {
-  padding: 0 32rem;
+  max-width: 40ch; /* keeps the text compact */
+  margin: 0 auto 2rem 4rem; /* aligns with left padding of nav (4rem) */
   font: 1.2rem "Roboto Flex", sans-serif;
   color: #444;
   width: 100%;
   text-align: left;
   justify-content: center;
   align-items: center;
+  line-height: 1.4; /* tighter spacing */
 }
 
 .wonder-world {
   position: relative;
   height: calc(60vh - 10rem); /* clears header + intro */
-  min-height: 30vh;
+  min-height: 40vh;
   overflow: hidden;
   background: #fff;
 }
@@ -641,8 +644,9 @@ footer .picture-credit {
 /* floating labels (like homepage letters) */
 .wtag {
   position: absolute;
-  font: 600 2.5rem "Roboto Mono", monospace;
-  color: #000;
+  font-weight: bold;
+  font: 2.5rem "Roboto Mono", monospace;
+  color: #aaa;
   background: none;
   border: none;
   border-radius: 0;
@@ -677,7 +681,7 @@ footer .picture-credit {
   background: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
-  border-radius: 12px;
+  /* border-radius: 12px;*/
   padding: 1.25rem 1.25rem 1.5rem;
   z-index: 1001;
 }
@@ -704,11 +708,11 @@ footer .picture-credit {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--accent);
+  color: black;
   padding: 0.25rem 0.5rem;
 }
 .wonder-arrow:hover {
-  color: black;
+  color: var(--accent);
 }
 
 /* ---------- Wondering: Category filter ---------- */
@@ -805,7 +809,8 @@ footer .picture-credit {
   display: flex;
   justify-content: center;  /* Center the image horizontally */
   text-align: left;
-  font: 600 1.8rem, "Roboto Mono", monospace;
+  font-weight: bold;
+  font: 2rem, "Roboto Mono", monospace;
 }
 
 .about-body {
@@ -814,6 +819,7 @@ footer .picture-credit {
   justify-content: center;  /* main, horizontal by default -- */
   align-items: center;  /* cross, vertical by default, stretch if not set*/
   text-align: left;
+  color: #444;
   font: 1.2rem, "Roboto Flex", sans-serif;
 }
 

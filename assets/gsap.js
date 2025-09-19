@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// ---------- WONDERING: Floating labels + card + category filter ----------
+// ---------- WONDERING: Floating labels + card with collision avoidance ----------
 document.addEventListener('DOMContentLoaded', () => {
   const worldEl   = document.getElementById('wonderWorld');
   if (!worldEl) return; // not on Wondering
@@ -224,10 +224,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn   = document.getElementById('wonderNext');
 
   const nodes = [];
-  let current = -1;
-  let pulseTween = null;
+  data.forEach((item, i) => {
+    const el = document.createElement('button');
+    el.className = 'wtag';
+    el.textContent = (item.short || item.title || `Item ${i+1}`).toUpperCase();
+    worldEl.appendChild(el);
+    nodes.push({ el, item });
+  });
 
-  // --- non-overlapping floating animation ---
+  // Positioning helper
   function generateNonOverlappingPosition(existing, radius = 200) {
     let x, y, tries = 0;
     const r = worldEl.getBoundingClientRect();
@@ -242,37 +247,56 @@ document.addEventListener('DOMContentLoaded', () => {
     return { x, y };
   }
 
-  function buildNodes(dataset) {
-    // clear old
-    gsap.globalTimeline.clear();
-    worldEl.innerHTML = "";
-    nodes.length = 0;
+  // Initial placement + float
+  const usedPositions = [];
+  nodes.forEach(({ el }) => {
+    const { x, y } = generateNonOverlappingPosition(usedPositions, 220);
+    usedPositions.push({ x, y });
 
-    const usedPositions = [];
-    dataset.forEach((item, i) => {
-      const el = document.createElement('button');
-      el.className = 'wtag';
-      el.textContent = (item.short || item.title || `Item ${i+1}`).toUpperCase();
-      worldEl.appendChild(el);
-      nodes.push({ el, item });
+    gsap.set(el, { x, y, opacity: 0.7 });
 
-      const { x, y } = generateNonOverlappingPosition(usedPositions, 220);
-      usedPositions.push({ x, y });
-
-      gsap.set(el, { x, y, opacity: 0.7 });
-      gsap.to(el, {
-        x: x + gsap.utils.random(-100, 100),
-        y: y + gsap.utils.random(-80, 80),
-        rotation: gsap.utils.random(-6, 6),
-        duration: gsap.utils.random(8, 14),
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut'
-      });
-
-      el.addEventListener('click', () => openCard(i));
+    gsap.to(el, {
+      x: x + gsap.utils.random(-100, 100),
+      y: y + gsap.utils.random(-80, 80),
+      rotation: gsap.utils.random(-6, 6),
+      duration: gsap.utils.random(8, 14),
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
     });
+  });
+
+  // Lightweight collision avoidance
+  function resolveCollisions() {
+    const padding = 10; // space between
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const aBox = nodes[i].el.getBoundingClientRect();
+        const bBox = nodes[j].el.getBoundingClientRect();
+
+        if (!(aBox.right < bBox.left || aBox.left > bBox.right ||
+              aBox.bottom < bBox.top || aBox.top > bBox.bottom)) {
+          // Overlap detected → nudge apart
+          const dx = (aBox.left + aBox.width/2) - (bBox.left + bBox.width/2);
+          const dy = (aBox.top + aBox.height/2) - (bBox.top + bBox.height/2);
+          const dist = Math.max(Math.hypot(dx, dy), 1);
+          const overlap = (Math.min(aBox.width, bBox.width) / 2) + padding - dist/2;
+
+          if (overlap > 0) {
+            const moveX = (dx / dist) * overlap;
+            const moveY = (dy / dist) * overlap;
+            gsap.to(nodes[i].el, { x: `+=${moveX/2}`, y: `+=${moveY/2}`, duration: 0.3 });
+            gsap.to(nodes[j].el, { x: `-=${moveX/2}`, y: `-=${moveY/2}`, duration: 0.3 });
+          }
+        }
+      }
+    }
   }
+  setInterval(resolveCollisions, 500); // every 0.5s
+
+  // --- Card system ---
+  let current = -1;
+  let pulseTween = null;
 
   function openCard(i) {
     if (i < 0) i = nodes.length - 1;
@@ -281,11 +305,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nodes.forEach((n, k) => n.el.classList.toggle('active', k === i));
 
-    // freeze float
     gsap.globalTimeline.pause();
-
-    // pulse effect on selected tag
     if (pulseTween) pulseTween.kill();
+
     const el = nodes[i].el;
     pulseTween = gsap.to(el, {
       scale: 1.1,
@@ -296,7 +318,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ease: 'sine.inOut'
     });
 
-    // fill card
     const obj = nodes[i];
     titleEl.textContent = obj.item.title || 'Untitled';
     tagsEl.innerHTML = '';
@@ -328,46 +349,13 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.globalTimeline.resume();
   }
 
-  // close handlers
+  nodes.forEach(({ el }, i) => el.addEventListener('click', () => openCard(i)));
   dim.addEventListener('click', closeCard);
   closeBtn?.addEventListener('click', closeCard);
-  prevBtn?.addEventListener('click', () => {
-    if (current !== -1) openCard(current - 1);
-  });
-  nextBtn?.addEventListener('click', () => {
-    if (current !== -1) openCard(current + 1);
-  });
 
-  // ---- CATEGORY FILTER ----
-  const catBar = document.getElementById('wonder-categories');
-  const originalData = [...data];
-  if (catBar) {
-    const buttons = catBar.querySelectorAll('.cat');
-
-    function rebuildNodes(filtered) {
-      closeCard(); // always close when switching
-      buildNodes(filtered);
-    }
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        if (filter === 'all') {
-          rebuildNodes(originalData);
-        } else {
-          rebuildNodes(originalData.filter(item => item.category === filter));
-        }
-      });
-    });
-  }
-
-  // initial build
-  buildNodes(originalData);
+  prevBtn?.addEventListener('click', () => { if (current !== -1) openCard(current - 1); });
+  nextBtn?.addEventListener('click', () => { if (current !== -1) openCard(current + 1); });
 });
-
-
 
 
 
