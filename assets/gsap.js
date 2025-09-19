@@ -1,4 +1,3 @@
-// ---------------- HOMEPAGE ----------------
 document.addEventListener("DOMContentLoaded", () => {
   const scatterContainer = document.getElementById("scatter");
   const nameCenter = document.getElementById("name-center");
@@ -10,7 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!scatterContainer || !nameCenter || !compositionContainer || !nameFixed) return;
 
-  // ---- helpers ----
+  const WORD = "COMPOSITION";
+
+  // ---------- Helpers ----------
   const waitForFonts = () =>
     (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve())
       .catch(() => Promise.resolve());
@@ -19,106 +20,129 @@ document.addEventListener("DOMContentLoaded", () => {
     let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
   };
 
-  // ---- build 3× "COMPOSITION" ----
-  const WORD = "COMPOSITION";
+  const scatterLetters = [];
+
+  // ---------- Build 3× COMPOSITION ----------
   for (let i = 0; i < 3; i++) {
     for (const ch of WORD) {
       const span = document.createElement("span");
       span.textContent = ch;
       scatterContainer.appendChild(span);
+      scatterLetters.push(span);
     }
   }
-  const scatterLetters = [...scatterContainer.querySelectorAll("span")];
 
-  // ---- Stage 1: floating scatter ----
-  gsap.set(scatterLetters, {
-    x: () => Math.random() * window.innerWidth,
-    y: () => Math.random() * window.innerHeight,
-    opacity: 0.25,
-    fontSize: "7.2rem"
+  // ---------- Non-overlapping initial scatter ----------
+  const usedPositions = [];
+  const margin = 120; // minimum distance between letters
+
+  function generateNonOverlappingPosition(radius = margin) {
+    let x, y, tries = 0;
+    do {
+      x = Math.random() * window.innerWidth;
+      y = Math.random() * window.innerHeight;
+      tries++;
+    } while (
+      usedPositions.some(pos => Math.hypot(pos.x - x, pos.y - y) < radius) &&
+      tries < 100
+    );
+    usedPositions.push({ x, y });
+    return { x, y };
+  }
+
+  // ---------- Stage 1: floating scatter ----------
+  scatterLetters.forEach((letter) => {
+    const { x, y } = generateNonOverlappingPosition();
+
+    gsap.set(letter, {
+      x: x,
+      y: y,
+      opacity: 0.25,
+      fontSize: "7.2rem",
+    });
+
+    gsap.to(letter, {
+      duration: 40,
+      x: x + (Math.random() * 30 - 15),
+      y: y + (Math.random() * 30 - 15),
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
   });
 
-  gsap.to(scatterLetters, {
-    duration: 40,
-    x: () => Math.random() * window.innerWidth,
-    y: () => Math.random() * window.innerHeight,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-  });
+  // ---------- Final word target positions (relative) ----------
+  const finalPositions = [
+    { x: -220, y: 0 }, { x: -160, y: 0 }, { x: -100, y: 0 },
+    { x:  -40, y: 0 }, { x:   20, y: 0 }, { x:   80, y: 0 },
+    { x:  140, y: 0 }, { x:  200, y: 0 }, { x:  260, y: 0 },
+    { x:  320, y: 0 }, { x:  380, y: 0 }
+  ];
 
-  // ---- alignment (called only after fonts are ready) ----
+  // ---------- Align target position layout ----------
   function alignStage2() {
     const nameBox = nameFixed.getBoundingClientRect();
-
-    // position COMPOSITION so its right edge = YIPENG SHEN right edge
     const compWidth = compositionContainer.offsetWidth;
     const compLeft = nameBox.right - compWidth;
     const compTop = window.innerHeight / 2 - 9 * 16; // ≈ 9rem above center
 
     compositionContainer.style.left = compLeft + "px";
-    compositionContainer.style.top  = compTop + "px";
+    compositionContainer.style.top = compTop + "px";
     compositionContainer.style.right = "auto";
     compositionContainer.style.transform = "none";
 
-    // homenav left edge = YIPENG SHEN left edge
     homeNav.style.left = nameBox.left + "px";
-    homeNav.style.top  = "calc(50% + 1.5rem)";
+    homeNav.style.top = "calc(50% + 1.5rem)";
     homeNav.style.transform = "none";
   }
 
   const alignStage2Debounced = debounce(() => {
-    // only align if stage2 is visible (after click)
     if (stage2.style.display === "block") alignStage2();
   }, 120);
 
   window.addEventListener("resize", alignStage2Debounced);
 
-  // ---- click: scatter -> compose ----
+  // ---------- Click to transition: scatter → compose ----------
   nameCenter.addEventListener("click", async () => {
-    // stop floating
     gsap.killTweensOf(scatterLetters);
 
-    // reveal Stage 2 overlay immediately (so we can measure inside it)
     stage2.style.display = "block";
-
-    // build final word spans
     compositionContainer.innerHTML = "";
-    for (const ch of WORD) {
-      const s = document.createElement("span");
-      s.textContent = ch;
-      compositionContainer.appendChild(s);
-    }
-    const finalLetters = [...compositionContainer.querySelectorAll("span")];
 
-    // wait for fonts to be fully loaded before measuring
+    for (const ch of WORD) {
+      const span = document.createElement("span");
+      span.textContent = ch;
+      compositionContainer.appendChild(span);
+    }
+
     await waitForFonts();
-    // extra safety: also wait for window load if needed
     if (document.readyState !== "complete") {
       await new Promise(r => window.addEventListener("load", r, { once: true }));
     }
 
-    // align targets now that fonts are ready and letters exist
     alignStage2();
 
-    // compute target boxes and animate each scattered letter to its final spot
-    finalLetters.forEach((targetSpan, i) => {
-      const targetBox = targetSpan.getBoundingClientRect();
-      const source = scatterLetters[i]; // there are 33 scatter letters, 11 for final word; reuses by modulo if needed
-      const sourceBox = source.getBoundingClientRect();
-
-      gsap.to(source, {
-        duration: 1.5,
-        x: (targetBox.left - sourceBox.left) + (parseFloat(source.style.x) || 0),
-        y: (targetBox.top  - sourceBox.top)  + (parseFloat(source.style.y) || 0),
+    // Animate only first 11 letters into position
+    const finalLetters = [...compositionContainer.querySelectorAll("span")];
+    finalLetters.forEach((_, i) => {
+      const letter = scatterLetters[i];
+      gsap.to(letter, {
+        x: finalPositions[i].x,
+        y: finalPositions[i].y,
         fontSize: "7.2rem",
         opacity: 0.25,
+        duration: 1.5,
         ease: "power3.inOut",
-        delay: (i % WORD.length) * 0.05
+        delay: i * 0.05
       });
     });
 
-    // fade in the overlay & visuals
+    // Optional: keep others floating / fade / disappear
+    scatterLetters.slice(11).forEach(letter => {
+      gsap.to(letter, { opacity: 0, duration: 1 });
+    });
+
+    // Fade in stage 2 and nav
     gsap.to(stage2, { opacity: 1, duration: 1, delay: 0.5 });
     gsap.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 1, delay: 1.5 });
   });
