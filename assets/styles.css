@@ -22,8 +22,10 @@ a {
 
 /* ---------- Footer ---------- */
 footer {
-  position: absolute;
+  position: flex;
   bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
   font: 400 1rem "Roboto Flex", sans-serif;
   color: #444;
@@ -122,6 +124,7 @@ footer .picture-credit {
   color: #aaa;
   user-select: none;
   will-change: transform;
+  pointer-events: none;
   transform: translate(0, 0);
 }
 
@@ -151,19 +154,28 @@ footer .picture-credit {
 
 #composition-container {
   position: absolute;
-  font-size: 6rem;
-  font-weight: bold;
+  display: flex;
+  gap: 0.25rem;
+  font-size: 7.2rem;
+  font-weight: 400;
   font-family: "Roboto Mono", monospace;
-  color: #aaa;
+  color: #000;
+  line-height: 1;
+  left: 0;
+  top: 0;
+  transform: none; /* Ensure no centering or transform override */
+  opacity: 1;
   z-index: 30;
 }
 
+
 #composition-container span {
-  position: absolute;
+  position: relative; /* CHANGE from absolute to relative */
   display: inline-block;
   will-change: transform;
   transform: translate(0, 0);
 }
+
 
 
 #name-fixed {
@@ -187,6 +199,7 @@ footer .picture-credit {
   font-size: 1.8rem;
   z-index: 2000;
   pointer-events: auto;
+  transition: opacity 0.6s ease;
 }
 
 #home-nav a {
