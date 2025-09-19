@@ -22,6 +22,8 @@ a {
 
 /* ---------- Footer ---------- */
 footer {
+  position: absolute;
+  bottom: 1rem;
   text-align: center;
   font: 400 1rem "Roboto Flex", sans-serif;
   color: #444;
@@ -92,6 +94,14 @@ footer .picture-credit {
 /* ---------- Homepage ---------- */
 
 /* Stage 1 */
+.stage1 {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #fff;
+}
+
 #scatter {
   position: absolute;
   top: 0;
@@ -135,6 +145,7 @@ footer .picture-credit {
   overflow: hidden;
   background: #fff;
   pointer-events: none;
+  z-index: 20;
 }
 
 
@@ -175,6 +186,7 @@ footer .picture-credit {
   font-family: "Roboto Mono", monospace;
   font-size: 1.8rem;
   z-index: 2000;
+  pointer-events: auto;
 }
 
 #home-nav a {
