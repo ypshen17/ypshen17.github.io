@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       x,
       y,
       opacity: 0.25,
-      fontSize: "6rem",
+      fontSize: "clamp(2rem, 8vw, 6rem)", // responsive font size
     });
     gsap.to(letter, {
       duration: 11, // floating cycle
@@ -127,11 +127,15 @@ document.addEventListener("DOMContentLoaded", () => {
         tl.to(scatter, {
           x: "+=" + dx,
           y: "+=" + dy,
-          fontSize: "6rem",
-          opacity: 1,
           duration: 1.2,
+          opacity: 1,
           ease: "power3.inOut",
-          delay: i * 0.05
+          delay: i * 0.05,
+          onComplete: () => {
+            scatter.style.position = "relative";
+            scatter.style.display = "inline-block";
+            scatter.style.transform = "none";
+          }
         }, 0);
       } else {
         // extras → fade out
@@ -143,14 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
     tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
     tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
 
-    // Final cleanup: show only the 11 letters inside container inline
+    // hide placeholders at the end
     tl.add(() => {
-      compositionContainer.innerHTML = "";
-      for (let i = 0; i < WORD.length; i++) {
-        const span = document.createElement("span");
-        span.textContent = WORD[i];
-        compositionContainer.appendChild(span);
-      }
+      slots.forEach(slot => slot.style.display = "none");
     });
   });
 });

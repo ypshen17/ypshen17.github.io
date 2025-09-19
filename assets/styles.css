@@ -175,7 +175,7 @@ footer .picture-credit {
   line-height: 1;
   font-family: "Roboto Mono", monospace;
   font-weight: bold;
-  font-size: 6rem;         /* COMPOSITION: 6rem */
+  font-size: clamp(2rem, 8vw, 6rem);        /* COMPOSITION: 6rem */
   color: #aaa;             /* …and #aaa */
 }
 
@@ -183,9 +183,6 @@ footer .picture-credit {
 #composition-container .slot {
   visibility: hidden;
 }
-
-
-
 
 
 #name-fixed {
@@ -202,7 +199,7 @@ footer .picture-credit {
 /* Home nav aligned to YIPENG SHEN */
 #home-nav {
   position: absolute;
-  top: calc(50% + 1.5rem);
+  top: calc(50% + 1.8rem);
   left: 0;
   transform: none !important;
   opacity: 0;
