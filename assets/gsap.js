@@ -143,7 +143,12 @@ document.addEventListener("DOMContentLoaded", () => {
     tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
     tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
 
-    // once landed, keep only 11 letters
+    // once landed, keep them all visible briefly
+    tl.add(() => {
+      // do nothing here → let all 33 sit overlapped for a beat
+    }, "+=0.2");
+
+    // cleanup: keep only 11, fade out extras
     tl.add(() => {
       compositionContainer.innerHTML = "";
       for (let i = 0; i < WORD.length; i++) {
@@ -153,13 +158,13 @@ document.addEventListener("DOMContentLoaded", () => {
         letter.style.display = "inline-block";
         gsap.set(letter, { x: 0, y: 0, clearProps: "transform" });
       }
+
       scatterLetters.slice(WORD.length).forEach(letter => {
-        gsap.to(letter, { opacity: 0, duration: 0.8 });
+        gsap.to(letter, { opacity: 0, duration: 1.5, delay: 0.1 });
       });
     });
   });
 });
-
 
 
 
