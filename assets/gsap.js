@@ -110,8 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
     alignStage2();
 
     const slots = Array.from(compositionContainer.querySelectorAll(".slot"));
-    const compBox = compositionContainer.getBoundingClientRect();
-    const scatterBox = scatterContainer.getBoundingClientRect();
 
     const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
 
@@ -119,18 +117,26 @@ document.addEventListener("DOMContentLoaded", () => {
     scatterLetters.forEach((scatter, i) => {
       const slotIndex = i % WORD.length;
       const targetBox = slots[slotIndex].getBoundingClientRect();
+      const scatterBox = scatter.getBoundingClientRect();
 
-      // relative coords (scatter container space)
-      const targetX = targetBox.left - scatterBox.left;
-      const targetY = targetBox.top - scatterBox.top;
+      // centers
+      const targetX = targetBox.left + targetBox.width / 2;
+      const targetY = targetBox.top + targetBox.height / 2;
+      const currentX = scatterBox.left + scatterBox.width / 2;
+      const currentY = scatterBox.top + scatterBox.height / 2;
+
+      // delta (viewport-based movement)
+      const dx = targetX - currentX;
+      const dy = targetY - currentY;
 
       tl.to(scatter, {
-        x: targetX,
-        y: targetY,
+        x: "+=" + dx,
+        y: "+=" + dy,
         fontSize: "6rem",
         opacity: 1,
-        duration: 1.2
-      }, i * 0.02); // staggered arrival
+        duration: 1.2,
+        delay: i * 0.02
+      }, 0);
     });
 
     // fade in stage2 and nav
@@ -153,7 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
 
 
 
