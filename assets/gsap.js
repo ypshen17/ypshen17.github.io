@@ -134,14 +134,14 @@ document.addEventListener("DOMContentLoaded", () => {
         y: "+=" + dy,
         fontSize: "6rem",
         opacity: 1,
-        duration: 1.2,
+        duration: 1.5, //speed!
         delay: i * 0.02
       }, 0);
     });
 
     // fade in stage2 and nav
-    tl.to(stage2, { opacity: 1, duration: 0.1 }, 0.2); //speed!
-    tl.to([homeNav, ".smoke", ".pieces"], { opacity: 0.7, duration: 0.8 }, "-=0.2"); //opacity!
+    tl.to(stage2, { opacity: 1, duration: 1 }, 0.2); //speed!
+    tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.4 }, "-=0.2"); //opacity!
 
     // once landed, keep only 11 letters
     tl.add(() => {
