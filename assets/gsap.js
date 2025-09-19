@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
   };
 
-  // create 3× scattered letters
+  // create 3× scattered letters (33 total)
   const scatterLetters = [];
   for (let i = 0; i < 3; i++) {
     for (const ch of WORD) {
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return { x, y };
   }
 
-  // scatter animation
+  // scatter floating animation
   scatterLetters.forEach((letter) => {
     const { x, y } = generateNonOverlappingPosition();
     gsap.set(letter, {
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fontSize: "6rem",
     });
     gsap.to(letter, {
-      duration: 11, // floating duration (was 17 → now 11)
+      duration: 11, // floating cycle
       x: x + (Math.random() * 60 - 30),
       y: y + (Math.random() * 60 - 30),
       repeat: -1,
@@ -94,11 +94,12 @@ document.addEventListener("DOMContentLoaded", () => {
     stage2.style.display = "block";
     compositionContainer.innerHTML = "";
 
-    // create hidden reference word for measuring
+    // placeholders for COMPOSITION layout
     for (const ch of WORD) {
       const slot = document.createElement("span");
       slot.className = "slot";
       slot.textContent = ch;
+      slot.style.visibility = "hidden"; // invisible, only for measuring
       compositionContainer.appendChild(slot);
     }
 
@@ -113,77 +114,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
 
-    // animate ALL 33 scattered letters into slots
+    // Animate first 11 into slots, fade out others
     scatterLetters.forEach((scatter, i) => {
-      const slotIndex = i % WORD.length;
-      const targetBox = slots[slotIndex].getBoundingClientRect();
-      const scatterBox = scatter.getBoundingClientRect();
+      if (i < WORD.length) {
+        const slot = slots[i];
+        const targetBox = slot.getBoundingClientRect();
+        const scatterBox = scatter.getBoundingClientRect();
 
-      // centers
-      const targetX = targetBox.left + targetBox.width / 2;
-      const targetY = targetBox.top + targetBox.height / 2;
-      const currentX = scatterBox.left + scatterBox.width / 2;
-      const currentY = scatterBox.top + scatterBox.height / 2;
+        const dx = (targetBox.left + targetBox.width/2) - (scatterBox.left + scatterBox.width/2);
+        const dy = (targetBox.top + targetBox.height/2) - (scatterBox.top + scatterBox.height/2);
 
-      // delta (viewport-based movement)
-      const dx = targetX - currentX;
-      const dy = targetY - currentY;
-
-      tl.to(scatter, {
-        x: "+=" + dx,
-        y: "+=" + dy,
-        fontSize: "6rem",
-        opacity: 1,
-        duration: 1.2,
-        delay: i * 0.02
-      }, 0);
+        tl.to(scatter, {
+          x: "+=" + dx,
+          y: "+=" + dy,
+          fontSize: "6rem",
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.inOut",
+          delay: i * 0.05
+        }, 0);
+      } else {
+        // extras → fade out
+        tl.to(scatter, { opacity: 0, duration: 1 }, 0.5);
+      }
     });
 
     // fade in stage2 and nav
     tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
     tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
 
-    // cleanup after flight
+    // Final cleanup: show only the 11 letters inside container inline
     tl.add(() => {
-      const compBox = compositionContainer.getBoundingClientRect();
-
-      // clear and rebuild with only 11
       compositionContainer.innerHTML = "";
-
       for (let i = 0; i < WORD.length; i++) {
-        const letter = scatterLetters[i];
-
-        // get current absolute position BEFORE moving
-        const rect = letter.getBoundingClientRect();
-        const x = rect.left - compBox.left;
-        const y = rect.top - compBox.top;
-
-        // move into container
-        compositionContainer.appendChild(letter);
-
-        // lock its old position inside container coords
-        gsap.set(letter, {
-          position: "absolute",
-          left: 0,
-          top: 0,
-          x,
-          y
-        });
-
-        // animate to natural inline layout
-        gsap.to(letter, {
-          x: 0,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out"
-        });
+        const span = document.createElement("span");
+        span.textContent = WORD[i];
+        compositionContainer.appendChild(span);
       }
-
-      // fade out extras smoothly
-      scatterLetters.slice(WORD.length).forEach(letter => {
-        gsap.to(letter, { opacity: 0, duration: 1.5 });
-      });
-    }, "+=0.2"); // wait a beat after landing
+    });
   });
 });
 
