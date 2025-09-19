@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const scatterContainer = document.getElementById("scatter");
   const nameCenter = document.getElementById("name-center");
-  const stage1 = document.getElementById("stage1");
   const stage2 = document.getElementById("stage2");
   const homeNav = document.getElementById("home-nav");
   const compositionContainer = document.getElementById("composition-container");
@@ -19,9 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
   };
 
+  // create scattered letters (3 copies of COMPOSITION)
   const scatterLetters = [];
-
-  // Create 3× scattered COMPOSITION letters
   for (let i = 0; i < 3; i++) {
     for (const ch of WORD) {
       const span = document.createElement("span");
@@ -31,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // random positions
   const usedPositions = [];
   const margin = 120;
-
   function generateNonOverlappingPosition(radius = margin) {
     let x, y, tries = 0;
     do {
@@ -48,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return { x, y };
   }
 
-  // Scatter stage
   scatterLetters.forEach((letter) => {
     const { x, y } = generateNonOverlappingPosition();
     gsap.set(letter, {
@@ -89,66 +86,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("resize", alignStage2Debounced);
 
-  // ---- Stage 2 transition ----
+  // ---- transition ----
   nameCenter.addEventListener("click", async () => {
     gsap.killTweensOf(scatterLetters);
 
     stage2.style.display = "block";
     compositionContainer.innerHTML = "";
 
-    // Invisible slots to measure final layout
-    for (const ch of WORD) {
-      const slot = document.createElement("span");
-      slot.className = "slot";
-      slot.textContent = ch;
-      compositionContainer.appendChild(slot);
-    }
-
     await waitForFonts();
-    if (document.readyState !== "complete") {
-      await new Promise(r => window.addEventListener("load", r, { once: true }));
-    }
 
     alignStage2();
 
-    const slots = Array.from(compositionContainer.querySelectorAll(".slot"));
+    // only use the first 11 scattered letters
+    const letters = scatterLetters.slice(0, WORD.length);
+
+    // make sure container has flex layout
+    compositionContainer.style.display = "flex";
 
     const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
 
-    // Fly the first 11 scattered letters into their slots
-    slots.forEach((slot, i) => {
-      const scatter = scatterLetters[i];
-      const box = slot.getBoundingClientRect();
-
-      tl.to(scatter, {
-        x: box.left,
-        y: box.top,
-        fontSize: "6rem",
+    // animate each scattered letter into final aligned position
+    letters.forEach((letter, i) => {
+      tl.to(letter, {
+        x: i * (letter.offsetWidth + 4), // align horizontally by index
+        y: 0,
         opacity: 1,
         duration: 1.2
       }, i * 0.05);
     });
 
-    // Fade out extra scattered letters (from 2nd & 3rd copies)
+    // fade out all the extra scattered letters
     tl.to(scatterLetters.slice(WORD.length), { opacity: 0, duration: 0.6 }, 0);
 
-    // Fade in stage2 and nav
+    // after animation, move letters into the composition container
+    tl.add(() => {
+      letters.forEach(l => {
+        compositionContainer.appendChild(l);
+        l.style.position = "relative";
+        l.style.left = "0";
+        l.style.top = "0";
+        gsap.set(l, { x: 0, y: 0, clearProps: "transform" });
+      });
+    });
+
+    // fade in nav + visuals
     tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
     tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
-
-    // Reparent the scattered letters into the composition container
-    tl.add(() => {
-      slots.forEach((slot, i) => {
-        const letter = scatterLetters[i];
-        slot.replaceWith(letter);
-        letter.style.position = "relative";
-        letter.style.display  = "inline-block";
-        letter.style.left = "0";
-        letter.style.top  = "0";
-      });
-
-      gsap.set(scatterLetters.slice(0, WORD.length), { x: 0, y: 0, clearProps: "transform" });
-    });
   });
 });
 
