@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fontSize: "6rem",
     });
     gsap.to(letter, {
-      duration: 11, // floating duration (was 17 → now 11)
+      duration: 9, // floating duration (was 17 → now 11)
       x: x + (Math.random() * 60 - 30),
       y: y + (Math.random() * 60 - 30),
       repeat: -1,
