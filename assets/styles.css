@@ -743,12 +743,13 @@ footer {
   display: grid;
   grid-template-columns: 1fr 2fr; /* 1:2 ratio */
   align-items: start;
+  gap: 1.8rem; /* middle gap = consistent */
+  padding: 0 3.6rem; /* align with global nav padding */
 }
 
 .about-aside {
   position: sticky;   /* makes it hold */
   top: 6rem;        /* adjust depending on nav height */
-  padding-left: 3.6rem; padding-right: 3.6rem; /* ? */
   align-items: flex-start;
   align-self: start;  /* keep at top of column */
   display: flex;
@@ -773,8 +774,7 @@ footer {
 .about-media {
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
-  padding-right: 3.6rem;
+  gap: 1.2rem;
 }
 
 .gallery-row.full {
@@ -784,7 +784,7 @@ footer {
 
 .gallery-row.half {
   display: flex;        /* instead of grid */
-  gap: 1.8rem;
+  gap: 1.2rem;
 }
 
 /* Full row: wide 16:9 */
@@ -792,12 +792,6 @@ footer {
   aspect-ratio: 16 / 9;
   overflow: hidden;
 }
-.gallery-row.full img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 /* Half row: two tall 9:16 side by side */
 .gallery-row.half figure {
   flex: 1;              /* both take equal width */
@@ -805,6 +799,8 @@ footer {
   overflow: hidden;
   display: flex;        /* ensure child img fills */
 }
+
+.gallery-row.full img,
 .gallery-row.half img {
   width: 100%;
   height: 100%;
@@ -875,11 +871,12 @@ footer {
 @media (max-width: 960px) {
   .about-page {
     grid-template-columns: 1fr; /* Stack text and gallery */
+    gap: 0.9rem;
+    padding: 0 0.9rem; /* align with mobile nav */
   }
   .about-aside {
     position: static; /* disable sticky on small screens */
     top: 3.6rem; 
-    padding-left: 0.9rem; padding-right: 0.9rem; /* ? */
     max-width: 100%;
     margin-bottom: 1.8rem;
   }
@@ -895,7 +892,7 @@ footer {
     flex-direction: column;  /* stack instead of grid */
   }
   .gallery-row.half figure {
-    aspect-ratio: 16 / 9; /* switch to landscape on mobile if you prefer */
+    aspect-ratio: 9 / 16; /* switch to landscape on mobile if you prefer */
   }
 }
 
