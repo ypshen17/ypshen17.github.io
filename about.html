@@ -121,26 +121,52 @@
   </aside>
 
   <!-- Right: Cake-style gallery -->
-  <div class="about-gallery">
+  <div class="about-media">
     <div class="gallery-row full">
-      <figure><img src="https://assets.yipengshen.com/profile/1.jpg" alt="Profile image 1"></figure>
+        <!-- Logo as video thumbnail -->
+      <figure class="video-figure">
+        <img src="https://assets.yipengshen.com/profile/2.jpg" alt="Logo Video" class="video-thumb" onclick="openVideo()">
+      </figure>
     </div>
     <div class="gallery-row half">
-      <figure><img src="https://assets.yipengshen.com/profile/2.jpg" alt="Profile image 2"></figure>
+      <figure><img src="https://assets.yipengshen.com/profile/1.jpg" alt="Profile image 1"></figure>
       <figure><img src="https://assets.yipengshen.com/profile/3.jpg" alt="Profile image 3"></figure>
     </div>
-    <div class="gallery-row full">
+    <div class="gallery-row half">
       <figure><img src="https://assets.yipengshen.com/profile/4.jpg" alt="Profile image 4"></figure>
+      <figure><img src="https://assets.yipengshen.com/profile/5.jpg" alt="Profile image 5"></figure>
     </div>
     <div class="gallery-row half">
-      <figure><img src="https://assets.yipengshen.com/profile/5.jpg" alt="Profile image 5"></figure>
       <figure><img src="https://assets.yipengshen.com/profile/6.jpg" alt="Profile image 6"></figure>
-    </div>
-    <div class="gallery-row full">
       <figure><img src="https://assets.yipengshen.com/profile/7.jpg" alt="Profile image 7"></figure>
     </div>
   </div>
 </section>
+
+<!-- Hidden overlay -->
+<div id="videoOverlay" class="video-overlay" onclick="closeVideo(event)">
+  <div class="video-container">
+    <button class="close-btn" onclick="closeVideo()">✕</button>
+    <div class="video-wrapper">
+      <iframe src="https://player.vimeo.com/video/1120633492?"
+              frameborder="0" 
+              allow="autoplay; fullscreen" 
+              allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+function openVideo() {
+  document.getElementById("videoOverlay").style.display = "flex";
+}
+function closeVideo(e) {
+  const overlay = document.getElementById("videoOverlay");
+  if (!e || e.target === overlay || e.target.classList.contains("close-btn")) {
+    overlay.style.display = "none";
+  }
+}
+</script>
 
     </main>
 
