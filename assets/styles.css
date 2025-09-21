@@ -94,7 +94,7 @@ footer {
 .hamburger { 
   display: none; 
   cursor: pointer; 
-  font-size: 2rem; 
+  font-size: 1.8rem; 
 }
 
 /* Mobile overlay menu */
@@ -114,8 +114,8 @@ footer {
 
 .mobile-menu .close-btn {
   position: absolute;
-  top: 0.9rem; right: 0.9rem;
-  font-size: 1.2rem;
+  top: 1.2rem; right: 0.9rem;
+  font-size: 1.8rem;
   background: none; border: none; color: white;
   cursor: pointer;
 }
@@ -139,7 +139,7 @@ footer {
   .hamburger { display: block; }
   
   .global-nav {
-    padding: 1.8rem 0.9rem;   /* smaller padding */
+    padding: 1.2rem 0.9rem;   /* smaller padding */
     align-items: center;    /* center align vertically */
   }
   .global-nav .site-title {
