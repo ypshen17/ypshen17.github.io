@@ -774,6 +774,7 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
+  padding-right: 3.6rem;
 }
 
 .gallery-row.full {
@@ -782,8 +783,7 @@ footer {
 }
 
 .gallery-row.half {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;        /* instead of grid */
   gap: 1.8rem;
 }
 
@@ -800,8 +800,10 @@ footer {
 
 /* Half row: two tall 9:16 side by side */
 .gallery-row.half figure {
-  aspect-ratio: 9 / 16;
+  flex: 1;              /* both take equal width */
+  aspect-ratio: 9 / 16; /* lock vertical ratio */
   overflow: hidden;
+  display: flex;        /* ensure child img fills */
 }
 .gallery-row.half img {
   width: 100%;
@@ -887,8 +889,10 @@ footer {
   .about-body {
     font-size: 0.9rem; 
   }
+  .about-media {padding-left: 0.9rem; padding-right: 0.9rem;
+  }
   .gallery-row.half {
-    grid-template-columns: 1fr; /* stack vertically */
+    flex-direction: column;  /* stack instead of grid */
   }
   .gallery-row.half figure {
     aspect-ratio: 16 / 9; /* switch to landscape on mobile if you prefer */
