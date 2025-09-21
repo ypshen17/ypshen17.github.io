@@ -335,7 +335,9 @@ footer {
 
 /* ---------- Projects ---------- */
 .projects-page {
-  padding: 6rem 3.6rem 3.6rem;
+  padding-top: 6rem;
+  padding-left:  3.6rem;       
+  padding-right: 3.6rem;
 }
 
 .projects-page .categories {
@@ -345,7 +347,9 @@ footer {
   gap: 1.8rem;
   margin-bottom: 1.8rem;
 }
-.projects-page .categories.spread { justify-content: space-between; }
+.projects-page .categories.spread { 
+  justify-content: space-between; 
+}
 
 .projects-page .categories .cat {
   background: none; border: 0;
@@ -360,6 +364,7 @@ footer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.8rem;
+  margin: 0;        /* remove extra gap at edges */
 }
 @media (max-width: 1080px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) { .projects-grid { grid-template-columns: 1fr; } }
@@ -392,6 +397,28 @@ footer {
   font: bold 1.2rem "Roboto Mono", monospace;
   margin: 0; color: #000;
 }
+
+/* Mobile (stacked) */
+@media (max-width: 960px) {
+  .projects-page {
+    padding-left:  0.9rem;       
+    padding-right: 0.9rem;
+  }
+  .projects-page .categories {
+    flex-direction: column;   /* vertical stack */
+    align-items: flex-start;  /* left-align with page */
+    gap: 0.9rem;              /* tighter spacing */
+    margin-left: 0;           /* align flush with edge */
+  }
+  .projects-page .categories .cat {
+    font-size: 1.2rem;          /* slightly smaller text */
+    text-align: left;
+  }
+  .projects-grid {
+    gap: 0.9rem;
+  }
+}
+
 
 /*--------------- Project detail layout- */
 .project-detail {
