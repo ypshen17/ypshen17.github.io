@@ -380,13 +380,56 @@ footer {
   justify-content: space-between; 
 }
 
+/* ---------- Project filters (match Wondering style) ---------- */
 .projects-page .categories .cat {
-  background: none; border: 0;
+  appearance: none; -webkit-appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
   font: bold 1.2rem "Roboto Mono", monospace;
-  text-transform: uppercase; letter-spacing: 0.12em;
-  color: #000; cursor: pointer; position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #000;
+  cursor: pointer;
+  position: relative;
+  line-height: 1;
+  transition: color 0.2s ease;
 }
-.projects-page .categories .cat.active { color: var(--accent); text-decoration: underline}
+
+.projects-page .categories .cat::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 1px;
+  background: transparent;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.projects-page .categories .cat:hover {
+  color: var(--accent);
+}
+
+.projects-page .categories .cat:hover::after {
+  background: var(--accent);
+  transform: scaleX(1);
+}
+
+.projects-page .categories .cat.active {
+  color: var(--accent);
+}
+
+.projects-page .categories .cat.active::after {
+  background: var(--accent);
+  transform: scaleX(1);
+}
+
+.projects-page .categories .cat:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
 /* Grid of project cards */
 .projects-grid {
@@ -548,7 +591,7 @@ footer {
   .project-info {
     font-size: 0.9rem; 
   }
-  
+
   .gallery-row.half {
     grid-template-columns: 1fr;
   }
@@ -560,15 +603,14 @@ footer {
 
 /* ---------- Visions ---------- */
 .visions-intro {
-  /* margin: 0 auto 2rem 4rem; aligns with left padding of nav (4rem)
-  padding: 12rem 32rem 8rem; */
-  padding: 6rem 4rem 4rem 4rem;
+  padding-top: 6rem; 
+  padding-left: 3.6rem;        /* align text with "YIPENG SHEN" */
+  padding-right: 3.6rem; 
   font: 1.2rem "Roboto Flex", sans-serif;
-  color: #444;
-  max-width: 70ch; 
-  text-align: center;
-  justify-content: center;
-  align-items: center;
+  color: black;
+  line-height: 1.5;
+  align-items: flex-start;
+  text-align: left;
 }
 
 /* Define the fonts for each vision title */
@@ -590,31 +632,23 @@ footer {
 
 /* General Styling for Vision Titles */
 .vision-item-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
   transition: font-family 0.3s ease; /* Smooth transition when the font changes */
 }
 
 /* Card Wrapper for Grid */
 .visions-list {
-  padding: 0 4rem;
+  padding: 0 3.6rem;
 }
 
-@media (max-width: 768px) {
-  .vision-card-title {
-    font-size: 1.5rem; /* Smaller font for mobile? */
-  }
-}
 
 /* Vision Grid Layout (2-column version) */
 .visions-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2-column grid */
-  gap: 2rem;
-}
-@media (max-width: 1080px) {
-  .visions-grid { grid-template-columns: repeat(1, 1fr); } /* 1-column on smaller screens */
+  gap: 1.8rem;
 }
 
 .vision-card {
@@ -637,8 +671,8 @@ footer {
 /* Title Overlay (title over image) */
 .vision-card-title {
   position: absolute; 
-  top: 4rem; left: 4rem;
-  font-size: 4rem;
+  padding: 1.8rem;
+  font-size: 3.6rem;
   font-family: 'FunkyFont', sans-serif;  /* Apply a funky font */
   color: #fff;  /* White title text */
   z-index: 10;
@@ -656,8 +690,8 @@ footer {
 }
 
 .single-vision-title {
-  padding: 4rem 4rem;
-  font-size: 4rem;
+  padding: 3.6rem;
+  font-size: 3.6rem;
   z-index: 10;
   text-align: center;
 }
@@ -683,33 +717,52 @@ footer {
   z-index: -1; /* Behind the text */
 }
 
+/* Mobile (stacked) */
+@media (max-width: 960px) {
+  .visions-intro {
+    padding-left: 0.9rem;        /* align text with "YIPENG SHEN" */
+    padding-right: 0.9rem;
+  }
+  .vision-card-title {
+    font-size: 1.5rem; /* Smaller font for mobile? */
+  }
+  .visions-grid { grid-template-columns: repeat(1, 1fr); 
+  }
+  .single-vision-title {font-size: 1.5rem;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 /* ---------- Wondering (floating labels + card) ---------- */
 
 .wonder-page {
-  padding: 6rem 4rem 4rem;
+  padding-top: 6rem;
+  padding-left:  3.6rem;       
+  padding-right: 3.6rem;
 }
 
 .wonder-intro {
-  max-width: 70ch; /* keeps the text compact */
-  /*margin: 4rem; 2rem 4rem;  aligns with left padding of nav (4rem) */
   font: 1.2rem "Roboto Flex", sans-serif;
-  color: #444;
+  color: black;
+  line-height: 1.5;
+  align-items: flex-start;
   text-align: left;
-  justify-content: left;
-  line-height: 1
-  /* justify-content: center;
-  align-items: center;
-  width: 100%;
-  line-height: 1.4; tighter spacing */
 }
 
 .wonder-world {
   position: relative;
   height: calc-size(60vh, 80vh);          /* ensure space for floating labels */
-  min-height: 400px;     /* never collapse into tiny box */
-  /* margin-left: 4rem;     align with intro + heading 
-  margin-right: 4rem;     balance on both sides */
+  min-height: 400px;  
   overflow: hidden;
   background: #fff;
 }
@@ -718,17 +771,11 @@ footer {
 .wtag {
   position: absolute;  /* must be absolute */
   font-weight: bold;
-  font: 2rem "Roboto Mono", monospace;
+  font: 1.8rem "Roboto Mono", monospace;
   color: #aaa;
   background: none;
   border: none;
   cursor: pointer;
-  /*border-radius: 0;
-  user-select: none;
-  transform-origin: center center;
-  will-change: transform;
-  line-height: 1;
-  padding: 0;*/
 }
 .wtag:hover {
   color: var(--accent);
@@ -754,7 +801,6 @@ footer {
   background: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
-  /* border-radius: 12px;*/
   padding: 1.5rem;
   z-index: 1001;
 }
@@ -778,7 +824,7 @@ footer {
   margin: 0.5rem 0 1rem;
 }
 .wonder-arrow {
-  font: 700 1.5rem "Roboto Mono", monospace;
+  font: bold 1.5rem "Roboto Mono", monospace;
   background: none;
   border: none;
   cursor: pointer;
@@ -789,13 +835,14 @@ footer {
   color: var(--accent);
 }
 
+
 /* ---------- Wondering: Category filter ---------- */
 .wonder-page .categories {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
-  margin: 2rem 0;
+  gap: 1.8rem;
+  margin: 1.8rem 0;
 }
 
 .wonder-page .categories.spread { 
@@ -808,7 +855,7 @@ footer {
   border: 0;
   padding: 0;
   margin: 0;
-  font: 700 1.2rem "Roboto Mono", monospace;
+  font: bold 1.2rem "Roboto Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: #000;
@@ -853,7 +900,7 @@ footer {
 }
 
 @media (max-width: 640px) { 
-  .wonder-page .categories { gap: 1rem; } 
+  .wonder-page .categories { gap: 0.9rem; } 
 }
 
 
