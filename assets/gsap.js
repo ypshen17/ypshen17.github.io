@@ -163,43 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// ---------- PROJECT DETAIL: Right-side dots slider ----------
-document.addEventListener("DOMContentLoaded", () => {
-  const dotsWrap = document.querySelector(".dots-right");
-  const slidesWrap = document.querySelector(".project-media"); // Assuming right half images are in .project-media
-  const slides = Array.from(slidesWrap.querySelectorAll("img")); // Select the images within project media
-
-  if (!dotsWrap || !slidesWrap) return;
-
-  // Clear existing dots if there are any
-  dotsWrap.innerHTML = "";
-
-  // Create dots for each image
-  slides.forEach((_, index) => {
-    const dot = document.createElement("span");
-    dot.classList.add("dot");
-    dot.dataset.index = index;
-    dotsWrap.appendChild(dot);
-  });
-
-  const dots = Array.from(dotsWrap.querySelectorAll(".dot"));
-
-  const go = (i) => {
-    slides.forEach((s, idx) => s.style.display = idx === i ? "block" : "none");
-    dots.forEach((d, idx) => d.classList.toggle("active", idx === i));
-  };
-
-  go(0); // Initialize first image as active
-
-  dotsWrap.addEventListener("click", (e) => {
-    const dot = e.target.closest(".dot");
-    if (!dot) return;
-    go(parseInt(dot.dataset.index, 10));
-  });
-});
-
-
-
 
 // ---------- WONDERING: Floating labels + card with collision avoidance + filters ----------
 document.addEventListener('DOMContentLoaded', () => {
@@ -383,20 +346,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  // -----------about-------------------
-document.addEventListener("DOMContentLoaded", function() {
-  const dots = document.querySelectorAll(".dot");
-  const slides = document.querySelectorAll(".slide");
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      // Hide all slides
-      slides.forEach((slide) => slide.classList.remove("active"));
-      dots.forEach((dot) => dot.classList.remove("active"));
-
-      // Show the clicked slide
-      slides[index].classList.add("active");
-      dots[index].classList.add("active");
-    });
-  });
-});

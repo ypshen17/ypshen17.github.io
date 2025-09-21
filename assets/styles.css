@@ -244,250 +244,137 @@ footer .picture-credit {
 
 
 /* ---------- Projects ---------- */
-
-/* Category filter */
 .projects-page {
   padding: 6rem 4rem 4rem;
 }
+
 .projects-page .categories {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 2rem;
   margin-bottom: 2rem;
-  /* margin: 2rem 0 2.5rem; */
 }
-.projects-page .categories.spread { justify-content: space-between; } 
+.projects-page .categories.spread { justify-content: space-between; }
+
 .projects-page .categories .cat {
-  appearance: none; -webkit-appearance: none;
-  background: none; border: 0; padding: 0; margin: 0;
-  font: 700 1.2rem "Roboto Mono", monospace; /* larger */
+  background: none; border: 0;
+  font: 700 1.2rem "Roboto Mono", monospace;
   text-transform: uppercase; letter-spacing: 0.12em;
-  color: #000; cursor: pointer; position: relative; line-height: 1;
-  transition: color 0.2s ease;
-}
-.projects-page .categories .cat::after { /* underline */
-  content: ""; position: absolute; left: 0; right: 0; bottom: -6px;
-  height: 1px; background: transparent;
-  transform: scaleX(0); transform-origin: left center;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-.projects-page .categories .cat:hover { color: var(--accent); }
-.projects-page .categories .cat:hover::after {
-  background: var(--accent); transform: scaleX(1);
+  color: #000; cursor: pointer; position: relative;
 }
 .projects-page .categories .cat.active { color: var(--accent); }
-.projects-page .categories .cat.active::after {
-  background: var(--accent); transform: scaleX(1);
-}
-.projects-page .categories .cat:focus-visible {
-  outline: 2px solid var(--accent); outline-offset: 2px;
-}
-@media (max-width: 640px) { .projects-page .categories { gap: 1rem; } }
 
-/* Square 4-col grid (auto-cropping covers) */
+/* Grid of project cards */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
 }
-@media (max-width: 1080px) {
-  .projects-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 640px) {
-  .projects-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 1080px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .projects-grid { grid-template-columns: 1fr; } }
 
 .project-card {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;   /* force square cards */
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: #eee;
 }
 .project-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;     /* crop to square */
+  width: 100%; height: 100%;
+  object-fit: cover;
   transition: transform 0.4s ease;
 }
 .project-card:hover img { transform: scale(1.05); }
 
-/* Card meta overlay (category above, title below) */
 .card-meta {
   position: absolute; bottom: 0; left: 0; width: 100%;
-  align-items: center;
   padding: 1.2rem;
-  background: rgba(255, 255, 255, 0.75); /* opacity */
+  background: rgba(255, 255, 255, 0.75);
   font-family: "Roboto Flex", sans-serif;
-  z-index: 1000; /* on top of images */
 }
 .card-cat {
-  font: 600 0.8rem "Roboto Mono", monospace; /* smaller */
-  text-transform: uppercase; /* letter-spacing: 0.08em;*/
+  font: 600 0.8rem "Roboto Mono", monospace;
   color: var(--accent);
-  margin: 0 0 0.3rem 0;
 }
 .card-title {
-  margin: 0;
   font: 700 1.2rem "Roboto Mono", monospace;
-  color: #000;
-  transition: color 0.3s ease, text-decoration 0.3s ease;
-}
-.project-card:hover .card-title { 
-  text-decoration: underline; 
-  color: var(--accent); 
+  margin: 0; color: #000;
 }
 
-
-
-/* tags in detail pages */
-.project-cat {
-  font: 600 0.8rem "Roboto Mono", monospace;
-  color: #444;
-  /* margin: 0.25rem 0 0.25rem 0; NOTE */
-  line-height: 1;
-}
-.cat-tag {
-  display: inline-block;
-  margin: 0 0.4rem 0.4rem 0;
-  padding: 0rem 0.6rem;
-  font: 0.85rem "Roboto Mono", monospace;
-  border: 1px solid #aaa;
-  border-radius: 0.4rem; /* radius */
-  background: #fafafa;
-  color: #444;
-  transition: all 0.2s ease;
-}
-/* NOTE LATER 
-.cat-tag:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-*/
-
-/* Project detail: 50/50 split + square gallery */
+/* Project detail layout */
 .project-detail {
-  display: flex;
-  width: 100%;
-  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .project-detail { grid-template-columns: 1fr; }
 }
 
 .project-aside {
-  width: 50%;  /* Strictly 50% for the text */
-  /* padding: 4rem 3rem;*/
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* main, horizontal by default -- */
-  align-items: center;  /* cross, vertical by default, stretch if not set*/
-  text-align: left;
+  gap: 1rem;
 }
-
-.project-body {
-  width: 50%;  /* Strictly 50% for the image */
-  /* padding: 4rem 3rem; */
-  display: flex;
-  justify-content: center;  /* main, horizontal by default -- */
-  align-items: center;  /* cross, vertical by default, stretch if not set*/
-  text-align: left;
-  font: 1.2rem, "Roboto Flex", sans-serif;
-}
-
-.project-meta {
-  width: 50%;  /* Strictly 50% for the image */
-  /* padding: 1rem; */
-  display: flex;
-  justify-content: center;  /* main, horizontal by default -- */
-  align-items: center;  /* cross, vertical by default, stretch if not set*/
-  text-align: left;
-  font: 1.2rem, "Roboto Flex", sans-serif;
-}
-
-.project-meta div { /* NOTE */
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
 
 .project-cover-inline {
   width: 100%;
-  max-width: 400px;  /* Ensure it doesn't take too much space */
+  max-width: 400px;
   height: auto;
-  margin: 0.25rem 0 0.25rem 0;
-  /* border: 1px solid #eee; */
+  margin: 1rem 0;
 }
 
-@media (max-width: 960px) {
-  .project-detail {
-    flex-direction: column;  /* Stacks the left and right sections on mobile */
-  }
-
-  .project-aside, .project-body {
-    width: 100%;  /* Each section takes the full width on mobile */
-    /* padding: 2rem;  Optional: adjust padding for mobile */
-  }
+.project-info {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  list-style: none;
+  padding: 0;
 }
+.project-info li { margin-bottom: 0.5rem; }
 
-
-/* Right square gallery */
-.project-media {
-  width: 50%;
+/* Cake-style gallery */
+.project-gallery {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background: #eaeaea;
+  gap: 2rem;
 }
-.project-media img {
-  width: stretch; /* NOTE: fit right half */
+.gallery-row.full {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.gallery-row.half {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.project-gallery img {
+  width: 100%;
   height: auto;
+  display: block;
   object-fit: cover;
+  border-radius: 0.5rem;
 }
 
-/* Dots navigation for images */
-.dots-right {
-  position: fixed;
-  right: 20px;  /* Position dots on the right edge */
-  top: 50%;  /* Vertically center the dots */
-  transform: translateY(-50%);  
-  z-index: 10;  /* Ensure they appear above other content */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.dots-right .dot {
-  width: 10px;
-  height: 10px;
-  margin: 5px 0;
-  background-color: transparent;
-  border: 1px solid #0000bf;
-  border-radius: 50%; /* circle */
-  cursor: pointer;
-  opacity: 70%; /* NOTE */
-}
-
-.dots-right .dot.active {
-  background-color: var(--accent);
-  border-color: var(--accent);
-}
-
-
-/* Project detail: prev/next */
+/* Prev/Next */
 .project-prevnext {
   display: flex;
   justify-content: space-between;
-  margin: 0.4rem;
+  margin-top: 2rem;
   font-family: "Roboto Mono", monospace;
   font-size: 0.8rem;
 }
 .project-prevnext a {
   color: black;
   text-decoration: none;
-  transition: color 0.3s ease;
 }
-.project-prevnext a:hover { text-decoration: underline; color: var(--accent); }
-
-
-
+.project-prevnext a:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
 
 
 
@@ -792,68 +679,67 @@ footer .picture-credit {
 
 
 
-/* About page layout 50/50 split + square gallery */
+/* ---------- About page (1:2 layout with Cake-style gallery) ---------- */
 .about-page {
-  display: flex;
-  width: 100%;
-  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* 1:2 ratio */
+  gap: 2rem;
+  align-items: start;
 }
 
 .about-aside {
-  width: 50%;  /* Strictly 50% for the text */
-  /* padding: 4rem 3rem;*/
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* main, horizontal by default -- */
-  align-items: center;  /* cross, vertical by default, stretch if not set*/
-  text-align: left;
+  gap: 1.5rem;
+  max-width: 90%;
 }
 
 .about-role {
+  font: bold 2rem "Roboto Mono", monospace;
+  margin-bottom: 1rem;
   color: black;
-  margin-bottom: 2rem;
-  width: 50%;  /* Strictly 50% for the image */
-  display: flex;
-  justify-content: center;  /* Center the image horizontally */
-  text-align: left;
-  font-weight: bold;
-  font: 4rem, "Roboto Mono", monospace;
 }
 
 .about-body {
-  width: 50%;  /* Strictly 50% for the image */
-  display: flex;
-  justify-content: center;  /* main, horizontal by default -- */
-  align-items: center;  /* cross, vertical by default, stretch if not set*/
-  text-align: left;
+  font: 1.2rem "Roboto Flex", sans-serif;
   color: #444;
-  font: 2.4rem, "Roboto Flex", sans-serif;
+  line-height: 1.6;
 }
 
 @media (max-width: 960px) {
   .about-page {
-    flex-direction: column;  /* Stacks the left and right sections on mobile */
-  }
-  .about-aside, .about-media {
-    width: 100%;  /* Each section takes the full width on mobile */
-    /* padding: 2rem;  Optional: adjust padding for mobile */
+    grid-template-columns: 1fr; /* Stack text and gallery */
   }
 }
 
-/* Right-side media slider */
-.aboutt-media {
-  width: 50%;
+/* Right: Cake-style gallery */
+.about-gallery {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background: #eaeaea;
+  gap: 2rem;
 }
-.about-media img {
-  width: stretch; /* NOTE: fit right half */
+
+.gallery-row.full {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.gallery-row.half {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.about-gallery img {
+  width: 100%;
   height: auto;
+  display: block;
   object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .gallery-row.half { grid-template-columns: 1fr; }
 }
 
 
