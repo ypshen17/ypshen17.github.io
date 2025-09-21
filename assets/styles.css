@@ -774,7 +774,6 @@ footer {
 .about-media {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
 }
 
 .gallery-row.full {
@@ -876,7 +875,7 @@ footer {
   }
   .about-aside {
     position: static; /* disable sticky on small screens */
-    top: 3.6rem; 
+    top: 6rem; 
     max-width: 100%;
     margin-bottom: 1.8rem;
   }
@@ -886,13 +885,8 @@ footer {
   .about-body {
     font-size: 0.9rem; 
   }
-  .about-media {padding-left: 0.9rem; padding-right: 0.9rem;
-  }
   .gallery-row.half {
     flex-direction: column;  /* stack instead of grid */
-  }
-  .gallery-row.half figure {
-    aspect-ratio: 9 / 16; /* switch to landscape on mobile if you prefer */
   }
 }
 
