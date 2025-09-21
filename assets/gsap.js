@@ -1,4 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.querySelector(".menu-toggle");
+  const links = document.querySelector(".nav-links");
+
+  if (toggle && links) {
+    toggle.addEventListener("click", () => {
+      links.classList.toggle("show");
+    });
+  }
+});
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
   const scatterContainer = document.getElementById("scatter");
   const nameCenter = document.getElementById("name-center");
   const stage2 = document.getElementById("stage2");
