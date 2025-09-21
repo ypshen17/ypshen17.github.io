@@ -747,6 +747,7 @@ footer {
   display: grid;
   grid-template-columns: 1fr 2fr; /* 1:2 ratio */
   align-items: start;
+  column-gap: 1.8rem;            /* space between text & gallery */
   padding-left: 3.6rem;        /* align text with "YIPENG SHEN" */
   padding-right: 3.6rem;       /* align images with nav-right */
 }
@@ -777,29 +778,25 @@ footer {
 .about-media {
   display: flex;
   flex-direction: column;
+  gap: 0.9rem;   /* vertical spacing between rows */
 }
 
-.gallery-row.full,
+.gallery-row.full {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 .gallery-row.half {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
 }
 
-/* Full row: wide 16:9 */
-.gallery-row.full figure {
-  flex: 1;
-  aspect-ratio: 16 / 9;       /* wide image row */
-  overflow: hidden;
-}
-/* Half row: two tall 9:16 side by side */
-.gallery-row.half figure {
-  flex: 1;
-  aspect-ratio: 9 / 16;       /* tall images side by side */
-  overflow: hidden;
-}
+.gallery-row figure { margin: 0; }
 
-.gallery-row img {
+.about-media img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
   display: block;
 }
@@ -866,6 +863,7 @@ footer {
   }
   .about-aside {
     position: static; /* disable sticky on small screens */
+    max-width: 100%;
     margin-bottom: 0.9rem;
   }
   .about-role {
@@ -875,7 +873,7 @@ footer {
     font-size: 0.9rem; 
   }
   .gallery-row.half {
-    flex-direction: column;   /* stack instead of side by side */
+    grid-template-columns: 1fr;
   }
 }
 
