@@ -747,7 +747,6 @@ footer {
   display: grid;
   grid-template-columns: 1fr 2fr; /* 1:2 ratio */
   align-items: start;
-  column-gap: 1.8rem;            /* space between text & gallery */
   padding-left: 3.6rem;        /* align text with "YIPENG SHEN" */
   padding-right: 3.6rem;       /* align images with nav-right */
 }
@@ -778,13 +777,11 @@ footer {
 .about-media {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;                  /* vertical spacing between rows */
 }
 
 .gallery-row.full,
 .gallery-row.half {
   display: flex;
-  gap: 0.9rem;                  /* consistent horizontal spacing */
 }
 
 /* Full row: wide 16:9 */
@@ -865,7 +862,6 @@ footer {
 @media (max-width: 960px) {
   .about-page {
     grid-template-columns: 1fr; /* Stack text and gallery */
-    row-gap: 0.9rem;
     padding: 0 0.9rem;          /* align with mobile nav padding */
   }
   .about-aside {
