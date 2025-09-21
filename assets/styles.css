@@ -783,7 +783,6 @@ footer {
 
 .gallery-row.half {
   display: flex;        /* instead of grid */
-  gap: 1.2rem;
 }
 
 /* Full row: wide 16:9 */
