@@ -738,21 +738,26 @@ footer {
 
 
 
+
+
+
+
 /* ---------- About page (1:2 layout with Cake-style gallery) ---------- */
 .about-page {
   display: grid;
   grid-template-columns: 1fr 2fr; /* 1:2 ratio */
   align-items: start;
-  margin: 0 3.6rem; /* align with global nav padding */
+  column-gap: 1.8rem;            /* space between text & gallery */
+  padding-left: 3.6rem;        /* align text with "YIPENG SHEN" */
+  padding-right: 3.6rem;       /* align images with nav-right */
 }
 
 .about-aside {
   position: sticky;   /* makes it hold */
   top: 6rem;        /* adjust depending on nav height */
-  align-items: flex-start;
-  align-self: start;  /* keep at top of column */
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   text-align: left;
 }
 
@@ -773,45 +778,35 @@ footer {
 .about-media {
   display: flex;
   flex-direction: column;
+  gap: 0.9rem;                  /* vertical spacing between rows */
 }
 
-.gallery-row.full {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
+.gallery-row.full,
 .gallery-row.half {
-  display: flex;        /* instead of grid */
+  display: flex;
+  gap: 0.9rem;                  /* consistent horizontal spacing */
 }
 
 /* Full row: wide 16:9 */
 .gallery-row.full figure {
   flex: 1;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;       /* wide image row */
   overflow: hidden;
 }
 /* Half row: two tall 9:16 side by side */
 .gallery-row.half figure {
-  flex: 1;              /* both take equal width */
-  aspect-ratio: 3 / 4; /* lock vertical ratio */
+  flex: 1;
+  aspect-ratio: 9 / 16;       /* tall images side by side */
   overflow: hidden;
-  display: flex;        /* ensure child img fills */
 }
 
-.gallery-row.full img,
-.gallery-row.half img {
+.gallery-row img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.about-media img {
-  width: 100%;
-  height: 100%;       /* force image to fill container */
-  object-fit: cover;
-  display: block;
-}
 
 /* Video overlay */
 .video-overlay {
@@ -870,13 +865,12 @@ footer {
 @media (max-width: 960px) {
   .about-page {
     grid-template-columns: 1fr; /* Stack text and gallery */
-    padding: 0 0.9rem; /* align with mobile nav */
+    row-gap: 0.9rem;
+    padding: 0 0.9rem;          /* align with mobile nav padding */
   }
   .about-aside {
     position: static; /* disable sticky on small screens */
-    top: 6rem; 
-    max-width: 100%;
-    margin-bottom: 1.8rem;
+    margin-bottom: 0.9rem;
   }
   .about-role {
     font-size: 1.2rem; 
@@ -885,7 +879,7 @@ footer {
     font-size: 0.9rem; 
   }
   .gallery-row.half {
-    flex-direction: column;  /* stack instead of grid */
+    flex-direction: column;   /* stack instead of side by side */
   }
 }
 
