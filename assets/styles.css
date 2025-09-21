@@ -152,6 +152,10 @@ footer {
 }
 
 
+
+
+
+
 /* ---------- Homepage ---------- */
 
 /* Stage 1 */
@@ -299,6 +303,33 @@ footer {
   max-width: 30%;
   opacity: 0;
 }
+
+/* MOBILE (≤960px) */
+@media (max-width: 960px) {
+  #name-center {font-size: 1.2rem; 
+  }
+  #composition-container {
+    gap: 0;
+    font-size: 1.5rem;
+  }
+  #composition-container span {
+    font-size: 1.5rem;
+  }
+  #name-fixed {font-size: 1.2rem; 
+  }
+  #home-nav {font-size: 1.2rem;
+  }
+}
+  
+
+
+
+
+
+
+
+
+
 
 
 
@@ -759,6 +790,7 @@ footer {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
+  max-width: 95%;
 }
 
 .about-role {
