@@ -704,6 +704,12 @@ footer {
   text-align: center;
 }
 
+.single-vision-subtitle{
+  font: 1.2rem "Roboto Mono", monospace;
+  z-index: 10;
+  text-align: center;
+}
+
 .single-vision-content {
   font: 1.2rem "Roboto Flex", sans-serif;
   text-align: left;
@@ -723,6 +729,7 @@ footer {
   background-size: cover;
   background-position: center;
   z-index: -1; /* Behind the text */
+  opacity: 0.4;
 }
 
 /* Mobile (stacked) */
