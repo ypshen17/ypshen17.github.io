@@ -767,7 +767,8 @@ footer {
 .wonder-intro {
   font: 1.2rem "Roboto Flex", sans-serif;
   color: black;
-  line-height: 1.5;
+  line-height: 1; /* tighter */
+  margin-bottom: 0.9rem; /* tighter */
   align-items: flex-start;
   text-align: left;
   margin-bottom: 0;
@@ -1048,7 +1049,7 @@ footer {
   }
   .about-aside {
     position: static; /* disable sticky on small screens */
-    top: 6rem;
+    top: 12rem;
     max-width: 100%;
     margin-bottom: 0.9rem;
   }

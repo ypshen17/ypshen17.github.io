@@ -264,13 +264,13 @@ document.addEventListener('DOMContentLoaded', () => {
           const dx = (aBox.left + aBox.width/2) - (bBox.left + bBox.width/2);
           const dy = (aBox.top + aBox.height/2) - (bBox.top + bBox.height/2);
           const dist = Math.max(Math.hypot(dx, dy), 1);
-          const overlap = (Math.min(aBox.width, bBox.width) / 2) + padding - dist/2;
+          const overlap = (Math.min(aBox.width, bBox.width) / 2) + padding - dist /*/2*/;
 
           if (overlap > 0) {
             const moveX = (dx / dist) * overlap;
             const moveY = (dy / dist) * overlap;
-            gsap.to(nodes[i].el, { x: `+=${moveX/2}`, y: `+=${moveY/2}`, duration: 0.3 });
-            gsap.to(nodes[j].el, { x: `-=${moveX/2}`, y: `-=${moveY/2}`, duration: 0.3 });
+            gsap.to(nodes[i].el, { x: `+=${moveX/4}`, y: `+=${moveY/4}`, duration: 0.3 });/*/2*/
+            gsap.to(nodes[j].el, { x: `-=${moveX/4}`, y: `-=${moveY/4}`, duration: 0.3 });/*/2*/
           }
         }
       }
