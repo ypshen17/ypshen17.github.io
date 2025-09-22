@@ -682,7 +682,7 @@ footer {
   font-size: 3.6rem;
   font-family: 'FunkyFont', sans-serif;  /* Apply a funky font */
   color: #fff;  /* White title text */
-  z-index: 10;
+  z-index: 1000;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Slight shadow to make title stand out */
 }
 
