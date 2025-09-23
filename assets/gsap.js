@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
       guide.className = 'wonder-guide';
       guide.innerHTML = '<h4>Guidance</h4><ul>' + obj.guidance.map(line=>{
         // convert [Text](url) → <a href="url" target="_blank">Text</a>
-        const m = line.match(/^\s*\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/);
+        const m = line.match(/^\s*"?\[([^\]]+)\]\((https?:\/\/[^\)]+)\)"?\s*$/);
         if(m){
           return `<li><a href="${m[2]}" target="_blank" rel="noopener">${m[1]}</a></li>`;
         }
