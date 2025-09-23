@@ -841,17 +841,11 @@ footer {
 /* ——— Wondering flexible media grid ——— */
 .wonder-media{
   row-gap:0.9rem;
-}
-
-.wonder-media img,
-.wonder-media iframe,
-.wonder-media video{
-  width: 100% !important;      /* override inline attributes */
+  width: max-content !important;      /* override inline attributes */
   height: auto !important;
   aspect-ratio:16/9;   /* images ignore it; iframes obey */
   border: 0;
 }
-
 
 
 /* optional tags inside card */
