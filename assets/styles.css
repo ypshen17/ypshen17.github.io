@@ -861,6 +861,16 @@ footer {
   object-fit:cover;
 }
 
+/* make embeds flex nicely inside the grid */
+.wonder-media iframe,
+.wonder-media video{
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  border: 0;
+}
+
+
 
 
 /* optional tags inside card */
