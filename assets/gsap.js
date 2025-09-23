@@ -319,6 +319,15 @@ document.addEventListener('DOMContentLoaded', () => {
     mediaEl.innerHTML = obj.cover ? `<img src="${obj.cover}" alt="">` : '';
     contentEl.innerHTML = obj.html || '';
 
+    // guidance links
+    if(obj.guidance && obj.guidance.length){
+      const guide = document.createElement('div');
+      guide.className = 'wonder-guide';
+      guide.innerHTML = '<h4>Guidance</h4><ul>'+obj.guidance.map(
+        g => `<li>${g}</li>`).join('')+'</ul>';
+      contentEl.appendChild(guide);
+    }
+
     dim.hidden = false;
     card.hidden = false;
   }

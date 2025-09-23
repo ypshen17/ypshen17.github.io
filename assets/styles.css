@@ -823,7 +823,7 @@ footer {
   top: 12vh; left: 50%;
   transform: translateX(-50%);
   width: min(720px, 92vw);
-  max-height: 76vh;              /* <--- LIMIT HEIGHT */
+  max-height: 77vh;              /* <--- LIMIT HEIGHT */
   background: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
@@ -838,12 +838,30 @@ footer {
   font: bold 1.8rem "Roboto Mono", monospace; color: black;
 }
 
-.wonder-media img, .wonder-media video, .wonder-media iframe {
-  width: 100%; 
-  height: auto; 
-  display: block; 
-  margin: 0.3rem 0;
+/* ——— Wondering flexible media grid ——— */
+.wonder-media{
+  display:grid;
+  gap:0.9rem;
 }
+
+/* one item = full; two = half; three = third */
+.wonder-media > .half,
+.wonder-media > .third{width:100%;}
+
+@media (min-width:600px){
+  .wonder-media{grid-template-columns:repeat(12,1fr);}
+  .wonder-media > .half {grid-column:span 6;}
+  .wonder-media > .third{grid-column:span 4;}
+}
+.wonder-media img,
+.wonder-media video,
+.wonder-media iframe{
+  width:100%;
+  display:block;
+  object-fit:cover;
+}
+
+
 
 /* optional tags inside card */
 #wonderTags .cat-tag { margin-right: .4rem; }
@@ -862,11 +880,14 @@ footer {
   border: none;
   cursor: pointer;
   color: black;
-  padding: 0.3rem 0.6rem;
 }
 .wonder-arrow:hover {
   color: var(--accent);
 }
+
+.wonder-guide{margin-top:1.4rem;font-size:.9rem;opacity:.8;}
+.wonder-guide h4{margin:0 0 .4rem 0;font-weight:600;text-transform:uppercase;}
+.wonder-guide ul{padding-left:1.2rem;margin:0;list-style:square;}
 
 
 /* ---------- Wondering: Category filter ---------- */
