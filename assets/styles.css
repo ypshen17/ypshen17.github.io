@@ -787,7 +787,7 @@ footer {
 .wonder-world {
   position: relative;
   height: calc-size(60vh, 80vh);          /* ensure space for floating labels */
-  min-height: 400px;  
+  min-height: 360px;  
   overflow: hidden;
   background: #fff;
 }
@@ -823,19 +823,26 @@ footer {
   top: 12vh; left: 50%;
   transform: translateX(-50%);
   width: min(720px, 92vw);
+  max-height: 76vh;              /* <--- LIMIT HEIGHT */
   background: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
   padding: 1.5rem;
   z-index: 1001;
+  overflow-y: auto;              /* <--- SCROLL VERTICALLY IF CONTENT TOO TALL */
+  overscroll-behavior: contain;  /* <--- optional, disables background scroll when at edge */
 }
 .wonder-close {
-  position: absolute; right: .6rem; top: .35rem;
+  position: absolute; right: 0.6rem; top: 0.3rem;
   background: none; border: 0; cursor: pointer;
-  font: 600 1.8rem "Roboto Mono", monospace; color: black;
+  font: bold 1.8rem "Roboto Mono", monospace; color: black;
 }
-.wonder-media img, .wonder-media video {
-  width: 100%; height: auto; display: block; margin: .5rem 0 1rem;
+
+.wonder-media img, .wonder-media video, .wonder-media iframe {
+  width: 100%; 
+  height: auto; 
+  display: block; 
+  margin: 0.3rem 0;
 }
 
 /* optional tags inside card */
@@ -846,16 +853,16 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin: 0.5rem 0 1rem;
+  margin: 1.5rem 0 0.9rem 0;    /* <--- push nav down, adjust as needed */
 }
 .wonder-arrow {
-  font: bold 0.9rem "Roboto Mono", monospace;
+  font: bold 1.8rem "Roboto Mono", monospace;
   background: none;
   justify-content: space-between;
   border: none;
   cursor: pointer;
   color: black;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.6rem;
 }
 .wonder-arrow:hover {
   color: var(--accent);
@@ -926,6 +933,12 @@ footer {
 }
 
 @media (max-width: 640px) { 
+  .wonder-card {
+    top: 12vh;
+    width: 98vw;
+    max-height: 90vh;
+    padding: 0.7rem;
+  }
   .wonder-page .categories { gap: 0.9rem; } 
 }
 
