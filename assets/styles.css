@@ -715,7 +715,7 @@ footer {
   text-align: left;
   justify-content: center;
   align-items: center;
-  width: 60%;
+  width: 50%;
   z-index: 10;
 }
 
@@ -731,6 +731,33 @@ footer {
   z-index: -1; /* Behind the text */
   opacity: 0.4;
 }
+
+.vision-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 3rem auto;
+  width: 50%;
+  max-width: 960px;
+}
+
+.vision-arrow {
+  font: bold 1.8rem "Roboto Mono", monospace;
+  color: black;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.vision-arrow:hover {
+  color: var(--accent);
+}
+
+.vision-arrow.prev { text-align: left; }
+.vision-arrow.next { text-align: right; }
+
+
+
+
 
 /* Mobile (stacked) */
 @media (max-width: 960px) {
