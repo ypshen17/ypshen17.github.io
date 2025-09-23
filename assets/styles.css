@@ -689,10 +689,8 @@ footer {
   right: 1.2rem;      /* optional: prevent overflow on the right */
   padding: 0;       /* reset padding so spacing is consistent */
   font-size: 3.6rem;
-  font-family: 'FunkyFont', sans-serif;  /* Apply a funky font */
-  color: #fff;  /* White title text */
+  color: black;
   z-index: 1000;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Slight shadow to make title stand out */
 }
 
 
