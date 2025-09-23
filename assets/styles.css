@@ -634,13 +634,6 @@ footer {
   font-family: 'Geo', sans-serif;
 }
 
-/* General Styling for Vision Titles */
-.vision-item-title {
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 0.9rem;
-  transition: font-family 0.3s ease; /* Smooth transition when the font changes */
-}
 
 /* Card Wrapper for Grid */
 .visions-list {
