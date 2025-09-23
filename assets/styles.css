@@ -840,11 +840,13 @@ footer {
 
 /* ——— Wondering flexible media grid ——— */
 .wonder-media{
+  display: flex;
   row-gap:0.9rem;
-  width: max-content !important;      /* override inline attributes */
+  width: 100% !important;      /* override inline attributes */
   height: auto !important;
   aspect-ratio:16/9;   /* images ignore it; iframes obey */
   border: 0;
+  display: block;
 }
 
 
