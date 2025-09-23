@@ -182,6 +182,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+
+
+
 // ---------- WONDERING: Floating labels + card with collision avoidance + filters ----------
 document.addEventListener('DOMContentLoaded', () => {
   const worldEl = document.getElementById('wonderWorld');
