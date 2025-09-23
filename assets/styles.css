@@ -662,6 +662,14 @@ footer {
   overflow: hidden;
   background: #eee;
 }
+
+.vision-card a {
+  display: block;
+  position: relative; /* anchor becomes positioning parent */
+  width: 100%;
+  height: 100%;
+}
+
 .vision-card img {
   width: 100%;
   height: 100%;
