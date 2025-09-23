@@ -323,8 +323,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if(obj.guidance && obj.guidance.length){
       const guide = document.createElement('div');
       guide.className = 'wonder-guide';
-      guide.innerHTML = '<h4>Guidance</h4><ul>'+obj.guidance.map(
-        g => `<li>${g}</li>`).join('')+'</ul>';
+      guide.innerHTML = '<h4>Guidance</h4><ul>' + obj.guidance.map(line=>{
+        // convert [Text](url) → <a href="url" target="_blank">Text</a>
+        const m = line.match(/^\s*\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/);
+        if(m){
+          return `<li><a href="${m[2]}" target="_blank" rel="noopener">${m[1]}</a></li>`;
+        }
+        // fallback: plain text
+        return `<li>${line}</li>`;
+      }).join('') + '</ul>';
       contentEl.appendChild(guide);
     }
 

@@ -839,14 +839,31 @@ footer {
 }
 
 /* ——— Wondering flexible media grid ——— */
-.wonder-media{
-  display: flex;
-  row-gap:0.9rem;
-  width: 100% !important;      /* override inline attributes */
-  height: auto !important;
-  aspect-ratio:16/9;   /* images ignore it; iframes obey */
-  border: 0;
+/* Wondering flexible media grid */
+.wonder-media {
+  display: grid;
+  grid-template-columns: 1fr;   /* default one column */
+  gap: 0.9rem;
+  width: 100%;
+}
+
+.wonder-media img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
   display: block;
+}
+
+.wonder-media iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  border: 0;
+}
+
+/* optional two-column layout for half-width items */
+.wonder-media.half {
+  grid-template-columns: 1fr 1fr;
 }
 
 
