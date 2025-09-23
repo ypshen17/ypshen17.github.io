@@ -842,17 +842,19 @@ footer {
 .wonder-media{
   display:grid;
   gap:0.9rem;
+  grid-column: span 12;
 }
 
 /* one item = full; two = half; three = third */
-.wonder-media > .half,
-.wonder-media > .third{width:100%;}
+.wonder-media > .half {grid-column: span 6;}
+.wonder-media > .third {grid-column: span 4;}
 
 @media (min-width:600px){
   .wonder-media{grid-template-columns:repeat(12,1fr);}
   .wonder-media > .half {grid-column:span 6;}
   .wonder-media > .third{grid-column:span 4;}
 }
+
 .wonder-media img,
 .wonder-media video,
 .wonder-media iframe{
