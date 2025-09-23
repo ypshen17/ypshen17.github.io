@@ -999,7 +999,8 @@ footer {
 
 .video-figure {
   position: relative;
-  width: 100%;
+  top: 6rem;
+  width: max-content;
   height: 0;
   overflow: hidden;
 }
