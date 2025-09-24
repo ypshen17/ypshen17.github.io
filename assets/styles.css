@@ -488,7 +488,7 @@ footer {
 
 
 
-/*--------------- Project detail layout- */
+/*--------------- Project detail layout--- */
 .project-detail {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -530,16 +530,12 @@ footer {
 }
 
 .project-info {
-  padding-left: 0 !important;
-  margin-left: 0 !important;
   list-style: square;
   font: 1.2rem "Roboto Flex", sans-serif;
   color: black;
   line-height: 1.2;
 }
 .project-info li { 
-  padding-left: 0 !important;
-  margin-left: 0 !important;
   margin-bottom: 0.3rem; 
   font: 1.2rem "Roboto Flex", sans-serif;
 }
