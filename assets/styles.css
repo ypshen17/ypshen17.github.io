@@ -1002,7 +1002,7 @@ footer {
   bottom: 5%;
   right: 5%;
   width: 6rem;
-  background-color: #aaa;
+  background-color: white;
   height: auto;
   cursor: pointer;
   animation: floatSnitch 15s infinite ease-in-out;
