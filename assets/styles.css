@@ -382,7 +382,6 @@ footer {
   color: #000;
   cursor: pointer;
   position: relative;
-  line-height: 1;
   transition: color 0.2s ease;
 }
 
@@ -509,7 +508,7 @@ footer {
 }
 .project-title {
   font: bold 1.5rem "Roboto Mono", monospace;
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.3rem;
   color: black;
 }
 .project-year {
@@ -518,28 +517,29 @@ footer {
 }
 #project-cat {
   font: 1.2rem "Roboto Flex", sans-serif;
-  margin-top: 0.3rem; /* pull tags closer */
+  margin-bottom: 0.3rem; /* pull tags closer */
 }
 /* optional tags */
-#project-cat .cat-tag{margin-right: 0.4rem; }
+#project-cat .cat-tag{ margin-right: 0.4rem; }
 
 .project-cover-inline {
-  width: 100%;
-  max-width: 400px;
+  height: 100%;
+  max-height: 300px;
   height: auto;
+  left: 0
 }
 
 .project-info {
   list-style: square;
-  margin:0;
   left: 0; 
   font: 1.2rem "Roboto Flex", sans-serif;
   color: black;
-  line-height: 1.5;
+  line-height: 1.2;
 }
 .project-info li { 
   left: 0; 
   margin-bottom: 0.3rem; 
+  font: 1.2rem "Roboto Flex", sans-serif;
 }
 
 
@@ -602,7 +602,7 @@ footer {
   padding-right: 3.6rem; 
   font: 1.2rem "Roboto Flex", sans-serif;
   color: black;
-  line-height: 1.5;
+  line-height: 1.2;
   align-items: flex-start;
   text-align: left;
 }
@@ -705,6 +705,7 @@ footer {
   text-align: left;
   justify-content: center;
   align-items: center;
+  line-height: 1.2;
   width: 50%;
   z-index: 10;
 }
@@ -794,7 +795,7 @@ footer {
 .wonder-intro {
   font: 1.2rem "Roboto Flex", sans-serif;
   color: black;
-  line-height: 1; /* tighter */
+  line-height: 1.2; /* tighter */
   margin-bottom: 0.9rem; /* tighter */
   align-items: flex-start;
   text-align: left;
@@ -885,7 +886,7 @@ footer {
 
 
 /* optional tags inside card */
-#wonderTags .cat-tag { margin-right: .4rem; }
+#wonderTags .cat-tag { margin-right: 0.4rem; }
 
 /* inside-card navigation */
 .wonder-nav {
@@ -947,7 +948,6 @@ footer {
   color: #000;
   cursor: pointer;
   position: relative;
-  line-height: 1;
   transition: color 0.2s ease;
 }
 
@@ -1032,7 +1032,7 @@ footer {
 .about-body {
   font: 1.2rem "Roboto Flex", sans-serif;
   color: black;
-  line-height: 1.5;
+  line-height: 1.2;
 }
 
 
