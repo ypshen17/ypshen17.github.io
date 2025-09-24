@@ -494,7 +494,7 @@ footer {
   grid-template-columns: 1fr 2fr;
   align-items: start;
   column-gap: 1.8rem;            /* space between text & gallery */
-   /*padding-left: 3.6rem;        align text with "YIPENG SHEN" */
+  padding-left: 3.6rem;        /* align text with "YIPENG SHEN" */
   padding-right: 3.6rem;
 }
 
@@ -530,14 +530,16 @@ footer {
 }
 
 .project-info {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
   list-style: square;
-  left: 0; 
   font: 1.2rem "Roboto Flex", sans-serif;
   color: black;
   line-height: 1.2;
 }
 .project-info li { 
-  left: 0; 
+  padding-left: 0 !important;
+  margin-left: 0 !important;
   margin-bottom: 0.3rem; 
   font: 1.2rem "Roboto Flex", sans-serif;
 }
