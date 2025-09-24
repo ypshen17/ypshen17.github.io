@@ -1034,7 +1034,6 @@ footer {
   right: 10%;
   background: #fff;
   border: 1px solid #aaa;
-  border-radius: 1rem;
   padding: 1rem;
   width: 20%;
   max-width: 92vw;
@@ -1055,10 +1054,7 @@ footer {
 .snitch-form button {
   width: 100%;
   padding: 0.6rem;
-  background: #000;
-  color: #fff;
   border: none;
-  border-radius: 0.4rem;
   font-weight: bold;
   cursor: pointer;
 }
