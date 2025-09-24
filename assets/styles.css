@@ -20,21 +20,6 @@ a {
   text-decoration: none;
 }
 
-
-.back-button {
-  display: inline-block;
-  margin: 0 0 0 3.6rem;
-  font: bold 1.2rem "Roboto Mono", monospace;
-  color: black;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.back-button:hover {
-  color: var(--accent);
-}
-
-
 /* ---------- Footer ---------- */
 footer {
   position: relative;
@@ -47,20 +32,6 @@ footer {
   color: #444;
   padding: 2rem 1rem;
 }
-/*footer .picture-credit {
-  margin-top: 0.5rem;
-  font-size: 1rem;
-  color: #777;
-}*/
-
-/* NOTE: push inner pages down, clear the fixed header 
-.inner main { 
-  padding-top: 4rem /*clamp(4.5rem, 6vw, 6.5rem);
-}
- ???if the page gets linked with an in-page anchor, keep the H1 from hiding under the header 
-.project-title { 
-  scroll-margin-top: 4rem;  /* 6rem;
-}*/
 
 /* ---------- Global Nav ---------- */
 .global-nav {
