@@ -1049,8 +1049,7 @@ footer {
   padding: 0.6rem;
   font-size: 1rem;
   border: 1px solid #ddd;
-  border-radius: 0.4rem;
-  resize: vertical;
+  resize: both;
 }
 
 .snitch-form button {
@@ -1073,7 +1072,7 @@ footer {
 }
 
 .close-snitch {
-  position: flex;
+  position: absolute;
   top: 6px;
   right: 10px;
   cursor: pointer;
