@@ -20,6 +20,21 @@ a {
   text-decoration: none;
 }
 
+
+.back-button {
+  display: inline-block;
+  margin: 3.6rem;
+  font: bold 1.2rem "Roboto Mono", monospace;
+  color: black;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.back-button:hover {
+  color: var(--accent);
+}
+
+
 /* ---------- Footer ---------- */
 footer {
   position: relative;
