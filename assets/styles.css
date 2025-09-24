@@ -494,7 +494,7 @@ footer {
   grid-template-columns: 1fr 2fr;
   align-items: start;
   column-gap: 1.8rem;            /* space between text & gallery */
-  padding-left: 3.6rem;        /* align text with "YIPENG SHEN" */
+   /*padding-left: 3.6rem;        align text with "YIPENG SHEN" */
   padding-right: 3.6rem;
 }
 
