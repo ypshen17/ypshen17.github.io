@@ -385,3 +385,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+//Golden Snitch
+const snitch = document.getElementById("wonderSnitch");
+const form = document.getElementById("snitchForm");
+const closeBtn = document.getElementById("closeSnitch");
+const copyBtn = document.getElementById("copyWonder");
+const feedback = document.getElementById("snitchFeedback");
+const input = document.getElementById("wonderInput");
+
+if (snitch && form) {
+  snitch.addEventListener("click", () => {
+    form.classList.remove("hidden");
+    feedback.classList.add("hidden");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    form.classList.add("hidden");
+    input.value = "";
+    feedback.classList.add("hidden");
+  });
+
+  copyBtn.addEventListener("click", async () => {
+    const message = input.value.trim();
+    if (!message) return;
+
+    const res = await fetch("https://submit.yipengshen.com", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, email: "" })
+    });
+
+    if (res.ok) {
+      feedback.textContent = "Your wonder has been caught.";
+      feedback.classList.remove("hidden");
+      input.value = "";
+    } else {
+      feedback.textContent = "Oops! Something went wrong.";
+      feedback.classList.remove("hidden");
+    }
+  });
+}

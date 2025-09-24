@@ -843,8 +843,12 @@ footer {
   overscroll-behavior: contain;  /* <--- optional, disables background scroll when at edge */
 }
 .wonder-close {
-  position: absolute; right: 0.6rem; top: 0.3rem;
-  background: none; border: 0; cursor: pointer;
+  position: absolute; 
+  right: 0.6rem; 
+  top: 0.3rem;
+  background: none; 
+  border: 0; 
+  cursor: pointer;
   font: bold 1.8rem "Roboto Mono", monospace; color: black;
 }
 
@@ -986,6 +990,101 @@ footer {
   }
   .wonder-page .categories { gap: 0.9rem; } 
 }
+
+
+
+
+
+
+/* Floating Wonder Snitch */
+.wonder-snitch {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  background: #000;
+  color: #fff;
+  border-radius: 50%;
+  width: 2.6rem;
+  height: 2.6rem;
+  text-align: center;
+  line-height: 2.6rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  animation: floatSnitch 15s infinite ease-in-out;
+  z-index: 999;
+}
+
+@keyframes floatSnitch {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-5px, -15px); }
+  50%  { transform: translate(10px, -10px); }
+  75%  { transform: translate(-10px, 5px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Snitch Popup Form */
+.snitch-form {
+  position: fixed;
+  bottom: 10%;
+  right: 10%;
+  background: #fff;
+  border: 1px solid #aaa;
+  border-radius: 1rem;
+  padding: 1rem;
+  width: 300px;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.snitch-form textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 0.6rem;
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.4rem;
+  resize: vertical;
+}
+
+.snitch-form button {
+  width: 100%;
+  padding: 0.6rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 0.4rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.snitch-feedback {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: #444;
+  text-align: center;
+}
+
+.close-snitch {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  cursor: pointer;
+  font: bold 1.8rem "Roboto Mono", monospace; color: black;
+}
+
+.hidden {
+  display: none;
+}
+
+
+
+
+
+
+
+
 
 
 
