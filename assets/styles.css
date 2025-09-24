@@ -530,6 +530,7 @@ footer {
 }
 
 .project-info {
+  left: -1.8rem;
   list-style: square;
   font: 1.2rem "Roboto Flex", sans-serif;
   color: black;
