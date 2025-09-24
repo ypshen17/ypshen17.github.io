@@ -370,12 +370,14 @@ footer {
 }
 
 .projects-page .categories {
+  position: sticky;   /* stays visible while scrolling */
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  top: 6rem;
   gap: 1.8rem;
-  margin-bottom: 1.8rem;
+  margin: 1.8rem 0;
+  z-index: 900;           /* keep above content */
+  background: #fff;       /* prevents overlap with gallery */
 }
 .projects-page .categories.spread { 
   justify-content: space-between; 
@@ -478,7 +480,6 @@ footer {
     padding-right: 0.9rem;
   }
   .projects-page .categories {
-    position: sticky;   /* stays visible while scrolling */
     flex-direction: column;   /* vertical stack */
     align-items: flex-start;  /* left-align with page */
     top: 6rem;
@@ -519,7 +520,6 @@ footer {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  max-width: 95%;
 }
 .project-title {
   font: bold 1.5rem "Roboto Mono", monospace;
@@ -535,7 +535,7 @@ footer {
   margin-top: 0.3rem; /* pull tags closer */
 }
 /* optional tags */
-#project-cat .cat-tag{margin-right: .4rem; }
+#project-cat .cat-tag{margin-right: 0.4rem; }
 
 .project-cover-inline {
   width: 100%;
@@ -544,13 +544,17 @@ footer {
 }
 
 .project-info {
-  list-style: none;
-  left: 0;
+  list-style: square;
+  margin:0;
+  left: 0; 
   font: 1.2rem "Roboto Flex", sans-serif;
   color: black;
   line-height: 1.5;
 }
-.project-info li { margin-bottom: 0.3rem; }
+.project-info li { 
+  left: 0; 
+  margin-bottom: 0.3rem; 
+}
 
 
 /* Right: scrolling media */
@@ -705,7 +709,7 @@ footer {
 }
 
 .single-vision-subtitle{
-  font: 1.2rem "Roboto Mono", monospace;
+  font: bold 1.2rem "Roboto Mono", monospace;
   z-index: 10;
   text-align: center;
 }
@@ -931,11 +935,14 @@ footer {
 
 /* ---------- Wondering: Category filter ---------- */
 .wonder-page .categories {
+  position: sticky;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 1.8rem;
   margin: 1.8rem 0;
+  z-index: 900;           /* keep above content */
+  background: #fff;
 }
 
 .wonder-page .categories.spread { 
