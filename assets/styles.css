@@ -1071,6 +1071,7 @@ footer {
   position: absolute;
   top: 6px;
   right: 10px;
+  bottom: 6px;
   cursor: pointer;
   font: bold 1.8rem "Roboto Mono", monospace; color: black;
 }
