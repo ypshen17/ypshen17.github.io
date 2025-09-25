@@ -42,7 +42,7 @@ footer {
   position: fixed;
   top: 0; left: 0; right: 0;
   background: #fff;
-  z-index: 1000;
+  z-index: 10000;
   font-family: "Roboto Mono", monospace;
 }
 
@@ -1035,6 +1035,7 @@ footer {
   background: #fff;
   border: 1px solid #aaa;
   padding: 1rem;
+  border-radius: 0.6rem;
   width: 20%;
   max-width: 92vw;
   z-index: 1000;
@@ -1048,6 +1049,7 @@ footer {
   padding: 0.6rem;
   font-size: 1rem;
   border: 1px solid #ddd;
+  border-radius: 0.3rem;
   resize: both;
 }
 
@@ -1056,6 +1058,7 @@ footer {
   padding: 0.6rem;
   border: none;
   font-weight: bold;
+  border-radius: 0.3rem;
   cursor: pointer;
 }
 
@@ -1069,9 +1072,7 @@ footer {
 
 .close-snitch {
   position: absolute;
-  top: 6px;
-  right: 10px;
-  bottom: 6px;
+  padding: 0.3rem;
   cursor: pointer;
   font: bold 1.8rem "Roboto Mono", monospace; color: black;
 }
