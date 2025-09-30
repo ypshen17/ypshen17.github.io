@@ -361,7 +361,7 @@ footer {
   justify-content: center;
   flex-wrap: wrap;
   gap: 1.8rem;
-  margin: 1.8rem 0;
+  padding: 1.8rem 0; /* NOTE margin to padding */
   z-index: 900;           /* keep above content */
   background: #fff;       /* prevents overlap with gallery */
 }
@@ -459,11 +459,15 @@ footer {
 }
 
 
+
+
+
 .composition-group {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 3rem 0 1.5rem;
   text-transform: uppercase;
+  color: #aaa;
 }
 
 
@@ -584,7 +588,7 @@ footer {
     column-gap: 0;
 }
   .composition-aside {
-    top: 6rem;
+    top: 18rem; /* more down */
     position: static; /* disable sticky on small screens */
     max-width: 100%;
     margin-bottom: 0.9rem;
@@ -770,7 +774,7 @@ footer {
   }
   .single-vision-title {
     font-size: 1.5rem;
-    top: 6rem;
+    top: 18rem; /* more down */
   }
   .single-vision-content {
     width: 80%;
@@ -997,12 +1001,12 @@ footer {
   .wonder-card {
     top: 12vh;
     width: 98vw;
-    max-height: 90vh;
+    /* max-height: 90vh;*/
     padding: 0.7rem;
   }
   .wonder-page .categories { gap: 0.9rem; } 
+  .wonder-page .categories .cat { font: 0.9rem}
 }
-
 
 
 
@@ -1014,7 +1018,7 @@ footer {
   bottom: 5%;
   right: 5%;
   width: 6rem;
-  background-color: white;
+  /* background-color: white;*/
   height: auto;
   cursor: pointer;
   animation: floatSnitch 15s infinite ease-in-out;
@@ -1203,7 +1207,7 @@ footer {
   }
   .about-aside {
     position: static; /* disable sticky on small screens */
-    top: 12rem;
+    top: 18rem; /* already more down! more!  */
     max-width: 100%;
     margin-bottom: 0.9rem;
   }
