@@ -4,7 +4,7 @@ let plants = [];
 let gardenShelf = [];
 
 // Load plant data
-fetch("assets/garden/plants.json")
+fetch("{{ '/assets/garden/plants.json' | relative_url }}")
   .then(res => res.json())
   .then(data => {
     plants = data;

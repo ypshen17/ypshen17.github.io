@@ -1,11 +1,11 @@
 [
   {
     "title": "蓝雪花",
-    "icon": "{{ site.cloudflare_assets }}/pages/garden/lanxuehua_pot.png",
+    "icon": "https://assets.yipengshen.com/pages/garden/lanxuehua_pot.png",
     "stages": [
-      "{{ site.cloudflare_assets }}/pages/garden/lanxuehua_stage1.png",
-      "{{ site.cloudflare_assets }}/pages/garden/lanxuehua_stage2.png",
-      "{{ site.cloudflare_assets }}/pages/garden/lanxuehua_stage3.png"
+      "https://assets.yipengshen.com/pages/garden/lanxuehua_stage1.png",
+      "https://assets.yipengshen.com/pages/garden/lanxuehua_stage2.png",
+      "https://assets.yipengshen.com/pages/garden/lanxuehua_stage3.png"
     ],
     "instrument": "piano",
     "scale": ["C4", "E4", "G4"],
@@ -18,11 +18,11 @@
   },
   {
     "title": "小葱",
-    "icon": "{{ site.cloudflare_assets }}/pages/garden/onion_pot.png",
+    "icon": "https://assets.yipengshen.com/pages/garden/onion_pot.png",
     "stages": [
-      "{{ site.cloudflare_assets }}/pages/garden/onion_stage1.png",
-      "{{ site.cloudflare_assets }}/pages/garden/onion_stage2.png",
-      "{{ site.cloudflare_assets }}/pages/garden/onion_stage3.png"
+      "https://assets.yipengshen.com/pages/garden/onion_stage1.png",
+      "https://assets.yipengshen.com/pages/garden/onion_stage2.png",
+      "https://assets.yipengshen.com/pages/garden/onion_stage3.png"
     ],
     "instrument": "pluck",
     "scale": ["A3", "C4", "E4"],
