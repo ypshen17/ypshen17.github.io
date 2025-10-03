@@ -1,0 +1,36 @@
+[
+  {
+    "title": "蓝雪花",
+    "icon": "{{ site.cloudflare_assets }}/pages/garden/lanxuehua_pot.png",
+    "stages": [
+      "{{ site.cloudflare_assets }}/pages/garden/lanxuehua_stage1.png",
+      "{{ site.cloudflare_assets }}/pages/garden/lanxuehua_stage2.png",
+      "{{ site.cloudflare_assets }}/pages/garden/lanxuehua_stage3.png"
+    ],
+    "instrument": "piano",
+    "scale": ["C4", "E4", "G4"],
+    "notes": {
+      "sowing": "春季播种，喜欢温暖和充足的阳光。",
+      "care": "保持土壤湿润，避免积水，适当修剪促进开花。",
+      "pests": "常见蚜虫和红蜘蛛，可用温和肥皂水喷洒。"
+    },
+    "category": "Flowers"
+  },
+  {
+    "title": "小葱",
+    "icon": "{{ site.cloudflare_assets }}/pages/garden/onion_pot.png",
+    "stages": [
+      "{{ site.cloudflare_assets }}/pages/garden/onion_stage1.png",
+      "{{ site.cloudflare_assets }}/pages/garden/onion_stage2.png",
+      "{{ site.cloudflare_assets }}/pages/garden/onion_stage3.png"
+    ],
+    "instrument": "pluck",
+    "scale": ["A3", "C4", "E4"],
+    "notes": {
+      "sowing": "耐寒，阳台花盆均可播种。",
+      "care": "需保持土壤湿润，生长快。",
+      "pests": "注意葱蛆，可用石灰粉处理。"
+    },
+    "category": "Herbs"
+  }
+]

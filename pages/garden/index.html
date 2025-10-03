@@ -7,26 +7,26 @@
 
   <title>
     
-      Green Valley in Marrakech · Yipeng Shen
+      Fun with Flowers · Yipeng Shen
     
   </title>
 
   <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Green Valley in Marrakech | Yipeng Shen</title>
+<title>Fun with Flowers | Yipeng Shen</title>
 <meta name="generator" content="Jekyll v4.3.4" />
-<meta property="og:title" content="Green Valley in Marrakech" />
+<meta property="og:title" content="Fun with Flowers" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Proposal for a Spice Centre within Marrakech’s revitalised urban void. Awarded Honourable Mention at AIAC 2022." />
-<meta property="og:description" content="Proposal for a Spice Centre within Marrakech’s revitalised urban void. Awarded Honourable Mention at AIAC 2022." />
-<link rel="canonical" href="https://ypshen17.github.io/compositions/18-green-valley/" />
-<meta property="og:url" content="https://ypshen17.github.io/compositions/18-green-valley/" />
+<meta name="description" content="Personal Website - Sonic Urbanism and Urban Design" />
+<meta property="og:description" content="Personal Website - Sonic Urbanism and Urban Design" />
+<link rel="canonical" href="https://ypshen17.github.io/pages/garden/" />
+<meta property="og:url" content="https://ypshen17.github.io/pages/garden/" />
 <meta property="og:site_name" content="Yipeng Shen" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2025-10-03T11:15:13+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Green Valley in Marrakech" />
+<meta property="twitter:title" content="Fun with Flowers" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-03T11:15:13+00:00","datePublished":"2025-10-03T11:15:13+00:00","description":"Proposal for a Spice Centre within Marrakech’s revitalised urban void. Awarded Honourable Mention at AIAC 2022.","headline":"Green Valley in Marrakech","mainEntityOfPage":{"@type":"WebPage","@id":"https://ypshen17.github.io/compositions/18-green-valley/"},"url":"https://ypshen17.github.io/compositions/18-green-valley/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-03T11:15:13+00:00","datePublished":"2025-10-03T11:15:13+00:00","description":"Personal Website - Sonic Urbanism and Urban Design","headline":"Fun with Flowers","mainEntityOfPage":{"@type":"WebPage","@id":"https://ypshen17.github.io/pages/garden/"},"url":"https://ypshen17.github.io/pages/garden/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -66,8 +66,7 @@
     <a href="/" class="site-title">YIPENG SHEN</a>
     
       <span class="page-title">
-        <a href="/compositions">compositionS</a>
-        
+        Home
       </span>
     
   </div>
@@ -104,67 +103,36 @@
     
 
     <main>
-      <section class="frame composition-detail">
-  
+      <section id="gardenWorld"></section>
 
-  <!-- Left: text content -->
-  <aside class="composition-aside">
-    <p class="composition-title">Green Valley in Marrakech</p>
-    <p class="composition-year">2022</p>
-
-    <!-- 
-      <p class="composition-cat">
-        
-          <span class="cat-tag">#Architecture</span>
-        
-          <span class="cat-tag">#Urban Design</span>
-        
-      </p>
-    -->
-
-    
-      
-      
-      <img class="composition-cover-inline" src="https://assets.yipengshen.com/assets/compositions/green-valley/cover.jpg" alt="Green Valley in Marrakech cover">
-    
-
-    <div class="composition-info">
-      <p>Proposal for a <strong>Spice Centre</strong> within Marrakech’s revitalised urban void.<br />
-Awarded <strong>Honourable Mention</strong> at AIAC 2022.</p>
-
+<!-- Plant Popup -->
+<div id="plantPopup" class="hidden">
+  <div class="popup-content">
+    <div class="plant-visual">
+      <img id="plantImage" src="">
     </div>
-
-    <!-- -->
-    
-    
-    
-
-    
-    
-
-    <nav class="composition-prevnext">
-      <div>
-        
-          
-          <a href="/compositions/21-old-stage/" class="vision-arrow prev" aria-label="Previous">← Old Stage for New Life</a>
-        
+    <div class="plant-info">
+      <h2 id="plantTitle"></h2>
+      <div class="plant-tabs">
+        <button class="tab active" data-tab="sowing">播种</button>
+        <button class="tab" data-tab="care">日常养护</button>
+        <button class="tab" data-tab="pests">病虫害</button>
       </div>
-      <div>
-        
-          
-          <a href="/compositions/17-slash/" class="vision-arrow next" aria-label="Next">Slash →</a>
-        
-      </div>
-    </nav>
-  </aside>
-
-  <!-- Right: 1:2 gallery -->
-  <div class="composition-gallery">
-    
+      <div class="plant-text" id="plantText"></div>
+    </div>
   </div>
+  <button id="closePlant" class="close-btn">返回</button>
+</div>
 
-  
-</section>
+<!-- My Garden Shelf -->
+<div id="gardenShelf" class="shelf hidden">
+  <h3>My Garden</h3>
+  <div id="shelfPlants"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.39/Tone.js"></script>
+<script src="assets/garden/garden.js"></script>
 
     </main>
 
