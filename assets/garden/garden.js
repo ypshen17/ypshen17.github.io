@@ -1,15 +1,19 @@
-let mic, stage = 0, currentPlant = null;
-let synth, loop1, loop2, loop3;
 let plants = [];
+let currentPlant = null;
+let stage = 0;
+let mic, synth;
 let gardenShelf = [];
 
-// Load plant data
-fetch("{{ '/assets/garden/plants.json.html' | relative_url }}")
-  .then(res => res.json())
-  .then(data => {
-    plants = data;
+// Load from inline JSON
+document.addEventListener("DOMContentLoaded", () => {
+  try {
+    const raw = document.getElementById("plant-data").textContent;
+    plants = JSON.parse(raw);
     renderGarden();
-  });
+  } catch (e) {
+    console.error("Error loading plant data:", e);
+  }
+});
 
 // Render floating pots
 function renderGarden(){
@@ -88,19 +92,12 @@ function createInstrument(type){
   if(type === "pluck"){
     return new Tone.PluckSynth().toDestination();
   }
-  if(type === "synth"){
-    return new Tone.PolySynth(Tone.Synth, {
-      oscillator: { type: "triangle" },
-      envelope: { attack: 0.1, release: 1 }
-    }).toDestination();
-  }
   return new Tone.Synth().toDestination();
 }
 
 async function startAudio(plant){
   await Tone.start();
   synth = createInstrument(plant.instrument);
-  console.log(`${plant.title} instrument: ${plant.instrument}`);
 }
 
 // Sound growth
@@ -129,9 +126,9 @@ function growSound(stage){
   }
 }
 function stopAll(){
-  if(loop1) loop1.stop();
-  if(loop2) loop2.stop();
-  if(loop3) loop3.stop();
+  if(window.loop1) loop1.stop();
+  if(window.loop2) loop2.stop();
+  if(window.loop3) loop3.stop();
 }
 
 // Shelf logic
