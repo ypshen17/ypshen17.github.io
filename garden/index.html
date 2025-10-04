@@ -7,26 +7,26 @@
 
   <title>
     
-      Fun with Flowers · Yipeng Shen
+      Fun with Flowers — Garden · Yipeng Shen
     
   </title>
 
   <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Fun with Flowers | Yipeng Shen</title>
+<title>Fun with Flowers — Garden | Yipeng Shen</title>
 <meta name="generator" content="Jekyll v4.3.4" />
-<meta property="og:title" content="Fun with Flowers" />
+<meta property="og:title" content="Fun with Flowers — Garden" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Personal Website - Sonic Urbanism and Urban Design" />
-<meta property="og:description" content="Personal Website - Sonic Urbanism and Urban Design" />
+<meta name="description" content="Fun with Flowers Enable Sound Ambient Off" />
+<meta property="og:description" content="Fun with Flowers Enable Sound Ambient Off" />
 <link rel="canonical" href="https://ypshen17.github.io/garden/" />
 <meta property="og:url" content="https://ypshen17.github.io/garden/" />
 <meta property="og:site_name" content="Yipeng Shen" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-10-03T22:22:38+00:00" />
+<meta property="article:published_time" content="2025-10-04T07:39:19+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Fun with Flowers" />
+<meta property="twitter:title" content="Fun with Flowers — Garden" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-03T22:22:38+00:00","datePublished":"2025-10-03T22:22:38+00:00","description":"Personal Website - Sonic Urbanism and Urban Design","headline":"Fun with Flowers","mainEntityOfPage":{"@type":"WebPage","@id":"https://ypshen17.github.io/garden/"},"url":"https://ypshen17.github.io/garden/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-04T07:39:19+00:00","datePublished":"2025-10-04T07:39:19+00:00","description":"Fun with Flowers Enable Sound Ambient Off","headline":"Fun with Flowers — Garden","mainEntityOfPage":{"@type":"WebPage","@id":"https://ypshen17.github.io/garden/"},"url":"https://ypshen17.github.io/garden/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -103,42 +103,71 @@
     
 
     <main>
-      <section id="gardenWorld"></section>
-
-<!-- Plant Popup -->
-<div id="plantPopup" class="hidden">
-  <div class="popup-content">
-    <div class="plant-visual">
-      <img id="plantImage" src="">
+      <section id="garden-app" class="ff-container">
+  <header class="ff-header">
+    <h1>Fun with Flowers</h1>
+    <div class="ff-controls">
+      <button id="ff-sound-toggle" class="ff-btn">Enable Sound</button>
+      <button id="ff-ambient-toggle" class="ff-btn" disabled>Ambient Off</button>
     </div>
-    <div class="plant-info">
-      <h2 id="plantTitle"></h2>
-      <div class="plant-tabs">
-        <button class="tab active" data-tab="sowing">播种</button>
-        <button class="tab" data-tab="care">日常养护</button>
-        <button class="tab" data-tab="pests">病虫害</button>
+  </header>
+
+  <p class="ff-intro">A quiet garden for those tired of noise — every bloom is a note, every breath a rhythm.</p>
+
+  <!-- Grid / Shelf -->
+  <div id="ff-grid" class="ff-grid" aria-live="polite"></div>
+
+  <!-- Plant Panel (modal) -->
+  <div id="ff-panel" class="ff-panel" aria-hidden="true">
+    <div class="ff-panel-card" role="dialog" aria-modal="true" aria-labelledby="ff-panel-title">
+      <button class="ff-panel-close" id="ff-panel-close" aria-label="Close">×</button>
+      <div class="ff-panel-body">
+        <div class="ff-panel-illus">
+          <img id="ff-panel-img" alt=""/>
+        </div>
+        <div class="ff-panel-info">
+          <h2 id="ff-panel-title"></h2>
+          <p id="ff-panel-latin" class="ff-muted"></p>
+
+          <div class="ff-tabs" role="tablist">
+            <button role="tab" class="ff-tab is-active" data-tab="sowing">播种</button>
+            <button role="tab" class="ff-tab" data-tab="care">日常养护</button>
+            <button role="tab" class="ff-tab" data-tab="pests">病虫害</button>
+          </div>
+          <div class="ff-tabpanes">
+            <div role="tabpanel" id="ff-tab-sowing" class="ff-tabpane is-active"></div>
+            <div role="tabpanel" id="ff-tab-care" class="ff-tabpane"></div>
+            <div role="tabpanel" id="ff-tab-pests" class="ff-tabpane"></div>
+          </div>
+
+          <div class="ff-actions">
+            <button id="ff-water" class="ff-btn">💧 浇水</button>
+            <button id="ff-plant" class="ff-btn ff-primary">种到我的花园</button>
+          </div>
+        </div>
       </div>
-      <div class="plant-text" id="plantText"></div>
     </div>
   </div>
-  <button id="closePlant" class="close-btn">返回</button>
-</div>
 
-<!-- My Garden Shelf -->
-<div id="gardenShelf" class="shelf hidden">
-  <h3>My Garden</h3>
-  <div id="shelfPlants"></div>
-</div>
+  <!-- My Garden Dock -->
+  <aside id="ff-dock" class="ff-dock" aria-label="My Garden">
+    <div class="ff-dock-head">
+      <h3>My Garden</h3>
+      <small class="ff-muted">Add plants to build your loop.</small>
+    </div>
+    <div id="ff-dock-list" class="ff-dock-list"></div>
+  </aside>
+</section>
 
-<!-- Inject plant data -->
-<script id="plant-data" type="application/json">
-  [{"title":"蓝雪花","icon":"{{ site.cloudflare_assets }}/pages/garden/lanxuehua_pot.png","stages":["{{ site.cloudflare_assets }}/pages/garden/lanxuehua_stage1.png","{{ site.cloudflare_assets }}/pages/garden/lanxuehua_stage2.png","{{ site.cloudflare_assets }}/pages/garden/lanxuehua_stage3.png"],"instrument":"piano","scale":["C4","E4","G4"],"notes":{"sowing":"春季播种，喜欢温暖和充足的阳光。","care":"保持土壤湿润，避免积水，适当修剪促进开花。","pests":"常见蚜虫和红蜘蛛，可用温和肥皂水喷洒。"},"category":"Flowers"},{"title":"小葱","icon":"{{ site.cloudflare_assets }}/pages/garden/onion_pot.png","stages":["{{ site.cloudflare_assets }}/pages/garden/onion_stage1.png","{{ site.cloudflare_assets }}/pages/garden/onion_stage2.png","{{ site.cloudflare_assets }}/pages/garden/onion_stage3.png"],"instrument":"pluck","scale":["A3","C4","E4"],"notes":{"sowing":"耐寒，阳台花盆均可播种。","care":"需保持土壤湿润，生长快。","pests":"注意葱蛆，可用石灰粉处理。"},"category":"Herbs"}]
-</script>
+<!-- 1) Provide plant data from Jekyll (preferred) -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.39/Tone.js"></script>
-<script src="/assets/garden/garden.js"></script>
+<script id="ff-plants" type="application/json">[{"id":"plumbago","name":"蓝雪花","latin":"Plumbago auriculata","stages":[{"img":"{{ site.cloudflare_assets }}/garden/plumbago/stage1.png","note":"幼苗，安静生长"},{"img":"{{ site.cloudflare_assets }}/garden/plumbago/stage2.png","note":"叶片舒展"},{"img":"{{ site.cloudflare_assets }}/garden/plumbago/stage3.png","note":"初绽"},{"img":"{{ site.cloudflare_assets }}/garden/plumbago/stage4.png","note":"盛放"}],"tabs":{"sowing":"播种方法与象征开端……","care":"少量多次的水，和规律的光。节奏，是它的语言。","pests":"脆弱并不失败。观察、调整、继续陪伴。"},"audio":{"instrument":"epiano","key":"C","scale":"major_pentatonic","pattern":[1,5,3,2],"idle_minutes_per_stage":3}},{"id":"scallion","name":"小葱","latin":"Allium fistulosum","stages":[{"img":"{{ site.cloudflare_assets }}/garden/scallion/stage1.png","note":"幼苗"},{"img":"{{ site.cloudflare_assets }}/garden/scallion/stage2.png","note":"拔节"},{"img":"{{ site.cloudflare_assets }}/garden/scallion/stage3.png","note":"生长"},{"img":"{{ site.cloudflare_assets }}/garden/scallion/stage4.png","note":"旺盛"}],"tabs":{"sowing":"撒播或条播，浅覆土。","care":"保持土壤湿润与通风。","pests":"注意软腐与蚜虫，适度通风。"},"audio":{"instrument":"kalimba","key":"G","scale":"mixolydian","pattern":[1,3,2,5],"idle_minutes_per_stage":4}},{"id":"narcissus","name":"水仙","latin":"Narcissus tazetta","stages":[{"img":"{{ site.cloudflare_assets }}/garden/narcissus/stage1.png","note":"球根苏醒"},{"img":"{{ site.cloudflare_assets }}/garden/narcissus/stage2.png","note":"抽叶"},{"img":"{{ site.cloudflare_assets }}/garden/narcissus/stage3.png","note":"含苞"},{"img":"{{ site.cloudflare_assets }}/garden/narcissus/stage4.png","note":"盛花"}],"tabs":{"sowing":"坐水或盆栽，浅水勿没顶。","care":"清水勤换，柔光静置。","pests":"注意根部腐烂，保持清洁。"},"audio":{"instrument":"pad","key":"A","scale":"natural_minor","pattern":[1,4,6,5],"idle_minutes_per_stage":5}},{"id":"sunflower","name":"向日葵","latin":"Helianthus annuus","stages":[{"img":"{{ site.cloudflare_assets }}/garden/sunflower/stage1.png","note":"幼苗"},{"img":"{{ site.cloudflare_assets }}/garden/sunflower/stage2.png","note":"长高"},{"img":"{{ site.cloudflare_assets }}/garden/sunflower/stage3.png","note":"现蕾"},{"img":"{{ site.cloudflare_assets }}/garden/sunflower/stage4.png","note":"盛放"}],"tabs":{"sowing":"播于温暖之土，给它朝阳。","care":"足光足水，适度支撑。","pests":"注意蚜虫与白粉。"},"audio":{"instrument":"nylon","key":"D","scale":"major","pattern":[1,2,3,2],"idle_minutes_per_stage":6}}]</script>
 
+
+<!-- 2) Tone.js + Garden JS (scoped to this page) -->
+<script src="https://unpkg.com/tone@14.8.49/build/Tone.js"></script>
+<script src="/assets/garden.js" defer></script>
+<link rel="stylesheet" href="/assets/garden.css">
     </main>
 
     <footer>
