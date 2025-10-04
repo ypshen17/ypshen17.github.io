@@ -7,26 +7,26 @@
 
   <title>
     
-      Fun with Flowers — Garden · Yipeng Shen
+      Garden · Yipeng Shen
     
   </title>
 
   <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Fun with Flowers — Garden | Yipeng Shen</title>
+<title>Garden | Yipeng Shen</title>
 <meta name="generator" content="Jekyll v4.3.4" />
-<meta property="og:title" content="Fun with Flowers — Garden" />
+<meta property="og:title" content="Garden" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Fun with Flowers Enable Sound Ambient Off" />
-<meta property="og:description" content="Fun with Flowers Enable Sound Ambient Off" />
+<meta name="description" content="Personal Website - Sonic Urbanism and Urban Design" />
+<meta property="og:description" content="Personal Website - Sonic Urbanism and Urban Design" />
 <link rel="canonical" href="https://ypshen17.github.io/garden/" />
 <meta property="og:url" content="https://ypshen17.github.io/garden/" />
 <meta property="og:site_name" content="Yipeng Shen" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-10-04T07:39:19+00:00" />
+<meta property="article:published_time" content="2025-10-04T09:30:14+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Fun with Flowers — Garden" />
+<meta property="twitter:title" content="Garden" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-04T07:39:19+00:00","datePublished":"2025-10-04T07:39:19+00:00","description":"Fun with Flowers Enable Sound Ambient Off","headline":"Fun with Flowers — Garden","mainEntityOfPage":{"@type":"WebPage","@id":"https://ypshen17.github.io/garden/"},"url":"https://ypshen17.github.io/garden/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-04T09:30:14+00:00","datePublished":"2025-10-04T09:30:14+00:00","description":"Personal Website - Sonic Urbanism and Urban Design","headline":"Garden","mainEntityOfPage":{"@type":"WebPage","@id":"https://ypshen17.github.io/garden/"},"url":"https://ypshen17.github.io/garden/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -103,71 +103,154 @@
     
 
     <main>
-      <section id="garden-app" class="ff-container">
-  <header class="ff-header">
-    <h1>Fun with Flowers</h1>
-    <div class="ff-controls">
-      <button id="ff-sound-toggle" class="ff-btn">Enable Sound</button>
-      <button id="ff-ambient-toggle" class="ff-btn" disabled>Ambient Off</button>
-    </div>
-  </header>
+      <section class="frame garden-page" aria-label="Fun with Flowers">
+  <!-- Paper background -->
+  <div class="paper-bg"></div>
 
-  <p class="ff-intro">A quiet garden for those tired of noise — every bloom is a note, every breath a rhythm.</p>
+  <!-- Shelf scene -->
+  <div class="shelf-scene" id="shelfScene">
+    <img class="shelf-stroke" src="https://assets.yipengshen.com/garden/art/shelf/shelf_a.webp" alt="" />
+    <div class="pots-wrap" id="potsWrap" aria-live="polite"></div>
+    <div class="idle-hint" id="idleHint" aria-hidden="true">Start your garden — choose a plant.</div>
+  </div>
 
-  <!-- Grid / Shelf -->
-  <div id="ff-grid" class="ff-grid" aria-live="polite"></div>
-
-  <!-- Plant Panel (modal) -->
-  <div id="ff-panel" class="ff-panel" aria-hidden="true">
-    <div class="ff-panel-card" role="dialog" aria-modal="true" aria-labelledby="ff-panel-title">
-      <button class="ff-panel-close" id="ff-panel-close" aria-label="Close">×</button>
-      <div class="ff-panel-body">
-        <div class="ff-panel-illus">
-          <img id="ff-panel-img" alt=""/>
-        </div>
-        <div class="ff-panel-info">
-          <h2 id="ff-panel-title"></h2>
-          <p id="ff-panel-latin" class="ff-muted"></p>
-
-          <div class="ff-tabs" role="tablist">
-            <button role="tab" class="ff-tab is-active" data-tab="sowing">播种</button>
-            <button role="tab" class="ff-tab" data-tab="care">日常养护</button>
-            <button role="tab" class="ff-tab" data-tab="pests">病虫害</button>
-          </div>
-          <div class="ff-tabpanes">
-            <div role="tabpanel" id="ff-tab-sowing" class="ff-tabpane is-active"></div>
-            <div role="tabpanel" id="ff-tab-care" class="ff-tabpane"></div>
-            <div role="tabpanel" id="ff-tab-pests" class="ff-tabpane"></div>
-          </div>
-
-          <div class="ff-actions">
-            <button id="ff-water" class="ff-btn">💧 浇水</button>
-            <button id="ff-plant" class="ff-btn ff-primary">种到我的花园</button>
-          </div>
-        </div>
+  <!-- Plant focus overlay -->
+  <div class="plant-focus" id="plantFocus" aria-hidden="true">
+    <button class="back" id="backBtn" aria-label="Back">←</button>
+    <div class="plant-hero">
+      <img id="plantArt" alt="" />
+      <div class="stickers">
+        <button class="sticker" data-tab="sowing" id="tabSowing">Sowing</button>
+        <button class="sticker" data-tab="care" id="tabCare">Care</button>
+        <button class="sticker" data-tab="pests" id="tabPests">Pests</button>
       </div>
+      <div class="sticker-content" id="stickerContent"></div>
+      <button class="plant-btn" id="plantBtn">Plant in My Garden</button>
     </div>
   </div>
 
-  <!-- My Garden Dock -->
-  <aside id="ff-dock" class="ff-dock" aria-label="My Garden">
-    <div class="ff-dock-head">
-      <h3>My Garden</h3>
-      <small class="ff-muted">Add plants to build your loop.</small>
-    </div>
-    <div id="ff-dock-list" class="ff-dock-list"></div>
-  </aside>
+  <!-- My Garden scene -->
+  <div class="my-garden" id="myGarden" aria-hidden="true">
+    <img class="shelf-stroke" src="https://assets.yipengshen.com/garden/art/shelf/shelf_b.webp" alt="" />
+    <div class="my-pots" id="myPots"></div>
+  </div>
+
+  <!-- Comfort toggles -->
+  <div class="comfort">
+    <button id="audioToggle">Sound: on</button>
+    <button id="motionToggle">Motion: on</button>
+  </div>
 </section>
 
-<!-- 1) Provide plant data from Jekyll (preferred) -->
+<script>
+(async function(){
+  // 1) Fetch manifest
+  const res = await fetch('/assets/garden/plants.json');
+  const PLANTS = await res.json();
 
-<script id="ff-plants" type="application/json">[{"id":"plumbago","name":"蓝雪花","latin":"Plumbago auriculata","stages":[{"img":"{{ site.cloudflare_assets }}/garden/plumbago/stage1.png","note":"幼苗，安静生长"},{"img":"{{ site.cloudflare_assets }}/garden/plumbago/stage2.png","note":"叶片舒展"},{"img":"{{ site.cloudflare_assets }}/garden/plumbago/stage3.png","note":"初绽"},{"img":"{{ site.cloudflare_assets }}/garden/plumbago/stage4.png","note":"盛放"}],"tabs":{"sowing":"播种方法与象征开端……","care":"少量多次的水，和规律的光。节奏，是它的语言。","pests":"脆弱并不失败。观察、调整、继续陪伴。"},"audio":{"instrument":"epiano","key":"C","scale":"major_pentatonic","pattern":[1,5,3,2],"idle_minutes_per_stage":3}},{"id":"scallion","name":"小葱","latin":"Allium fistulosum","stages":[{"img":"{{ site.cloudflare_assets }}/garden/scallion/stage1.png","note":"幼苗"},{"img":"{{ site.cloudflare_assets }}/garden/scallion/stage2.png","note":"拔节"},{"img":"{{ site.cloudflare_assets }}/garden/scallion/stage3.png","note":"生长"},{"img":"{{ site.cloudflare_assets }}/garden/scallion/stage4.png","note":"旺盛"}],"tabs":{"sowing":"撒播或条播，浅覆土。","care":"保持土壤湿润与通风。","pests":"注意软腐与蚜虫，适度通风。"},"audio":{"instrument":"kalimba","key":"G","scale":"mixolydian","pattern":[1,3,2,5],"idle_minutes_per_stage":4}},{"id":"narcissus","name":"水仙","latin":"Narcissus tazetta","stages":[{"img":"{{ site.cloudflare_assets }}/garden/narcissus/stage1.png","note":"球根苏醒"},{"img":"{{ site.cloudflare_assets }}/garden/narcissus/stage2.png","note":"抽叶"},{"img":"{{ site.cloudflare_assets }}/garden/narcissus/stage3.png","note":"含苞"},{"img":"{{ site.cloudflare_assets }}/garden/narcissus/stage4.png","note":"盛花"}],"tabs":{"sowing":"坐水或盆栽，浅水勿没顶。","care":"清水勤换，柔光静置。","pests":"注意根部腐烂，保持清洁。"},"audio":{"instrument":"pad","key":"A","scale":"natural_minor","pattern":[1,4,6,5],"idle_minutes_per_stage":5}},{"id":"sunflower","name":"向日葵","latin":"Helianthus annuus","stages":[{"img":"{{ site.cloudflare_assets }}/garden/sunflower/stage1.png","note":"幼苗"},{"img":"{{ site.cloudflare_assets }}/garden/sunflower/stage2.png","note":"长高"},{"img":"{{ site.cloudflare_assets }}/garden/sunflower/stage3.png","note":"现蕾"},{"img":"{{ site.cloudflare_assets }}/garden/sunflower/stage4.png","note":"盛放"}],"tabs":{"sowing":"播于温暖之土，给它朝阳。","care":"足光足水，适度支撑。","pests":"注意蚜虫与白粉。"},"audio":{"instrument":"nylon","key":"D","scale":"major","pattern":[1,2,3,2],"idle_minutes_per_stage":6}}]</script>
+  // 2) Minimal shelf render (thumbs only)
+  const wrap = document.getElementById('potsWrap');
+  PLANTS.forEach(p => {
+    const el = document.createElement('button');
+    el.className = 'pot-card';
+    el.setAttribute('data-id', p.id);
+    el.innerHTML = `
+      <img class="pot-img" src="${p.art.pot}" alt="" />
+      <img class="plant-thumb" src="${p.art.thumb}" alt="${p.name_en}" />
+      <div class="label">${p.name_zh} · ${p.name_en}</div>
+    `;
+    el.addEventListener('click', () => openPlant(p));
+    wrap.appendChild(el);
+  });
 
+  // 3) Simple scene state (no audio yet)
+  const plantFocus = document.getElementById('plantFocus');
+  const plantArt = document.getElementById('plantArt');
+  const stickerContent = document.getElementById('stickerContent');
+  const backBtn = document.getElementById('backBtn');
+  const plantBtn = document.getElementById('plantBtn');
+  const myGarden = document.getElementById('myGarden');
+  const myPots = document.getElementById('myPots');
 
-<!-- 2) Tone.js + Garden JS (scoped to this page) -->
-<script src="https://unpkg.com/tone@14.8.49/build/Tone.js"></script>
-<script src="/assets/garden.js" defer></script>
-<link rel="stylesheet" href="/assets/garden.css">
+  let current = null;
+  let garden = JSON.parse(localStorage.getItem('garden_v1') || '[]');
+
+  function openPlant(p){
+    current = p;
+    plantArt.src = p.art.plant; plantArt.alt = p.name_en;
+    showSticker('sowing', p);
+    plantFocus.setAttribute('aria-hidden','false');
+    document.getElementById('shelfScene').setAttribute('aria-hidden','true');
+  }
+
+  function showSticker(tab, p){
+    const map = { sowing: p.copy.sowing, care: p.copy.care, pests: p.copy.pests };
+    stickerContent.textContent = map[tab] || '';
+  }
+
+  document.getElementById('tabSowing').onclick = ()=> showSticker('sowing', current);
+  document.getElementById('tabCare').onclick   = ()=> showSticker('care', current);
+  document.getElementById('tabPests').onclick  = ()=> showSticker('pests', current);
+
+  backBtn.onclick = ()=>{
+    plantFocus.setAttribute('aria-hidden','true');
+    document.getElementById('shelfScene').setAttribute('aria-hidden','false');
+  };
+
+  plantBtn.onclick = ()=>{
+    if(!current) return;
+    if(!garden.includes(current.id)) garden.push(current.id);
+    localStorage.setItem('garden_v1', JSON.stringify(garden));
+    renderMyGarden();
+    plantFocus.setAttribute('aria-hidden','true');
+    myGarden.setAttribute('aria-hidden','false');
+  };
+
+  function renderMyGarden(){
+    myPots.innerHTML = '';
+    garden.forEach(id=>{
+      const p = PLANTS.find(x=>x.id===id);
+      if(!p) return;
+      const el = document.createElement('div');
+      el.className = 'my-pot';
+      el.innerHTML = `
+        <button class="mute" aria-label="Mute/Unmute" data-id="${id}">♫</button>
+        <img class="pot-img" src="${p.art.pot}" alt="" />
+        <img class="plant-thumb" src="${p.art.thumb}" alt="${p.name_en}" />
+        <div class="label">${p.name_zh} · ${p.name_en}</div>
+      `;
+      myPots.appendChild(el);
+    });
+  }
+
+  // initial render of My Garden if any
+  if(garden.length){ renderMyGarden(); }
+
+})();
+</script>
+
+<style>
+/* Minimal styles to see structure; we’ll refine later */
+.garden-page { position: relative; min-height: 70vh; }
+.paper-bg { position: absolute; inset: 0; background: #FBF8F1; }
+.shelf-scene, .my-garden, .plant-focus { position: relative; padding: 4rem 2rem; }
+.shelf-stroke { display:block; margin: 2rem auto; max-width: 90%; height: auto; }
+.pots-wrap, .my-pots { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 1.2rem; }
+.pot-card, .my-pot { background: transparent; border: 0; text-align: center; cursor: pointer; }
+.pot-img { width: 160px; height: auto; display:block; margin: 0 auto -10px; }
+.plant-thumb { width: 160px; height: auto; display:block; margin: 0 auto; }
+.label { font-size: 14px; margin-top: .4rem; opacity: .7; }
+.idle-hint { position: absolute; left: 2rem; bottom: 1.5rem; font-size: 14px; opacity: .6; }
+.plant-focus[aria-hidden="true"], .my-garden[aria-hidden="true"], .shelf-scene[aria-hidden="true"] { display: none; }
+.plant-hero { max-width: 820px; margin: 0 auto; text-align: center; }
+.stickers { display: flex; gap: .75rem; justify-content: center; margin: 1rem 0; }
+.sticker { background: transparent; border: 0; font-size: 16px; cursor: pointer; }
+.sticker-content { min-height: 2.5rem; font-size: 16px; margin-bottom: 1rem; }
+.plant-btn { border: 0; background: transparent; font-size: 16px; text-decoration: underline; cursor:pointer; }
+.back { position: absolute; left: 1rem; top: 1rem; border: 0; background: transparent; font-size: 18px; cursor: pointer; }
+.comfort { position: fixed; left: 1rem; bottom: 1rem; display: flex; gap: .5rem; }
+</style>
+
     </main>
 
     <footer>
