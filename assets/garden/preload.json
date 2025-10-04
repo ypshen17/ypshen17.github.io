@@ -1,0 +1,19 @@
+{
+  "version": "1759608355",
+  "critical": {
+    "images": [
+      "https://assets.yipengshen.com/garden/art/paper/paper_bg.webp",
+      "https://assets.yipengshen.com/garden/art/shelf/shelf_a.webp",
+      "https://assets.yipengshen.com/garden/art/pots/pot_terracotta.webp",
+      "https://assets.yipengshen.com/garden/art/stickers/sowing.svg",
+      "https://assets.yipengshen.com/garden/art/stickers/care.svg",
+      "https://assets.yipengshen.com/garden/art/stickers/pests.svg"
+    ],
+    "thumbs": ["{{ site.cloudflare_assets }}/garden/art/thumbs/narcissus_480.webp","{{ site.cloudflare_assets }}/garden/art/thumbs/plumbago_480.png","{{ site.cloudflare_assets }}/garden/art/thumbs/scallion_480.webp","{{ site.cloudflare_assets }}/garden/art/thumbs/sunflower_480.webp"]
+  },
+  "eager": {
+    "images": [
+      "https://assets.yipengshen.com/garden/art/shelf/shelf_b.webp"
+    ]
+  }
+}

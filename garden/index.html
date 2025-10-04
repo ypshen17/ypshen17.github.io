@@ -7,26 +7,26 @@
 
   <title>
     
-      Garden · Yipeng Shen
+      Fun with Flowers · Yipeng Shen
     
   </title>
 
   <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Garden | Yipeng Shen</title>
+<title>Fun with Flowers | Yipeng Shen</title>
 <meta name="generator" content="Jekyll v4.3.4" />
-<meta property="og:title" content="Garden" />
+<meta property="og:title" content="Fun with Flowers" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Personal Website - Sonic Urbanism and Urban Design" />
-<meta property="og:description" content="Personal Website - Sonic Urbanism and Urban Design" />
+<meta name="description" content="Preparing the garden…" />
+<meta property="og:description" content="Preparing the garden…" />
 <link rel="canonical" href="https://ypshen17.github.io/garden/" />
 <meta property="og:url" content="https://ypshen17.github.io/garden/" />
 <meta property="og:site_name" content="Yipeng Shen" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-10-04T18:28:33+00:00" />
+<meta property="article:published_time" content="2025-10-04T20:05:55+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Garden" />
+<meta property="twitter:title" content="Fun with Flowers" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-04T18:28:33+00:00","datePublished":"2025-10-04T18:28:33+00:00","description":"Personal Website - Sonic Urbanism and Urban Design","headline":"Garden","mainEntityOfPage":{"@type":"WebPage","@id":"https://ypshen17.github.io/garden/"},"url":"https://ypshen17.github.io/garden/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-04T20:05:55+00:00","datePublished":"2025-10-04T20:05:55+00:00","description":"Preparing the garden…","headline":"Fun with Flowers","mainEntityOfPage":{"@type":"WebPage","@id":"https://ypshen17.github.io/garden/"},"url":"https://ypshen17.github.io/garden/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -103,153 +103,65 @@
     
 
     <main>
-      <section class="frame garden-page" aria-label="Fun with Flowers">
-  <!-- Paper background -->
-  <div class="paper-bg"></div>
-
-  <!-- Shelf scene -->
-  <div class="shelf-scene" id="shelfScene">
-    <img class="shelf-stroke" src="https://assets.yipengshen.com/garden/art/shelf/shelf_a.png" alt="" />
-    <div class="pots-wrap" id="potsWrap" aria-live="polite"></div>
-    <div class="idle-hint" id="idleHint" aria-hidden="true">Start your garden — choose a plant.</div>
+      <section class="garden" aria-label="Fun with Flowers">
+  <!-- Preloader -->
+  <div id="preloader" class="preloader" aria-live="polite">
+    <div class="wash"><div class="fill" id="washFill"></div></div>
+    <div class="hint" id="preHint">Preparing the garden…</div>
   </div>
 
-  <!-- Plant focus overlay -->
-  <div class="plant-focus" id="plantFocus" aria-hidden="true">
+  <!-- Paper background -->
+  <div class="paper" id="paper"></div>
+
+  <!-- Shelf (Home) -->
+  <div class="scene scene-shelf" id="sceneShelf" aria-hidden="true">
+    <img class="shelf" id="shelfA" alt="" />
+    <div class="pots" id="pots"></div>
+    <div class="idle">Start your garden — choose a plant.</div>
+  </div>
+
+  <!-- Plant Focus -->
+  <div class="scene scene-focus" id="sceneFocus" aria-hidden="true">
     <button class="back" id="backBtn" aria-label="Back">←</button>
-    <div class="plant-hero">
-      <img id="plantArt" alt="" />
+    <div class="hero">
+      <img id="focusArt" class="focus-art" alt="" />
       <div class="stickers">
         <button class="sticker" data-tab="sowing" id="tabSowing">Sowing</button>
         <button class="sticker" data-tab="care" id="tabCare">Care</button>
         <button class="sticker" data-tab="pests" id="tabPests">Pests</button>
       </div>
-      <div class="sticker-content" id="stickerContent"></div>
+      <div class="sticker-body" id="stickerBody"></div>
       <button class="plant-btn" id="plantBtn">Plant in My Garden</button>
     </div>
   </div>
 
-  <!-- My Garden scene -->
-  <div class="my-garden" id="myGarden" aria-hidden="true">
-    <img class="shelf-stroke" src="https://assets.yipengshen.com/garden/art/shelf/shelf_b.png" alt="" />
+  <!-- My Garden -->
+  <div class="scene scene-mygarden" id="sceneMy" aria-hidden="true">
+    <img class="shelf" id="shelfB" alt="" />
     <div class="my-pots" id="myPots"></div>
   </div>
 
-  <!-- Comfort toggles -->
+  <!-- Comfort -->
   <div class="comfort">
-    <button id="audioToggle">Sound: on</button>
-    <button id="motionToggle">Motion: on</button>
+    <button id="audioToggle" aria-pressed="true">Sound: on</button>
+    <button id="motionToggle" aria-pressed="true">Motion: on</button>
   </div>
+
+  <noscript>
+    <p style="padding:1rem">This garden needs JavaScript enabled.</p>
+  </noscript>
 </section>
 
+<link rel="preload" href="/assets/garden/garden.css" as="style">
+<link rel="stylesheet" href="/assets/garden/garden.css">
 <script>
-(async function(){
-  // 1) Fetch manifest
-  const res = await fetch('/assets/garden/plants.json');
-  const PLANTS = await res.json();
-
-  // 2) Minimal shelf render (thumbs only)
-  const wrap = document.getElementById('potsWrap');
-  PLANTS.forEach(p => {
-    const el = document.createElement('button');
-    el.className = 'pot-card';
-    el.setAttribute('data-id', p.id);
-    el.innerHTML = `
-      <img class="pot-img" src="${p.art.pot}" alt="" />
-      <img class="plant-thumb" src="${p.art.thumb}" alt="${p.name_en}" />
-      <div class="label">${p.name_zh} · ${p.name_en}</div>
-    `;
-    el.addEventListener('click', () => openPlant(p));
-    wrap.appendChild(el);
-  });
-
-  // 3) Simple scene state (no audio yet)
-  const plantFocus = document.getElementById('plantFocus');
-  const plantArt = document.getElementById('plantArt');
-  const stickerContent = document.getElementById('stickerContent');
-  const backBtn = document.getElementById('backBtn');
-  const plantBtn = document.getElementById('plantBtn');
-  const myGarden = document.getElementById('myGarden');
-  const myPots = document.getElementById('myPots');
-
-  let current = null;
-  let garden = JSON.parse(localStorage.getItem('garden_v1') || '[]');
-
-  function openPlant(p){
-    current = p;
-    plantArt.src = p.art.plant; plantArt.alt = p.name_en;
-    showSticker('sowing', p);
-    plantFocus.setAttribute('aria-hidden','false');
-    document.getElementById('shelfScene').setAttribute('aria-hidden','true');
-  }
-
-  function showSticker(tab, p){
-    const map = { sowing: p.copy.sowing, care: p.copy.care, pests: p.copy.pests };
-    stickerContent.textContent = map[tab] || '';
-  }
-
-  document.getElementById('tabSowing').onclick = ()=> showSticker('sowing', current);
-  document.getElementById('tabCare').onclick   = ()=> showSticker('care', current);
-  document.getElementById('tabPests').onclick  = ()=> showSticker('pests', current);
-
-  backBtn.onclick = ()=>{
-    plantFocus.setAttribute('aria-hidden','true');
-    document.getElementById('shelfScene').setAttribute('aria-hidden','false');
+  window.__GARDEN__ = {
+    baseurl: '' || '',
+    assets:  'https://assets.yipengshen.com',
+    build:   '1759608355'
   };
-
-  plantBtn.onclick = ()=>{
-    if(!current) return;
-    if(!garden.includes(current.id)) garden.push(current.id);
-    localStorage.setItem('garden_v1', JSON.stringify(garden));
-    renderMyGarden();
-    plantFocus.setAttribute('aria-hidden','true');
-    myGarden.setAttribute('aria-hidden','false');
-  };
-
-  function renderMyGarden(){
-    myPots.innerHTML = '';
-    garden.forEach(id=>{
-      const p = PLANTS.find(x=>x.id===id);
-      if(!p) return;
-      const el = document.createElement('div');
-      el.className = 'my-pot';
-      el.innerHTML = `
-        <button class="mute" aria-label="Mute/Unmute" data-id="${id}">♫</button>
-        <img class="pot-img" src="${p.art.pot}" alt="" />
-        <img class="plant-thumb" src="${p.art.thumb}" alt="${p.name_en}" />
-        <div class="label">${p.name_zh} · ${p.name_en}</div>
-      `;
-      myPots.appendChild(el);
-    });
-  }
-
-  // initial render of My Garden if any
-  if(garden.length){ renderMyGarden(); }
-
-})();
 </script>
-
-<style>
-/* Minimal styles to see structure; we’ll refine later */
-.garden-page { position: relative; min-height: 70vh; }
-.paper-bg { position: absolute; inset: 0; background: #FBF8F1; }
-.shelf-scene, .my-garden, .plant-focus { position: relative; padding: 4rem 2rem; }
-.shelf-stroke { display:block; margin: 2rem auto; max-width: 90%; height: auto; }
-.pots-wrap, .my-pots { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 1.2rem; }
-.pot-card, .my-pot { background: transparent; border: 0; text-align: center; cursor: pointer; }
-.pot-img { width: 160px; height: auto; display:block; margin: 0 auto -10px; }
-.plant-thumb { width: 160px; height: auto; display:block; margin: 0 auto; }
-.label { font-size: 14px; margin-top: .4rem; opacity: .7; }
-.idle-hint { position: absolute; left: 2rem; bottom: 1.5rem; font-size: 14px; opacity: .6; }
-.plant-focus[aria-hidden="true"], .my-garden[aria-hidden="true"], .shelf-scene[aria-hidden="true"] { display: none; }
-.plant-hero { max-width: 820px; margin: 0 auto; text-align: center; }
-.stickers { display: flex; gap: .75rem; justify-content: center; margin: 1rem 0; }
-.sticker { background: transparent; border: 0; font-size: 16px; cursor: pointer; }
-.sticker-content { min-height: 2.5rem; font-size: 16px; margin-bottom: 1rem; }
-.plant-btn { border: 0; background: transparent; font-size: 16px; text-decoration: underline; cursor:pointer; }
-.back { position: absolute; left: 1rem; top: 1rem; border: 0; background: transparent; font-size: 18px; cursor: pointer; }
-.comfort { position: fixed; left: 1rem; bottom: 1rem; display: flex; gap: .5rem; }
-</style>
+<script src="/assets/garden/garden.js" defer></script>
 
     </main>
 
