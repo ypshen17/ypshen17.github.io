@@ -916,7 +916,7 @@ footer {
   margin: 1.5rem 0 0.9rem 0;    /* <--- push nav down, adjust as needed */
 }
 .wonder-arrow {
-  font: bold 1.8rem "Roboto Mono", monospace;
+  font: bold 1.2rem "Roboto Mono", monospace;
   background: none;
   justify-content: space-between;
   border: none;
@@ -1070,6 +1070,7 @@ footer {
 }
 
 .snitch-form textarea {
+  box-sizing: border-box;
   width: 100%;
   height: 100px;
   margin-bottom: 0.6rem;
@@ -1081,6 +1082,7 @@ footer {
 }
 
 .snitch-form button {
+  box-sizing: border-box;
   width: 100%;
   padding: 0.6rem;
   border: none;
@@ -1099,9 +1101,11 @@ footer {
 
 .close-snitch {
   position: absolute;
-  padding: 0.3rem;
+  top: 0.4rem;
+  right: 0.4rem;
   cursor: pointer;
   font: bold 1.8rem "Roboto Mono", monospace; color: black;
+  line-height: 1;
 }
 
 .hidden {
@@ -1163,6 +1167,11 @@ footer {
   line-height: 1.2;
 }
 
+.about-link {
+  font: bold 1.2rem "Roboto Mono", monospace;
+  margin-bottom: 0.9rem;
+  color: black;
+}
 
 /* Right: scrolling media */
 .about-media {
