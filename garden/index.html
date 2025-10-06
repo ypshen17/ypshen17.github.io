@@ -22,11 +22,11 @@
 <meta property="og:url" content="https://ypshen17.github.io/garden/" />
 <meta property="og:site_name" content="Yipeng Shen" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-10-06T04:09:36+00:00" />
+<meta property="article:published_time" content="2025-10-06T08:36:05+00:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Fun with Flowers" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-06T04:09:36+00:00","datePublished":"2025-10-06T04:09:36+00:00","description":"Personal Website - Sonic Urbanism and Urban Design","headline":"Fun with Flowers","mainEntityOfPage":{"@type":"WebPage","@id":"https://ypshen17.github.io/garden/"},"url":"https://ypshen17.github.io/garden/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-06T08:36:05+00:00","datePublished":"2025-10-06T08:36:05+00:00","description":"Personal Website - Sonic Urbanism and Urban Design","headline":"Fun with Flowers","mainEntityOfPage":{"@type":"WebPage","@id":"https://ypshen17.github.io/garden/"},"url":"https://ypshen17.github.io/garden/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -77,24 +77,26 @@
     <a href="/visions">Visions</a>
     <a href="/wondering">Wondering</a>
     <a href="/about">About</a>
-    <a href="mailto:yipeng.shen@mail.polimi.it">✉</a>
+    <a href="mailto:yipeng.shen@mail.polimi.it">Email</a>
     <a href="https://instagram.com/azure_yp" target="_blank">IG</a>
     <a href="https://linkedin.com/in/ypshen17" target="_blank">IN</a>
   </div>
 
   <!-- Mobile hamburger -->
-  <div class="hamburger" id="hamburger">☰</div>
+  <button class="hamburger" id="hamburger" type="button" aria-label="Open menu">
+    <span aria-hidden="true">&#9776;</span>
+  </button>
 </nav>
 
 <!-- Mobile overlay menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <button class="close-btn" id="closeMenu">×</button>
+  <button class="close-btn" id="closeMenu" type="button" aria-label="Close menu">&times;</button>
   <div class="mobile-links">
     <a href="/compositions">compositions</a>
     <a href="/visions">Visions</a>
     <a href="/wondering">Wondering</a>
     <a href="/about">About</a>
-    <a href="mailto:yipeng.shen@mail.polimi.it">✉</a>
+    <a href="mailto:yipeng.shen@mail.polimi.it">Email</a>
     <a href="https://instagram.com/azure_yp" target="_blank">IG</a>
     <a href="https://linkedin.com/in/ypshen17" target="_blank">IN</a>
   </div>
@@ -110,7 +112,7 @@
   <!-- Preloader -->
   <div id="preloader" class="preloader" aria-live="polite">
     <div class="wash"><div class="fill" id="washFill"></div></div>
-    <div class="hint" id="preHint">Preparing the garden…</div>
+    <div class="hint" id="preHint">Preparing the garden...</div>
   </div>
 
   <!-- Paper fallback -->
@@ -120,12 +122,12 @@
   <div class="scene scene-shelf" id="sceneShelf" aria-hidden="true">
     <img class="shelf" id="shelfA" alt="" />
     <div class="pots" id="pots"></div>
-    <div class="idle">Start your garden — choose a plant.</div>
+    <div class="idle">Start your garden - choose a plant.</div>
   </div>
 
   <!-- Plant Focus -->
   <div class="scene scene-focus" id="sceneFocus" aria-hidden="true">
-    <button class="back" id="backBtn" aria-label="Back">←</button>
+    <button class="back" id="backBtn" type="button" aria-label="Back">Back</button>
     <div class="hero">
       <img id="focusArt" class="focus-art" alt="" />
       <div class="stickers">
@@ -160,13 +162,14 @@
   window.__GARDEN__ = {
     baseurl: '' || '',
     assets:  'https://assets.yipengshen.com',
-    build:   '1759723776'
+    build:   '1759739765'
   };
 </script>
 
 <script src="/assets/garden/garden.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/8.1.5/pixi.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/assets/garden/experience.js" defer></script>
+
 
     </main>
 

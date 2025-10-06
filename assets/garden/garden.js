@@ -52,7 +52,7 @@
   async function loadPlants(){
     const url = `${BASE}/assets/garden/plants.json?v=${BUILD}`;
     try { PLANTS = await fetchJSON(url); }
-    catch { document.querySelector('.idle').textContent = 'Loading data… (refresh if it takes long)'; PLANTS = []; }
+    catch { document.querySelector('.idle').textContent = 'Loading data... (refresh if it takes long)'; PLANTS = []; }
   }
 
   // Render
@@ -92,11 +92,11 @@
       const p=PLANTS.find(x=>x.id===id); if(!p) return;
       const w=document.createElement('div'); w.className='my-pot';
       w.innerHTML=`
-        <button class="mute" aria-label="Mute/Unmute" data-id="${id}">♫</button>
+        <button class="mute" aria-label="Mute/Unmute" data-id="${id}">Mute</button>
         <img class="pot" src="${p.art.pot}" alt="">
         <img class="thumb" src="${p.art.thumb}" alt="${p.name_en}">
         <div class="label">${p.name_zh} · ${p.name_en}</div>`;
-      w.querySelector('.mute').addEventListener('click',(e)=>{ e.currentTarget.classList.toggle('off'); e.currentTarget.textContent=e.currentTarget.classList.contains('off')?'×':'♫'; });
+      w.querySelector('.mute').addEventListener('click',(e)=>{ e.currentTarget.classList.toggle('off'); e.currentTarget.textContent = e.currentTarget.classList.contains('off') ? 'Muted' : 'Mute'; });
       myPots.appendChild(w);
     });
   }

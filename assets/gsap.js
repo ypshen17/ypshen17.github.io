@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fontSize: "6rem",
     });
     gsap.to(letter, {
-      duration: 9, // floating duration (was 17 → now 11)
+      duration: 9, // floating duration (was 17, now 11)
       x: x + (Math.random() * 60 - 30),
       y: y + (Math.random() * 60 - 30),
       repeat: -1,
@@ -308,6 +308,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const obj = nodes[i].item;
+    if (prevBtn) {
+      if (nodes.length > 1) {
+        const prevIdx = (i - 1 + nodes.length) % nodes.length;
+        const prevTitle = nodes[prevIdx].item.short || nodes[prevIdx].item.title || 'Previous';
+        prevBtn.disabled = false;
+        prevBtn.textContent = 'Previous: ' + prevTitle;
+        prevBtn.setAttribute('aria-label', 'Previous: ' + prevTitle);
+      } else {
+        prevBtn.disabled = true;
+        prevBtn.textContent = 'Previous';
+        prevBtn.setAttribute('aria-label', 'Previous');
+      }
+    }
+    if (nextBtn) {
+      if (nodes.length > 1) {
+        const nextIdx = (i + 1) % nodes.length;
+        const nextTitle = nodes[nextIdx].item.short || nodes[nextIdx].item.title || 'Next';
+        nextBtn.disabled = false;
+        nextBtn.textContent = 'Next: ' + nextTitle;
+        nextBtn.setAttribute('aria-label', 'Next: ' + nextTitle);
+      } else {
+        nextBtn.disabled = true;
+        nextBtn.textContent = 'Next';
+        nextBtn.setAttribute('aria-label', 'Next');
+      }
+    }
+
     titleEl.textContent = obj.title || 'Untitled';
     tagsEl.innerHTML = '';
     (obj.tags || []).forEach(t => {
@@ -356,8 +383,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   dim.addEventListener('click', closeCard);
   closeBtn?.addEventListener('click', closeCard);
-  prevBtn?.addEventListener('click', () => { if (current !== -1) openCard(current - 1); });
-  nextBtn?.addEventListener('click', () => { if (current !== -1) openCard(current + 1); });
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (current !== -1 && !prevBtn.disabled) openCard(current - 1);
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (current !== -1 && !nextBtn.disabled) openCard(current + 1);
+    });
+  }
 
   // ---- Category filter ----
   const catBar = document.getElementById('wonder-categories');

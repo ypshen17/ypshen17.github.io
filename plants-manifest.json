@@ -1,0 +1,17 @@
+﻿---
+layout: null
+permalink: /assets/garden/plants.json
+---
+{%- assign items = site.plants | sort: 'id' -%}
+[
+{%- for p in items -%}
+  { "id": {{ p.id | jsonify }},
+    "name_zh": {{ p.name_zh | jsonify }},
+    "name_en": {{ p.name_en | jsonify }},
+    "tags": {{ p.tags | jsonify }},
+    "art": {{ p.art | jsonify }},
+    "audio": {{ p.audio | jsonify }},
+    "growth": {{ p.growth | jsonify }},
+    "copy": {{ p.copy | jsonify }} }{%- unless forloop.last -%},{%- endunless -%}
+{%- endfor -%}
+]
