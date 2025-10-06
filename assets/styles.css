@@ -585,7 +585,7 @@ footer {
 
 
 
-/* Prev/Next ---go to---wonder------ */
+/* Prev/Next ---go to---vision------ */
 
 
 /* Mobile (stacked) */
@@ -743,7 +743,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin: 3rem auto;
+  margin: 6rem auto;
   width: 50%;
   max-width: 960px;
 }
