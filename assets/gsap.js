@@ -313,12 +313,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const prevIdx = (i - 1 + nodes.length) % nodes.length;
         const prevTitle = nodes[prevIdx].item.short || nodes[prevIdx].item.title || 'Previous';
         prevBtn.disabled = false;
-        prevBtn.textContent = 'Previous: ' + prevTitle;
-        prevBtn.setAttribute('aria-label', 'Previous: ' + prevTitle);
+        prevBtn.textContent = '\u2190 ' + prevTitle;
+        prevBtn.setAttribute('aria-label', 'Previous wonder: ' + prevTitle);
       } else {
         prevBtn.disabled = true;
-        prevBtn.textContent = 'Previous';
-        prevBtn.setAttribute('aria-label', 'Previous');
+        prevBtn.textContent = '\u2190 Previous';
+        prevBtn.setAttribute('aria-label', 'Previous wonder');
       }
     }
     if (nextBtn) {
@@ -326,12 +326,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const nextIdx = (i + 1) % nodes.length;
         const nextTitle = nodes[nextIdx].item.short || nodes[nextIdx].item.title || 'Next';
         nextBtn.disabled = false;
-        nextBtn.textContent = 'Next: ' + nextTitle;
-        nextBtn.setAttribute('aria-label', 'Next: ' + nextTitle);
+        nextBtn.textContent = nextTitle + ' \u2192';
+        nextBtn.setAttribute('aria-label', 'Next wonder: ' + nextTitle);
       } else {
         nextBtn.disabled = true;
-        nextBtn.textContent = 'Next';
-        nextBtn.setAttribute('aria-label', 'Next');
+        nextBtn.textContent = 'Next \u2192';
+        nextBtn.setAttribute('aria-label', 'Next wonder');
       }
     }
 

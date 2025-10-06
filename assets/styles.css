@@ -926,6 +926,8 @@ footer {
 .wonder-arrow:hover {
   color: var(--accent);
 }
+.wonder-arrow.prev { text-align: left; }
+.wonder-arrow.next { text-align: right; }
 
 .wonder-guide{
   margin-top: 0.9rem;
