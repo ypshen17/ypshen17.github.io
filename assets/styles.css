@@ -1061,7 +1061,7 @@ footer {
   right: 10%;
   background: #fff;
   border: 1px solid #aaa;
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: 0.6rem;
   width: 20%;
   max-width: 92vw;
@@ -1075,7 +1075,7 @@ footer {
   height: 100px;
   margin-bottom: 0.6rem;
   padding: 0.6rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border: 1px solid #ddd;
   border-radius: 0.3rem;
   resize: both;
@@ -1104,7 +1104,7 @@ footer {
   top: 0.4rem;
   right: 0.4rem;
   cursor: pointer;
-  font: bold 1.8rem "Roboto Mono", monospace; color: black;
+  font: bold 1.2rem "Roboto Mono", monospace; color: black;
   line-height: 1;
 }
 
