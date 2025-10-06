@@ -6,214 +6,135 @@
 
   // Elements
   const el = (id) => document.getElementById(id);
-  const pre = el('preloader');
-  const washFill = el('washFill');
-  const sceneShelf = el('sceneShelf');
-  const sceneFocus = el('sceneFocus');
-  const sceneMy    = el('sceneMy');
-  const paper = el('paper');
-  const shelfA = el('shelfA');
-  const shelfB = el('shelfB');
-  const potsWrap = el('pots');
-  const focusArt = el('focusArt');
-  const stickerBody = el('stickerBody');
-  const myPots = el('myPots');
+  const pre = el('preloader'), washFill = el('washFill');
+  const sceneShelf = el('sceneShelf'), sceneFocus = el('sceneFocus'), sceneMy = el('sceneMy');
+  const paper = el('paper'), shelfA = el('shelfA'), shelfB = el('shelfB');
+  const potsWrap = el('pots'), focusArt = el('focusArt'), stickerBody = el('stickerBody'), myPots = el('myPots');
 
   // State
-  let PLANTS = [];
-  let current = null;
-  let garden = [];
-  let motionOn = true;
-  let soundOn  = true;
-
-  // Audio scaffolding (simple master gain)
-  const AC = ( () => {
-    let ctx, master;
-    function init() {
-      if (ctx) return;
-      ctx = new (window.AudioContext || window.webkitAudioContext)();
-      master = ctx.createGain();
-      master.gain.value = 0.2; // calm default
-      master.connect(ctx.destination);
-    }
-    function resume() { if (ctx && ctx.state === 'suspended') ctx.resume(); }
-    function setMute(muted) { if (!master) return; master.gain.value = muted ? 0 : 0.2; }
-    return { init, resume, setMute, get ctx(){return ctx}, get master(){return master} };
-  })();
+  let PLANTS = [], current = null, garden = [], motionOn = true, soundOn = true;
 
   // Helpers
-  async function fetchText(url, {retries=1} = {}) {
-    for (let i=0;i<=retries;i++) {
-      try {
-        const r = await fetch(url, { cache:'no-store' });
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return await r.text();
-      } catch (e) { if (i===retries) throw e; await new Promise(d=>setTimeout(d, 250)); }
+  async function fetchText(url, {retries=1}={}) {
+    for (let i=0;i<=retries;i++){
+      try { const r = await fetch(url, { cache:'no-store' }); if(!r.ok) throw new Error(`HTTP ${r.status}`); return await r.text(); }
+      catch(e){ if (i===retries) throw e; await new Promise(d=>setTimeout(d,250)); }
     }
   }
-  async function fetchJSON(url, opts) {
-    const txt = await fetchText(url, opts);
-    if (!txt || !txt.trim()) throw new Error('Empty response');
-    try { return JSON.parse(txt); }
-    catch { throw new Error('Invalid JSON'); }
-  }
-  function showScene(scene) {
-    sceneShelf.setAttribute('aria-hidden', scene!=='shelf');
-    sceneFocus.setAttribute('aria-hidden', scene!=='focus');
-    sceneMy.setAttribute('aria-hidden',    scene!=='my');
-  }
-  function loadImage(src) {
-    return new Promise((res, rej) => { const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=src; });
-  }
-  async function preloadList(urls, onprogress) {
-    let done=0;
-    for (const url of urls) {
-      try { await loadImage(url); } catch(_) {}
-      done++; onprogress && onprogress(done/urls.length);
-    }
-  }
+  async function fetchJSON(url, opts){ const t=await fetchText(url, opts); if(!t||!t.trim()) throw new Error('Empty'); return JSON.parse(t); }
+  function showScene(name){ sceneShelf.setAttribute('aria-hidden', name!=='shelf'); sceneFocus.setAttribute('aria-hidden', name!=='focus'); sceneMy.setAttribute('aria-hidden', name!=='my'); }
+  function loadImage(src){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=src; }); }
+  async function preloadList(list,onp){ let n=0; for(const u of list){ try{ await loadImage(u);}catch{} n++; onp&&onp(n/list.length); } }
 
   // Preloader
-  async function runPreloader() {
+  async function runPreloader(){
     const purl = `${BASE}/assets/garden/preload.json?v=${BUILD}`;
     let manifest = { critical:{images:[],thumbs:[]}, eager:{images:[]} };
-    try { manifest = await fetchJSON(purl, {retries:1}); }
-    catch { /* fallback silently */ }
-
-    // Paper background first to avoid flash
-    const paperBg = manifest.critical.images?.find(u=>/paper_bg\./.test(u));
+    try { manifest = await fetchJSON(purl); } catch {}
+    const paperBg = manifest.critical.images?.find(u=>/paper_bg\.(jpg|jpeg)$/i.test(u));
     if (paperBg) paper.style.backgroundImage = `url('${paperBg}')`;
-    // Shelves
-    const shelfAUrl = manifest.critical.images?.find(u=>/shelf_a\./.test(u));
-    const shelfBUrl = manifest.eager.images?.find(u=>/shelf_b\./.test(u));
-    if (shelfAUrl) shelfA.src = shelfAUrl;
-    if (shelfBUrl) shelfB.src = shelfBUrl;
+    const shelfAUrl = manifest.critical.images?.find(u=>/shelf_a\.png$/i.test(u));
+    const shelfBUrl = (manifest.eager.images||[]).find(u=>/shelf_b\.png$/i.test(u));
+    if (shelfAUrl) shelfA.src = shelfAUrl; if (shelfBUrl) shelfB.src = shelfBUrl;
 
-    // Preload critical images + thumbs with progress
     const critical = [...(manifest.critical.images||[]), ...(manifest.critical.thumbs||[])];
-    await preloadList(critical, p => washFill.style.width = `${Math.floor(p*100)}%`);
-    // Reveal shelf
+    if (critical.length) await preloadList(critical, p => washFill.style.width = `${Math.round(p*100)}%`);
+
     pre.style.display='none';
     showScene('shelf');
+    if (window.FUNWITH?.showShelf) FUNWITH.showShelf('A');
 
     // Eager (non-blocking)
-    const eager = [...(manifest.eager.images||[])];
-    preloadList(eager);
+    const eager = [...(manifest.eager.images||[])]; preloadList(eager);
   }
 
-  // Plants manifest
-  async function loadPlants() {
+  // Data
+  async function loadPlants(){
     const url = `${BASE}/assets/garden/plants.json?v=${BUILD}`;
-    try {
-      PLANTS = await fetchJSON(url, {retries:1});
-    } catch (e) {
-      document.querySelector('.idle').textContent = 'Loading data… (refresh if it takes long)';
-      PLANTS = []; // graceful
-    }
+    try { PLANTS = await fetchJSON(url); }
+    catch { document.querySelector('.idle').textContent = 'Loading data… (refresh if it takes long)'; PLANTS = []; }
   }
 
-  // Render shelf
-  function renderShelf() {
+  // Render
+  function renderShelf(){
     potsWrap.innerHTML = '';
-    if (!PLANTS.length) return;
-    PLANTS.forEach(p => {
+    PLANTS.forEach(p=>{
       const b = document.createElement('button');
-      b.className='pot-card';
-      b.setAttribute('data-id', p.id);
+      b.className='pot-card'; b.dataset.id=p.id;
       b.innerHTML = `
         <img class="pot" src="${p.art.pot}" alt="">
         <img class="thumb" src="${p.art.thumb}" alt="${p.name_en}">
-        <div class="label">${p.name_zh} · ${p.name_en}</div>
-      `;
-      b.addEventListener('click', () => openFocus(p));
+        <div class="label">${p.name_zh} · ${p.name_en}</div>`;
+      b.addEventListener('click', ()=> openFocus(p));
       potsWrap.appendChild(b);
     });
   }
-
-  // Focus
   function openFocus(p){
-    current = p;
-    focusArt.src = p.art.plant;
-    focusArt.alt = p.name_en;
+    current=p;
+    focusArt.src = p.art.plant; focusArt.alt=p.name_en;
     setSticker('sowing');
     showScene('focus');
+    if (window.FUNWITH?.revealPlant) FUNWITH.revealPlant(p.art.plant);
   }
   function setSticker(tab){
     if (!current) return;
-    const map = {sowing: current.copy.sowing, care: current.copy.care, pests: current.copy.pests};
+    const map={sowing:current.copy.sowing, care:current.copy.care, pests:current.copy.pests};
     stickerBody.textContent = map[tab] || '';
   }
 
   // My Garden
   function saveGarden(){ localStorage.setItem('garden_v1', JSON.stringify(garden)); }
-  function loadGarden(){ try{ garden = JSON.parse(localStorage.getItem('garden_v1')||'[]'); }catch{ garden=[]; } }
-  function addToGarden(id){ if (!garden.includes(id)) garden.push(id); saveGarden(); renderMyGarden(); }
+  function loadGarden(){ try{ garden=JSON.parse(localStorage.getItem('garden_v1')||'[]'); }catch{ garden=[]; } }
+  function addToGarden(id){ if(!garden.includes(id)) garden.push(id); saveGarden(); renderMyGarden(); }
   function renderMyGarden(){
     myPots.innerHTML='';
-    garden.forEach(id => {
-      const p = PLANTS.find(x=>x.id===id); if(!p) return;
-      const wrap = document.createElement('div');
-      wrap.className='my-pot';
-      wrap.innerHTML = `
+    garden.forEach(id=>{
+      const p=PLANTS.find(x=>x.id===id); if(!p) return;
+      const w=document.createElement('div'); w.className='my-pot';
+      w.innerHTML=`
         <button class="mute" aria-label="Mute/Unmute" data-id="${id}">♫</button>
         <img class="pot" src="${p.art.pot}" alt="">
         <img class="thumb" src="${p.art.thumb}" alt="${p.name_en}">
-        <div class="label">${p.name_zh} · ${p.name_en}</div>
-      `;
-      wrap.querySelector('.mute').addEventListener('click', (e)=>{
-        // stub: toggle visual only; audio routing can be added per-plant later
-        e.currentTarget.classList.toggle('off');
-        e.currentTarget.textContent = e.currentTarget.classList.contains('off') ? '×' : '♫';
-      });
-      myPots.appendChild(wrap);
+        <div class="label">${p.name_zh} · ${p.name_en}</div>`;
+      w.querySelector('.mute').addEventListener('click',(e)=>{ e.currentTarget.classList.toggle('off'); e.currentTarget.textContent=e.currentTarget.classList.contains('off')?'×':'♫'; });
+      myPots.appendChild(w);
     });
   }
 
-  // Wire UI
-  function wire() {
+  // UI wires
+  function wire(){
     el('backBtn').addEventListener('click', ()=> showScene('shelf'));
-    el('plantBtn').addEventListener('click', ()=> {
-      if (!current) return;
-      addToGarden(current.id);
-      showScene('my');
-    });
+    el('plantBtn').addEventListener('click', ()=> { if (!current) return; addToGarden(current.id); showScene('my'); if (window.FUNWITH?.showShelf) FUNWITH.showShelf('B'); });
     el('tabSowing').addEventListener('click', ()=> setSticker('sowing'));
-    el('tabCare').addEventListener('click',   ()=> setSticker('care'));
-    el('tabPests').addEventListener('click',  ()=> setSticker('pests'));
+    el('tabCare').addEventListener('click', ()=> setSticker('care'));
+    el('tabPests').addEventListener('click', ()=> setSticker('pests'));
 
-    // Comfort
-    const audioToggle = el('audioToggle');
-    const motionToggle = el('motionToggle');
+    const audioToggle = el('audioToggle'), motionToggle = el('motionToggle');
     audioToggle.addEventListener('click', ()=>{
       soundOn = !soundOn;
       audioToggle.setAttribute('aria-pressed', String(soundOn));
       audioToggle.textContent = `Sound: ${soundOn?'on':'off'}`;
-      AC.init(); AC.setMute(!soundOn); AC.resume();
+      // (audio engine hook later)
     });
     motionToggle.addEventListener('click', ()=>{
       motionOn = !motionOn;
       motionToggle.setAttribute('aria-pressed', String(motionOn));
       motionToggle.textContent = `Motion: ${motionOn?'on':'off'}`;
-      document.querySelectorAll('.pot-card, .my-pot')
-        .forEach(n => n.style.animation = motionOn ? '' : 'none');
+      document.querySelectorAll('.pot-card, .my-pot').forEach(n=> n.style.animation = motionOn ? '' : 'none');
     });
   }
 
   // Boot
-  (async function boot(){
+  (async function(){
     try {
-      // shelves src set in preloader; set paper fallback color immediately
       paper.style.background = '#FBF8F1';
-      wire();
-      loadGarden();
+      wire(); loadGarden();
       await runPreloader();
       await loadPlants();
-      renderShelf();
-      if (garden.length){ renderMyGarden(); }
-    } catch (e) {
+      renderShelf(); if (garden.length) renderMyGarden();
+    } catch(e){
       console.error('Boot error', e);
-      pre.style.display='none';
-      showScene('shelf');
+      pre.style.display='none'; showScene('shelf');
       document.querySelector('.idle').textContent = 'Something went wrong loading data. Try refresh.';
     }
   })();

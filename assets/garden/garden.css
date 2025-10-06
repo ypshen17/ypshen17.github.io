@@ -1,6 +1,9 @@
-:root{ --paper:#FBF8F1; --ink:#1A1A1A; --shadow:rgba(0,0,0,.04);}
+:root{ --paper:#FBF8F1; --ink:#1A1A1A; --shadow:rgba(0,0,0,.05);}
 *{box-sizing:border-box} body{background:var(--paper)}
 .garden{position:relative;min-height:75vh;overflow:hidden}
+
+/* Overlay canvas host */
+.fx-stage{position:fixed;inset:0;z-index:10;pointer-events:none}
 
 /* Preloader */
 .preloader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper);z-index:50}
@@ -8,7 +11,7 @@
 .preloader .fill{height:100%;width:0%;background:linear-gradient(90deg, rgba(200,106,60,.3), rgba(143,181,214,.25));transition:width .2s ease}
 .preloader .hint{position:absolute;bottom:8vh;font-size:14px;opacity:.7}
 
-/* Paper */
+/* Paper fallback */
 .paper{position:absolute;inset:0;background:var(--paper);}
 
 /* Scenes */
@@ -17,7 +20,7 @@
 
 .shelf{display:block;margin:1.5rem auto 1rem;max-width:90%;height:auto;filter:drop-shadow(0 6px 8px var(--shadow))}
 
-/* Shelf pots */
+/* Shelf grid */
 .pots{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;max-width:1100px;margin:0 auto}
 .pot-card{background:transparent;border:0;cursor:pointer;text-align:center;padding:.25rem 0;transform-origin:50% 100%;animation:breathe 5.4s ease-in-out infinite}
 .pot-card img{display:block;margin:0 auto}
@@ -26,7 +29,6 @@
 .pot-card .label{font-size:14px;opacity:.68;margin-top:.25rem}
 
 @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(.985)}}
-
 .idle{max-width:1100px;margin:.75rem auto 0;font-size:14px;opacity:.6}
 
 /* Focus */
@@ -34,8 +36,8 @@
 .hero{max-width:860px;margin:0 auto;text-align:center}
 .focus-art{max-width:620px;width:90%;height:auto;margin:0 auto;display:block;filter:drop-shadow(0 10px 16px var(--shadow))}
 .stickers{display:flex;gap:.75rem;justify-content:center;margin:1rem 0}
-.sticker{border:0;background:transparent;font-size:16px;cursor:pointer;text-decoration:underline}
-.sticker-body{min-height:2.5rem;font-size:16px;margin-bottom:1rem}
+.sticker{height:44px;width:auto;opacity:.9}
+.sticker-body{min-height:2.5rem;font-size:16px;margin:1rem auto 1.25rem;max-width:680px}
 .plant-btn{border:0;background:transparent;font-size:16px;text-decoration:underline;cursor:pointer}
 
 /* My Garden */
