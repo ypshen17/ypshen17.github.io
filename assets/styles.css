@@ -518,7 +518,7 @@ footer {
   grid-template-columns: 1fr 2fr;
   align-items: start;
   column-gap: 1.8rem;            /* space between text & gallery */
-  padding: 7.5rem 3.6rem 3.6rem;
+  padding: 7.2rem 3.6rem 3.6rem;
 }
 
 .composition-aside {
@@ -735,7 +735,7 @@ footer {
 }
 
 .single-vision-title {
-  top: 6rem;
+  top: 7.2rem;
   padding: 3.6rem;
   font-size: 3.6rem;
   z-index: 10;
@@ -793,6 +793,7 @@ footer {
 
 .vision-arrow.prev { text-align: left; }
 .vision-arrow.next { text-align: right; }
+.vision-nav .vision-arrow.next { margin-left: auto; }
 
 
 
