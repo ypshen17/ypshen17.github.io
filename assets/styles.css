@@ -518,8 +518,7 @@ footer {
   grid-template-columns: 1fr 2fr;
   align-items: start;
   column-gap: 1.8rem;            /* space between text & gallery */
-  padding-left: 3.6rem;        /* align text with "YIPENG SHEN" */
-  padding-right: 3.6rem;
+  padding: 7.5rem 3.6rem 3.6rem;
 }
 
 .composition-aside {
@@ -583,6 +582,39 @@ footer {
   display: block;
 }
 
+.composition-prevnext {
+  margin-top: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: 100%;
+}
+
+.composition-prevnext > div {
+  width: 100%;
+  display: flex;
+}
+
+.composition-prevnext > div:last-child {
+  justify-content: flex-end;
+}
+
+.composition-prevnext .vision-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  line-height: 1.4;
+  padding: 0.3rem 0;
+}
+
+.composition-prevnext .vision-arrow.next {
+  justify-content: flex-end;
+}
+
+.composition-prevnext .arrow {
+  font-size: 1.2rem;
+}
+
 
 
 /* Prev/Next ---go to---vision------ */
@@ -592,9 +624,9 @@ footer {
 @media (max-width: 960px) {
   .composition-detail {
     grid-template-columns: 1fr; /* Stack text and gallery */
-    padding: 0 0.9rem;          /* align with mobile nav padding */
+    padding: 6.5rem 0.9rem 2rem;          /* align with mobile nav padding */
     column-gap: 0;
-}
+  }
   .composition-aside {
     top: 18rem; /* more down */
     position: static; /* disable sticky on small screens */
