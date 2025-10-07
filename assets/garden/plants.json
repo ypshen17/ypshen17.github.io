@@ -1,0 +1,69 @@
+[{
+    "id": "narcissus",
+    "name": "Narcissus",
+    "art": {
+      "pot": "https://assets.yipengshen.com/garden/art/pots/pot_terracotta.png",
+      "plant": "https://assets.yipengshen.com/garden/art/plants/narcissus.png",
+      "thumb": "https://assets.yipengshen.com/garden/art/thumbs/narcissus_480.png"
+    },
+    "audio": {
+      "tonic": "D3",
+      "scale": [0,2,3,7,9],
+      "instrument": "sine-pad",
+      "rhythm": {"length_beats":20,"density":0.28,"swing":0.05},
+      "texture": {"wow":0.42,"flutter":0.2,"noise":0.1,"warmth":0.6}
+    },
+    "growth": {"idle_minutes_per_step":15,"layers":{"seed":{"voices":1,"cutoff":600,"reverb":0.35},"sprout":{"voices":2,"cutoff":1200,"reverb":0.42},"bloom":{"voices":3,"cutoff":1900,"reverb":0.48},"lush":{"voices":4,"cutoff":2300,"reverb":0.54}}},
+    "copy": {"sowing":"Clear water, clear tone.","care":"Hold the stillness; glassy overtones arrive.","pests":"When haze creeps in, change the water and wait."}
+  },{
+    "id": "plumbago",
+    "name": "Plumbago",
+    "art": {
+      "pot": "https://assets.yipengshen.com/garden/art/pots/pot_terracotta.png",
+      "plant": "https://assets.yipengshen.com/garden/art/plants/plumbago.png",
+      "thumb": "https://assets.yipengshen.com/garden/art/thumbs/plumbago_480.png"
+    },
+    "audio": {
+      "tonic": "A3",
+      "scale": [0,2,4,7,9],
+      "instrument": "felt-piano",
+      "rhythm": {"length_beats":16,"density":0.35,"swing":0.08},
+      "texture": {"wow":0.35,"flutter":0.12,"noise":0.18,"warmth":0.5}
+    },
+    "growth": {"idle_minutes_per_step":12,"layers":{"seed":{"voices":1,"cutoff":850,"reverb":0.28},"sprout":{"voices":2,"cutoff":1400,"reverb":0.34},"bloom":{"voices":3,"cutoff":2200,"reverb":0.4},"lush":{"voices":3,"cutoff":2600,"reverb":0.46}}},
+    "copy": {"sowing":"Begin with patience; the melody is shy at first.","care":"A sip, a pause, a breath - rhythm is water.","pests":"Fragility keeps the garden honest; balance will return."}
+  },{
+    "id": "scallion",
+    "name": "Scallion",
+    "art": {
+      "pot": "https://assets.yipengshen.com/garden/art/pots/pot_konbu.png",
+      "plant": "https://assets.yipengshen.com/garden/art/plants/scallion.png",
+      "thumb": "https://assets.yipengshen.com/garden/art/thumbs/scallion_480.png"
+    },
+    "audio": {
+      "tonic": "D4",
+      "scale": [0,3,5,7,10],
+      "instrument": "pluck",
+      "rhythm": {"length_beats":12,"density":0.5,"swing":0.18},
+      "texture": {"wow":0.25,"flutter":0.08,"noise":0.22,"warmth":0.32}
+    },
+    "growth": {"idle_minutes_per_step":8,"layers":{"seed":{"voices":1,"cutoff":1200,"reverb":0.18},"sprout":{"voices":2,"cutoff":2000,"reverb":0.22},"bloom":{"voices":3,"cutoff":2800,"reverb":0.28},"lush":{"voices":3,"cutoff":3400,"reverb":0.32}}},
+    "copy": {"sowing":"Wake the playful notes with quick green breaths.","care":"Keep the roots laughing with bright drops.","pests":"If it dulls, let sunlight tickle and start again."}
+  },{
+    "id": "sunflower",
+    "name": "Sunflower",
+    "art": {
+      "pot": "https://assets.yipengshen.com/garden/art/pots/pot_sand.png",
+      "plant": "https://assets.yipengshen.com/garden/art/plants/sunflower.png",
+      "thumb": "https://assets.yipengshen.com/garden/art/thumbs/sunflower_480.png"
+    },
+    "audio": {
+      "tonic": "C3",
+      "scale": [0,4,5,7,11],
+      "instrument": "reed-chime",
+      "rhythm": {"length_beats":16,"density":0.42,"swing":0.12},
+      "texture": {"wow":0.3,"flutter":0.1,"noise":0.16,"warmth":0.48}
+    },
+    "growth": {"idle_minutes_per_step":18,"layers":{"seed":{"voices":1,"cutoff":900,"reverb":0.24},"sprout":{"voices":2,"cutoff":1500,"reverb":0.28},"bloom":{"voices":3,"cutoff":2200,"reverb":0.33},"lush":{"voices":4,"cutoff":2600,"reverb":0.38}}},
+    "copy": {"sowing":"Let the first light find the seed.","care":"Turn slowly with the sun, and keep the soil humming.","pests":"Brush off the shadows; their warmth will return."}
+  }]

@@ -1,52 +1,439 @@
-:root{ --paper:#FBF8F1; --ink:#1A1A1A; --shadow:rgba(0,0,0,.05);}
-*{box-sizing:border-box} body{background:var(--paper)}
-.garden{position:relative;min-height:75vh;overflow:hidden}
+:root {
+  --paper: #FBF8F1;
+  --ink: #1A1A1A;
+  --shadow: rgba(20, 22, 30, 0.08);
+  --halo: rgba(143, 181, 214, 0.22);
+  --accent: #c86a3c;
+  --calm: #8fb5d6;
+  --muted: rgba(26, 26, 26, 0.65);
+  --hand: "The Girl Next Door", "Comic Neue", system-ui;
+  --sans: "Work Sans", "Helvetica Neue", Arial, sans-serif;
+}
 
-/* Overlay canvas host */
-.fx-stage{position:fixed;inset:0;z-index:10;pointer-events:none}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); }
 
-/* Preloader */
-.preloader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper);z-index:50}
-.preloader .wash{width:220px;height:12px;border-radius:12px;background:rgba(0,0,0,.06);overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.06)}
-.preloader .fill{height:100%;width:0%;background:linear-gradient(90deg, rgba(200,106,60,.3), rgba(143,181,214,.25));transition:width .2s ease}
-.preloader .hint{position:absolute;bottom:8vh;font-size:14px;opacity:.7}
+.garden {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: transparent;
+}
 
-/* Paper fallback */
-.paper{position:absolute;inset:0;background:var(--paper);}
+.fx-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+}
 
-/* Scenes */
-.scene{position:relative;padding:4rem 1.5rem 2rem;opacity:0;transform:translateY(8px);transition:opacity .5s ease, transform .5s ease}
-.scene[aria-hidden="false"]{opacity:1;transform:none}
+.intro {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 70;
+  background: var(--paper);
+  opacity: 0;
+  transform: scale(1.01);
+  pointer-events: none;
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+.intro[aria-hidden="false"] {
+  opacity: 1;
+  transform: none;
+}
+.intro__brush {
+  width: min(680px, 70vw);
+  height: 48px;
+  background: linear-gradient(90deg, rgba(200, 106, 60, 0.35), rgba(143, 181, 214, 0.25));
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+.intro__whisper {
+  margin-top: 2rem;
+  font-family: var(--hand);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  color: rgba(26, 26, 26, 0.72);
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 600ms ease 200ms, transform 600ms ease 200ms;
+}
+.intro[aria-hidden="false"] .intro__brush,
+.intro[aria-hidden="false"] .intro__whisper {
+  opacity: 1;
+  transform: none;
+}
 
-.shelf{display:block;margin:1.5rem auto 1rem;max-width:90%;height:auto;filter:drop-shadow(0 6px 8px var(--shadow))}
+.preloader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  background: var(--paper);
+  z-index: 60;
+  transition: opacity 400ms ease;
+}
+.preloader.is-hidden { opacity: 0; pointer-events: none; }
+.preloader .wash {
+  width: 240px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+.preloader .fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(200, 106, 60, 0.34), rgba(143, 181, 214, 0.28));
+  transition: width 180ms ease-out;
+}
+.preloader .hint {
+  font-size: 0.85rem;
+  color: rgba(26, 26, 26, 0.6);
+}
 
-/* Shelf grid */
-.pots{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;max-width:1100px;margin:0 auto}
-.pot-card{background:transparent;border:0;cursor:pointer;text-align:center;padding:.25rem 0;transform-origin:50% 100%;animation:breathe 5.4s ease-in-out infinite}
-.pot-card img{display:block;margin:0 auto}
-.pot-card .pot{width:160px}
-.pot-card .thumb{width:160px;margin-top:-8px}
-.pot-card .label{font-size:14px;opacity:.68;margin-top:.25rem}
+.paper {
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+  z-index: 0;
+  pointer-events: none;
+}
 
-@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(.985)}}
-.idle{max-width:1100px;margin:.75rem auto 0;font-size:14px;opacity:.6}
+.scene {
+  position: relative;
+  min-height: 100vh;
+  padding: clamp(4rem, 6vw, 6rem) clamp(1.5rem, 5vw, 4rem) 5rem;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 500ms ease, transform 500ms ease;
+  pointer-events: none;
+  z-index: 20;
+}
+.scene[aria-hidden="false"] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
 
-/* Focus */
-.back{position:absolute;left:1rem;top:1rem;border:0;background:transparent;font-size:18px;cursor:pointer}
-.hero{max-width:860px;margin:0 auto;text-align:center}
-.focus-art{max-width:620px;width:90%;height:auto;margin:0 auto;display:block;filter:drop-shadow(0 10px 16px var(--shadow))}
-.stickers{display:flex;gap:.75rem;justify-content:center;margin:1rem 0}
-.sticker{height:44px;width:auto;opacity:.9}
-.sticker-body{min-height:2.5rem;font-size:16px;margin:1rem auto 1.25rem;max-width:680px}
-.plant-btn{border:0;background:transparent;font-size:16px;text-decoration:underline;cursor:pointer}
+.shelf-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.shelf {
+  display: block;
+  width: min(820px, 86vw);
+  height: auto;
+  filter: drop-shadow(0 18px 22px var(--shadow));
+}
 
-/* My Garden */
-.my-pots{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;max-width:1100px;margin:0 auto}
-.my-pot{position:relative;text-align:center;transform-origin:50% 100%;animation:breathe 6s ease-in-out infinite}
-.my-pot .pot{width:180px}
-.my-pot .thumb{width:180px;margin-top:-10px}
-.my-pot .label{font-size:14px;opacity:.7;margin-top:.25rem}
-.my-pot .mute{position:absolute;right:8px;top:8px;border:0;background:rgba(255,255,255,.7);border-radius:999px;padding:.25rem .5rem;cursor:pointer}
+.pots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(1.25rem, 3vw, 2rem);
+  width: min(1080px, 92vw);
+}
+.pot-card {
+  position: relative;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: center;
+  transform-origin: 50% 100%;
+  animation: breathe 5800ms ease-in-out infinite;
+  outline: none;
+}
+.pot-card::after {
+  content: "";
+  position: absolute;
+  inset: 6% 12%;
+  border-radius: 50%;
+  background: var(--halo);
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 220ms ease, transform 220ms ease;
+  z-index: 0;
+}
+.pot-card:focus-visible::after,
+.pot-card:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+.pot-card img { position: relative; z-index: 1; display: block; margin: 0 auto; }
+.pot-card .pot { width: clamp(140px, 18vw, 180px); }
+.pot-card .thumb { width: clamp(140px, 18vw, 200px); margin-top: -10px; filter: drop-shadow(0 10px 16px var(--shadow)); }
+.pot-card .label {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  color: rgba(26, 26, 26, 0.7);
+  letter-spacing: 0.01em;
+}
 
-.comfort{position:fixed;left:10px;bottom:10px;display:flex;gap:.5rem;z-index:40}
-.comfort button{border:0;background:rgba(255,255,255,.7);padding:.4rem .55rem;border-radius:8px;cursor:pointer}
+.idle {
+  margin-top: clamp(1rem, 4vw, 2.5rem);
+  font-family: var(--hand);
+  font-size: clamp(0.95rem, 2.1vw, 1.2rem);
+  color: rgba(26, 26, 26, 0.55);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+.idle.is-visible { opacity: 1; transform: none; }
+
+.back {
+  position: absolute;
+  left: clamp(1rem, 3vw, 2rem);
+  top: clamp(1rem, 3vw, 2rem);
+  border: 0;
+  background: rgba(255, 255, 255, 0.76);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.95rem;
+  font-family: var(--hand);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.back:hover { background: rgba(255, 255, 255, 0.9); }
+
+.focus-frame {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  display: grid;
+  gap: 1.5rem;
+  justify-items: center;
+}
+.focus-artwrap {
+  position: relative;
+  width: min(640px, 80vw);
+}
+.focus-art {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 28px var(--shadow));
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+.focus-art.is-visible { opacity: 1; transform: none; }
+.focus-reveal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(251, 248, 241, 0.8);
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+.stickers {
+  display: flex;
+  gap: clamp(0.6rem, 2vw, 1.1rem);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.sticker {
+  border: 0;
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 22px;
+  padding: 0.55rem 1.2rem;
+  font-family: var(--hand);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  color: rgba(26, 26, 26, 0.78);
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(8px);
+  opacity: 0.6;
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+.sticker[aria-selected="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+}
+.sticker:focus-visible {
+  outline: 2px dashed rgba(0, 0, 0, 0.6);
+  outline-offset: 2px;
+}
+
+.sticker-body {
+  min-height: 3.5rem;
+  max-width: 640px;
+  font-family: var(--hand);
+  font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+  color: rgba(26, 26, 26, 0.78);
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+.sticker-body.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.plant-btn {
+  border: 0;
+  background: rgba(255, 255, 255, 0.86);
+  padding: 0.6rem 1.6rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: pointer;
+  font-family: var(--hand);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.plant-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+}
+.plant-btn__seed {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  position: relative;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.8);
+}
+.plant-btn__label { pointer-events: none; }
+
+.scene-mygarden {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.my-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.my-pots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(1rem, 2vw, 1.6rem);
+  width: min(1100px, 92vw);
+}
+.my-pot {
+  position: relative;
+  text-align: center;
+  animation: breathe 6400ms ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+.my-pot .pot {
+  width: clamp(160px, 20vw, 200px);
+}
+.my-pot .thumb {
+  width: clamp(160px, 20vw, 220px);
+  margin-top: -12px;
+  filter: drop-shadow(0 14px 20px var(--shadow));
+}
+.my-pot .label {
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  color: rgba(26, 26, 26, 0.72);
+}
+.my-pot button.mute {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  font-family: var(--hand);
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+.my-pot button.mute.off { opacity: 0.5; }
+
+.watering-can {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.9), rgba(143, 181, 214, 0.4));
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.85), 0 10px 18px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 30;
+}
+.watering-can.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.exit {
+  position: fixed;
+  bottom: clamp(1.5rem, 6vw, 3rem);
+  right: clamp(1.5rem, 6vw, 3rem);
+  font-family: var(--hand);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: rgba(26, 26, 26, 0.65);
+  opacity: 0;
+  transition: opacity 600ms ease;
+  z-index: 30;
+}
+.exit.is-visible { opacity: 1; }
+
+.comfort {
+  position: fixed;
+  left: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  display: flex;
+  gap: 0.6rem;
+  z-index: 80;
+}
+.comfort button {
+  border: 0;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.985); }
+}
+
+@media (max-width: 720px) {
+  .scene { padding: 4rem 1.25rem 5rem; }
+  .back { top: 1rem; left: 1rem; }
+  .stickers { gap: 0.5rem; }
+  .sticker { font-size: 0.95rem; }
+  .comfort { flex-direction: column; align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene,
+  .focus-art,
+  .sticker-body,
+  .pot-card,
+  .my-pot { transition-duration: 0ms !important; animation: none !important; }
+  .intro,
+  .intro__brush,
+  .intro__whisper { transition-duration: 0ms !important; }
+}

@@ -1,15 +1,20 @@
 {
-  "version": "1759776508",
+  "version": "1759819779",
   "critical": {
     "images": [
       "https://assets.yipengshen.com/garden/art/paper/paper_bg.jpg",
       "https://assets.yipengshen.com/garden/art/shelf/shelf_a.png",
-      "https://assets.yipengshen.com/garden/art/pots/pot_terracotta.png",
+      "https://assets.yipengshen.com/garden/art/intro/brush_line.png",
       "https://assets.yipengshen.com/garden/art/stickers/sowing.svg",
       "https://assets.yipengshen.com/garden/art/stickers/care.svg",
       "https://assets.yipengshen.com/garden/art/stickers/pests.svg"
     ],
-    "thumbs": ["{{ site.cloudflare_assets }}/garden/art/thumbs/narcissus_480.png","{{ site.cloudflare_assets }}/garden/art/thumbs/plumbago_480.png","{{ site.cloudflare_assets }}/garden/art/thumbs/scallion_480.png","{{ site.cloudflare_assets }}/garden/art/thumbs/sunflower_480.png"]
+    "thumbs": ["https://assets.yipengshen.com/garden/art/thumbs/plumbago_480.png","https://assets.yipengshen.com/garden/art/thumbs/scallion_480.png","https://assets.yipengshen.com/garden/art/thumbs/narcissus_480.png","https://assets.yipengshen.com/garden/art/thumbs/sunflower_480.png"]
   },
-  "eager": { "images": [ "https://assets.yipengshen.com/garden/art/shelf/shelf_b.png" ] }
+  "eager": {
+    "images": [
+      "https://assets.yipengshen.com/garden/art/shelf/shelf_b.png",
+      "https://assets.yipengshen.com/garden/art/particles/dust.png"
+    ]
+  }
 }
