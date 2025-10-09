@@ -369,7 +369,7 @@ footer {
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
-  padding: 1.8rem 0; /* NOTE margin to padding */
+  /* padding: 1.8rem 0; NOTE margin to padding */
   margin-top: 1.2rem;
   top: 5.4rem;
   z-index: 900;           /* keep above content */
@@ -426,7 +426,7 @@ footer {
 
 .compositions-page .categories .cat:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 1.5px;
 }
 
 /* Grid of composition cards */
@@ -1052,7 +1052,7 @@ footer {
 
 .wonder-page .categories .cat:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 1.5px;
 }
 
 @media (max-width: 640px) { 
