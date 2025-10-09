@@ -502,12 +502,19 @@ footer {
 
 
 
-.composition-group {
-  font-size: 1.2rem;
-  font-weight: bold;
-  /* margin: 3rem 0 1.5rem; */
+.composition-group-label {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.9rem;
+  font: 700 0.85rem "Roboto Mono", monospace;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #aaa;
+  color: rgba(0,0,0,0.55);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.3rem;
+  pointer-events: none;
+  z-index: 2;
 }
 
 
