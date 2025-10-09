@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn   = document.getElementById('wonderNext');
 
   const nodes = [];
-  let data = [];
+  let wonders = [];
   let originalData = [];
 
   setLoading(true);
@@ -199,10 +199,10 @@ document.addEventListener('DOMContentLoaded', () => {
   async function initWonderData() {
     try {
       const dataset = await loadWonderData();
-      data = Array.isArray(dataset) ? dataset : [];
-      originalData = data.slice();
-      if (data.length) {
-        spawnNodes(data);
+      wonders = Array.isArray(dataset) ? dataset : [];
+      originalData = wonders.slice();
+      if (wonders.length) {
+        spawnNodes(wonders);
       } else {
         worldEl.innerHTML = '<p class="wonder-empty">Nothing to show yet.</p>';
       }
@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('active');
         const filter = btn.dataset.filter;
         if (filter === 'all') {
-          spawnNodes(originalData);
+      spawnNodes(originalData);
         } else {
           spawnNodes(originalData.filter(item => item.category === filter));
         }
