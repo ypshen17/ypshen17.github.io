@@ -22,17 +22,46 @@
   }
 
   const stageHost = document.getElementById('fxStage');
-  if (!stageHost || !window.PIXI) {
+  if (!stageHost) {
     publishReady(fallback);
     return;
   }
 
-  run().catch((err) => {
-    console.error('PIXI garden error', err);
-    publishReady(fallback);
-  });
+  ensurePixi()
+    .then(() => run())
+    .catch((err) => {
+      console.error('PIXI garden error', err);
+      publishReady(fallback);
+    });
+
+  let pixiPromise = null;
+
+  function ensurePixi() {
+    if (window.PIXI) return Promise.resolve(window.PIXI);
+    if (pixiPromise) return pixiPromise;
+    const url = window.__GARDEN__?.pixi || 'https://cdnjs.cloudflare.com/ajax/libs/pixi.js/8.1.5/pixi.min.js';
+    pixiPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = url;
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      script.referrerPolicy = 'no-referrer';
+      script.onload = () => {
+        if (window.PIXI) {
+          resolve(window.PIXI);
+        } else {
+          reject(new Error('PIXI loaded without global namespace'));
+        }
+      };
+      script.onerror = () => reject(new Error('Failed to load PIXI.js'));
+      document.head.appendChild(script);
+    });
+    return pixiPromise;
+  }
 
   async function run() {
+    const PIXI = window.PIXI;
+    if (!PIXI) throw new Error('PIXI unavailable after load');
     const motion = { on: true };
     const app = new PIXI.Application();
     await app.init({ backgroundAlpha: 0, resizeTo: window, antialias: true });

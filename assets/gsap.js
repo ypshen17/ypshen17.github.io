@@ -197,6 +197,51 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn   = document.getElementById('wonderNext');
 
   const nodes = [];
+  let data = [];
+  let originalData = [];
+
+  setLoading(true);
+  initWonderData();
+
+  async function initWonderData() {
+    try {
+      const dataset = await loadWonderData();
+      data = Array.isArray(dataset) ? dataset : [];
+      originalData = data.slice();
+      if (data.length) {
+        spawnNodes(data);
+      } else {
+        worldEl.innerHTML = '<p class="wonder-empty">Nothing to show yet.</p>';
+      }
+    } catch (err) {
+      console.error('Wondering data failed to load', err);
+      worldEl.innerHTML = '<p class="wonder-error">Unable to load wonders right now.</p>';
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function setLoading(isLoading) {
+    if (isLoading) {
+      worldEl.dataset.state = 'loading';
+      worldEl.innerHTML = '<p class="wonder-loading">Loading wonders...</p>';
+    } else if (worldEl.dataset.state === 'loading') {
+      delete worldEl.dataset.state;
+    }
+  }
+
+  async function loadWonderData() {
+    const inline = document.getElementById('wonder-data');
+    if (inline) {
+      try { return JSON.parse(inline.textContent || '[]'); }
+      catch (err) { console.warn('Inline wonder data invalid', err); }
+    }
+
+    const url = window.__WONDER_DATA_URL__ || '/assets/wondering-data.json';
+    const res = await fetch(url, { cache: 'force-cache' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  }
 
   function spawnNodes(dataset) {
     worldEl.innerHTML = "";
@@ -385,10 +430,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const catBar = document.getElementById('wonder-categories');
   if (catBar) {
     const buttons = catBar.querySelectorAll('.cat');
-    const originalData = [...data];
 
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
+        if (!originalData.length) return;
         buttons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filter = btn.dataset.filter;
@@ -401,8 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Spawn initial set
-  spawnNodes(data);
+  // Initial nodes render after data load completes.
 });
 
 

@@ -103,7 +103,7 @@
   async function fetchText(url, retries = 1) {
     for (let i = 0; i <= retries; i++) {
       try {
-        const res = await fetch(url, { cache: 'no-store' });
+        const res = await fetch(url, { cache: 'force-cache' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await res.text();
       } catch (err) {
