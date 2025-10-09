@@ -472,22 +472,33 @@ footer {
 .composition-card {
   position: relative;
   width: 100%;
+}
+.composition-card .card-link {
+  display: block;
+  position: relative;
+  width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: #eee;
 }
 .composition-card img {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   transition: transform 0.4s ease;
 }
 .composition-card:hover img { transform: scale(1.05); }
 
 .card-meta {
-  position: absolute; bottom: 0; left: 0; width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   padding: 1.2rem;
   background: rgba(255, 255, 255, 0.75);
   font-family: "Roboto Flex", sans-serif;
+  color: #000;
+  backdrop-filter: blur(6px);
 }
 .card-cat {
   font: bold 0.9rem "Roboto Mono", monospace;
@@ -514,6 +525,7 @@ footer {
   color: rgba(0,0,0,0.4);
   pointer-events: none;
   white-space: nowrap;
+  z-index: 2;
 }
 
 
