@@ -368,8 +368,10 @@ footer {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 1.8rem;
+  gap: 1rem;
   padding: 1.8rem 0; /* NOTE margin to padding */
+  margin-top: 1.2rem;
+  top: 5.4rem;
   z-index: 900;           /* keep above content */
   background: #fff;       /* prevents overlap with gallery */
 }

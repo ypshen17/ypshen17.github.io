@@ -179,13 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const worldEl = document.getElementById('wonderWorld');
   if (!worldEl) return;
 
-  // Data from page
-  let data = [];
-  try {
-    const raw = document.getElementById('wonder-data')?.textContent || '[]';
-    data = JSON.parse(raw);
-  } catch (e) { data = []; }
-
   const dim       = document.getElementById('wonderDim');
   const card      = document.getElementById('wonderCard');
   const titleEl   = document.getElementById('wonderTitle');
