@@ -376,12 +376,12 @@ footer {
 
 
 /* ---------- Garden CTA card ---------- */
-.project-card {
+.garden-cta {
   max-width: 900px;
   margin: 2rem auto;
 }
 
-.garden-card {
+.garden-cta .garden-card {
   display: grid;
   grid-template-columns: 220px 1fr;
   gap: 1rem;
@@ -392,33 +392,40 @@ footer {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.garden-card .thumb {
+.garden-cta .garden-card:hover,
+.garden-cta .garden-card:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+.garden-cta .garden-card .thumb {
   min-height: 160px;
   background-size: cover;
   background-position: center;
 }
 
-.garden-card .meta {
+.garden-cta .garden-card .meta {
   padding: 1rem 1.2rem;
 }
 
-.garden-card h3 {
+.garden-cta .garden-card h3 {
   margin: 0.1rem 0 0.3rem 0;
 }
 
-.garden-card .cta {
+.garden-cta .garden-card .cta {
   opacity: 0.7;
 }
 
-.garden-card:hover .cta,
-.garden-card:focus-visible .cta {
+.garden-cta .garden-card:hover .cta,
+.garden-cta .garden-card:focus-visible .cta {
   text-decoration: underline;
 }
 
 @media (max-width: 640px) {
-  .garden-card {
+  .garden-cta .garden-card {
     grid-template-columns: 1fr;
   }
 }
