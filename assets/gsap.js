@@ -1,22 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.getElementById("hamburger");
-  const mobileMenu = document.getElementById("mobileMenu");
-  const closeMenu = document.getElementById("closeMenu");
+(() => {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+  if (typeof window.gsap === "undefined") return;
+  const { gsap } = window;
 
-  if (hamburger && mobileMenu && closeMenu) {
-    hamburger.addEventListener("click", () => {
-      mobileMenu.style.display = "flex";
-    });
-
-    closeMenu.addEventListener("click", () => {
-      mobileMenu.style.display = "none";
-    });
-  }
-});
-
-
-
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
   const scatterContainer = document.getElementById("scatter");
   const nameCenter = document.getElementById("name-center");
   const stage2 = document.getElementById("stage2");
@@ -461,6 +448,7 @@ if (snitch && form) {
   });
 }
 
+})();
 
 
 
