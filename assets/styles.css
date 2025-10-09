@@ -288,6 +288,7 @@ footer {
   color: black;
   text-decoration: none;
   position: relative;
+  display: inline-block;
 }
 
 #home-nav a::after {
@@ -295,7 +296,7 @@ footer {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -3px;
+  bottom: -2px;
   height: 1px;
   background: currentColor;
   transform: scaleX(0);
