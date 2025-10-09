@@ -373,7 +373,209 @@ footer {
   }
 }
 
-  
+
+
+/* ---------- Garden CTA card ---------- */
+.project-card {
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+.garden-card {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit;
+  background: #fff7;
+  backdrop-filter: saturate(110%) blur(2px);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.garden-card .thumb {
+  min-height: 160px;
+  background-size: cover;
+  background-position: center;
+}
+
+.garden-card .meta {
+  padding: 1rem 1.2rem;
+}
+
+.garden-card h3 {
+  margin: 0.1rem 0 0.3rem 0;
+}
+
+.garden-card .cta {
+  opacity: 0.7;
+}
+
+.garden-card:hover .cta,
+.garden-card:focus-visible .cta {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .garden-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Podcast page ---------- */
+.podcast-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  width: min(1100px, 100%);
+  margin: 0 auto 4rem;
+  padding: 0 3.6rem;
+}
+
+.podcast-hero {
+  background: linear-gradient(135deg, rgba(0, 0, 191, 0.12), rgba(0, 0, 0, 0.02));
+  border-radius: 24px;
+  padding: 2.4rem 2.8rem;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.08);
+}
+
+.podcast-hero h1 {
+  margin: 0 0 1rem 0;
+}
+
+.podcast-hero p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.podcast-platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+}
+
+.podcast-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  font: 0.85rem "Roboto Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.podcast-button.secondary {
+  background: transparent;
+  color: var(--accent);
+}
+
+.episode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.8rem;
+}
+
+.episode-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 1.6rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.05);
+}
+
+.episode-card header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.episode-number {
+  margin: 0;
+  font: 0.8rem "Roboto Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.episode-card h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.episode-meta {
+  margin: 0;
+  font: 0.9rem "Roboto Flex", sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.episode-card p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.episode-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.episode-actions a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  font: 0.8rem "Roboto Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--accent);
+  color: #fff;
+}
+
+.episode-actions a.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.podcast-note {
+  margin: 0 auto;
+  max-width: 720px;
+  font-size: 1rem;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.podcast-note a {
+  font-weight: 600;
+}
+
+@media (max-width: 960px) {
+  .podcast-page {
+    padding: 0 1.4rem;
+  }
+  .podcast-hero {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .podcast-button,
+  .episode-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+}
 
 
 
