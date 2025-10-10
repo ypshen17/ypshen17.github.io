@@ -861,19 +861,46 @@ footer {
 
 
 
-.composition-group-label {
+.composition-group-divider {
+  grid-column: 1 / -1;
+  position: relative;
+  margin: 3rem 0 1.5rem;
+  width: 100%;
+}
+
+.compositions-grid > .composition-group-divider:first-child {
+  margin-top: 1.5rem;
+}
+
+.composition-group-divider::after {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.composition-group-divider .divider-label {
   position: absolute;
-  top: 0;
-  left: -1.2rem;
-  transform: rotate(-90deg);
-  transform-origin: top left;
-  font: 700 0.7rem "Roboto Mono", monospace;
-  letter-spacing: 0.12em;
+  top: -0.75rem;
+  left: 0;
+  padding: 0 0.8rem 0 0;
+  font: 700 0.75rem "Roboto Mono", monospace;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(0,0,0,0.4);
-  pointer-events: none;
-  white-space: nowrap;
-  z-index: 2;
+  color: rgba(0, 0, 0, 0.5);
+  background: #fff;
+}
+
+@media (max-width: 640px) {
+  .composition-group-divider {
+    margin: 2.2rem 0 1.2rem;
+  }
+
+  .composition-group-divider .divider-label {
+    letter-spacing: 0.18em;
+    padding-right: 0.6rem;
+  }
 }
 
 
