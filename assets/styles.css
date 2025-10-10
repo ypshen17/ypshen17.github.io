@@ -864,9 +864,8 @@ footer {
 
 .composition-group-divider {
   position: absolute;
-  left: 0;
-  right: 0;
   height: 0;
+  width: 0;
   pointer-events: none;
   color: #1030ff;
   z-index: 2;
@@ -875,8 +874,6 @@ footer {
 .composition-group-divider::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
   top: 0;
   height: 2px;
   background: currentColor;

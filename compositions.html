@@ -484,29 +484,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const groupDividers = Array.from(document.querySelectorAll('.composition-group-divider'));
   const grid = document.querySelector('.compositions-grid');
 
-  function firstVisibleCardFor(group) {
-    return cardsList.find(card =>
-      card.dataset.group === group && card.style.display !== 'none'
-    );
-  }
-
   function positionGroupDividers() {
     if (!grid) return;
     const computed = getComputedStyle(grid);
     const rowGap = parseFloat(computed.rowGap || computed.gap || "0") || 0;
 
     groupDividers.forEach(divider => {
-      if (divider.style.display === 'none') return;
       const group = divider.dataset.group;
       if (!group) return;
-      const targetCard = firstVisibleCardFor(group);
-      if (!targetCard) {
+
+      const groupCards = cardsList.filter(card =>
+        card.dataset.group === group && card.style.display !== 'none'
+      );
+
+      if (!groupCards.length) {
         divider.style.display = 'none';
         return;
       }
-      const cardTop = targetCard.offsetTop;
-      const offset = cardTop > 0 ? cardTop - rowGap / 2 : 0;
-      divider.style.top = offset + "px";
+
+      if (divider.style.display === 'none') divider.style.display = '';
+
+      const minTop = Math.min(...groupCards.map(card => card.offsetTop));
+      const topCards = groupCards.filter(card => Math.abs(card.offsetTop - minTop) < 0.5);
+      const left = Math.min(...topCards.map(card => card.offsetLeft));
+      const right = Math.max(...topCards.map(card => card.offsetLeft + card.offsetWidth));
+
+      const offsetTop = Math.max(0, minTop - rowGap / 2);
+      divider.style.top = offsetTop + "px";
+      divider.style.left = left + "px";
+      divider.style.width = Math.max(0, right - left) + "px";
     });
   }
 
@@ -526,15 +532,6 @@ document.addEventListener("DOMContentLoaded", () => {
       cardsList.forEach(card => {
         const cats = card.dataset.category.split(',');
         card.style.display = (filter === 'all' || cats.includes(filter)) ? '' : 'none';
-      });
-
-      groupDividers.forEach(divider => {
-        const group = divider.dataset.group;
-        if (!group) return;
-        const visible = cardsList.some(card =>
-          card.dataset.group === group && card.style.display !== 'none'
-        );
-        divider.style.display = visible ? '' : 'none';
       });
 
       requestAnimationFrame(positionGroupDividers);
