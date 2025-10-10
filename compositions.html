@@ -509,7 +509,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const left = Math.min(...topCards.map(card => card.offsetLeft));
       const right = Math.max(...topCards.map(card => card.offsetLeft + card.offsetWidth));
 
-      const offsetTop = Math.max(0, minTop - rowGap / 2);
+      const baseline = minTop - rowGap / 2;
+      const minimum = rowGap * 0.5;
+      const offsetTop = baseline < minimum ? minimum : baseline;
       divider.style.top = offsetTop + "px";
       divider.style.left = left + "px";
       divider.style.width = Math.max(0, right - left) + "px";
