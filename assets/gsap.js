@@ -57,7 +57,7 @@
     gsap.set(letter, {
       x,
       y,
-      opacity: 0.25,
+      opacity: 1,
       fontSize: "6rem",
     });
     gsap.to(letter, {

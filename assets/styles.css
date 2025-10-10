@@ -192,7 +192,7 @@ footer {
   font-family: "Roboto Mono", monospace;
   font-size: 6rem;
   font-weight: bold;
-  color: #aaa;
+  color: #e6e6e6;
   user-select: none;
   will-change: transform;
   pointer-events: none;
@@ -230,12 +230,11 @@ footer {
   font-size: 6rem;
   font-weight: bold;
   font-family: "Roboto Mono", monospace;
-  color: #aaa;
+  color: #e6e6e6;
   line-height: 1;
   left: 0;
   top: 0;
   transform: none; /* Ensure no centering or transform override */
-  opacity: 0.25;
   z-index: 30;
 }
 
@@ -247,7 +246,7 @@ footer {
   font-family: "Roboto Mono", monospace;
   font-weight: bold;
   font-size: 6rem;         /* COMPOSITION: 6rem */
-  color: #aaa;             /* …and #aaa */
+  color: #e6e6e6;
 }
 
 /* the measurement slots are invisible but occupy space */
