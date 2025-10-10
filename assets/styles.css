@@ -864,40 +864,61 @@ footer {
 .composition-group-divider {
   grid-column: 1 / -1;
   position: relative;
-  margin: 3rem 0 1.5rem;
-  width: 100%;
-}
-
-.compositions-grid > .composition-group-divider:first-child {
-  margin-top: 1.5rem;
+  height: 0;
+  pointer-events: none;
+  color: rgba(0, 45, 191, 0.6);
 }
 
 .composition-group-divider::after {
   content: "";
-  display: block;
-  height: 1px;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.18);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.9rem; /* centered within the 1.8rem grid gap */
+  height: 2px;
+  background: currentColor;
+  opacity: 0.6;
 }
 
 .composition-group-divider .divider-label {
   position: absolute;
-  top: -0.75rem;
+  top: calc(-0.9rem - 0.75rem);
   left: 0;
-  padding: 0 0.8rem 0 0;
-  font: 700 0.75rem "Roboto Mono", monospace;
-  letter-spacing: 0.24em;
+  padding: 0 0.75rem 0 0;
+  font: 700 0.72rem "Roboto Mono", monospace;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.5);
+  color: currentColor;
   background: #fff;
 }
 
+.composition-group-divider[data-group="Grounds"] {
+  color: rgba(0, 63, 255, 0.7);
+}
+
+.composition-group-divider[data-group="Forms"] {
+  color: rgba(6, 102, 255, 0.7);
+}
+
+.composition-group-divider[data-group="Echoes"] {
+  color: rgba(18, 132, 255, 0.7);
+}
+
+.composition-group-divider[data-group="Traces"] {
+  color: rgba(41, 160, 255, 0.7);
+}
+
+.composition-group-divider[data-group="Open"] {
+  color: rgba(79, 186, 255, 0.7);
+}
+
 @media (max-width: 640px) {
-  .composition-group-divider {
-    margin: 2.2rem 0 1.2rem;
+  .composition-group-divider::after {
+    top: -0.7rem;
   }
 
   .composition-group-divider .divider-label {
+    top: calc(-0.7rem - 0.72rem);
     letter-spacing: 0.18em;
     padding-right: 0.6rem;
   }
