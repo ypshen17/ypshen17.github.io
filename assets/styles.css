@@ -813,7 +813,7 @@ footer {
   grid-template-columns: repeat(4, 1fr);
   gap: 1.8rem;
   position: relative;
-  margin: 0;        /* remove extra gap at edges */
+  margin: 2.4rem 0 0 0;        /* remove extra gap at edges */
 }
 @media (max-width: 1080px) { .compositions-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) { .compositions-grid { grid-template-columns: 1fr; } }

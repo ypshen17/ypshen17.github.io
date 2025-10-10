@@ -510,11 +510,30 @@ document.addEventListener("DOMContentLoaded", () => {
       const right = Math.max(...topCards.map(card => card.offsetLeft + card.offsetWidth));
 
       const baseline = minTop - rowGap / 2;
-      const minimum = rowGap * 1;  /*  entire band (line+label)Using 0.4 moves everything up, 0.6 nudges it down.*/
+      const minimum = rowGap * 1;  /* entire band (line+label) */
       const offsetTop = baseline < minimum ? minimum : baseline;
       divider.style.top = offsetTop + "px";
-      divider.style.left = left + "px";
-      divider.style.width = Math.max(0, right - left) + "px";
+      const rawWidth = Math.max(0, right - left);
+      const minWidth = 120;
+      let width = Math.max(rawWidth, minWidth);
+      const gridWidth = grid.clientWidth || width;
+
+      if (width > gridWidth) width = gridWidth;
+
+      let offsetLeft;
+      if (width === rawWidth) {
+        offsetLeft = left;
+      } else {
+        const center = left + rawWidth / 2;
+        offsetLeft = center - width / 2;
+        if (!Number.isFinite(offsetLeft)) offsetLeft = 0;
+        const maxLeft = Math.max(0, gridWidth - width);
+        if (offsetLeft < 0) offsetLeft = 0;
+        if (offsetLeft > maxLeft) offsetLeft = maxLeft;
+      }
+
+      divider.style.left = offsetLeft + "px";
+      divider.style.width = width + "px";
     });
   }
 
