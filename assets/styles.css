@@ -812,6 +812,7 @@ footer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.8rem;
+  position: relative;
   margin: 0;        /* remove extra gap at edges */
 }
 @media (max-width: 1080px) { .compositions-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -862,11 +863,13 @@ footer {
 
 
 .composition-group-divider {
-  grid-column: 1 / -1;
-  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
   height: 0;
   pointer-events: none;
-  color: rgba(0, 45, 191, 0.6);
+  color: #1030ff;
+  z-index: 2;
 }
 
 .composition-group-divider::after {
@@ -874,15 +877,15 @@ footer {
   position: absolute;
   left: 0;
   right: 0;
-  top: -0.9rem; /* centered within the 1.8rem grid gap */
+  top: 0;
   height: 2px;
   background: currentColor;
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
 .composition-group-divider .divider-label {
   position: absolute;
-  top: calc(-0.9rem - 0.75rem);
+  top: -0.75rem;
   left: 0;
   padding: 0 0.75rem 0 0;
   font: 700 0.72rem "Roboto Mono", monospace;
@@ -893,32 +896,27 @@ footer {
 }
 
 .composition-group-divider[data-group="Grounds"] {
-  color: rgba(0, 63, 255, 0.7);
+  color: #0f2bff;
 }
 
 .composition-group-divider[data-group="Forms"] {
-  color: rgba(6, 102, 255, 0.7);
+  color: #2c5dff;
 }
 
 .composition-group-divider[data-group="Echoes"] {
-  color: rgba(18, 132, 255, 0.7);
+  color: #4781ff;
 }
 
 .composition-group-divider[data-group="Traces"] {
-  color: rgba(41, 160, 255, 0.7);
+  color: #66a2ff;
 }
 
 .composition-group-divider[data-group="Open"] {
-  color: rgba(79, 186, 255, 0.7);
+  color: #85c0ff;
 }
 
 @media (max-width: 640px) {
-  .composition-group-divider::after {
-    top: -0.7rem;
-  }
-
   .composition-group-divider .divider-label {
-    top: calc(-0.7rem - 0.72rem);
     letter-spacing: 0.18em;
     padding-right: 0.6rem;
   }

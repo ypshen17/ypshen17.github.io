@@ -480,7 +480,41 @@
 document.addEventListener("DOMContentLoaded", () => {
   const buttons = document.querySelectorAll('.categories .cat');
   const cards = document.querySelectorAll('.composition-card');
-  const groupDividers = document.querySelectorAll('.composition-group-divider');
+  const cardsList = Array.from(cards);
+  const groupDividers = Array.from(document.querySelectorAll('.composition-group-divider'));
+  const grid = document.querySelector('.compositions-grid');
+
+  function firstVisibleCardFor(group) {
+    return cardsList.find(card =>
+      card.dataset.group === group && card.style.display !== 'none'
+    );
+  }
+
+  function positionGroupDividers() {
+    if (!grid) return;
+    const computed = getComputedStyle(grid);
+    const rowGap = parseFloat(computed.rowGap || computed.gap || "0") || 0;
+
+    groupDividers.forEach(divider => {
+      if (divider.style.display === 'none') return;
+      const group = divider.dataset.group;
+      if (!group) return;
+      const targetCard = firstVisibleCardFor(group);
+      if (!targetCard) {
+        divider.style.display = 'none';
+        return;
+      }
+      const offset = targetCard.offsetTop - rowGap / 2;
+      divider.style.top = offset + "px";
+    });
+  }
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(positionGroupDividers, 120);
+  });
+  window.addEventListener('load', positionGroupDividers);
 
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -488,7 +522,7 @@ document.addEventListener("DOMContentLoaded", () => {
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      cards.forEach(card => {
+      cardsList.forEach(card => {
         const cats = card.dataset.category.split(',');
         card.style.display = (filter === 'all' || cats.includes(filter)) ? '' : 'none';
       });
@@ -496,16 +530,19 @@ document.addEventListener("DOMContentLoaded", () => {
       groupDividers.forEach(divider => {
         const group = divider.dataset.group;
         if (!group) return;
-        const visible = Array.from(cards).some(card =>
+        const visible = cardsList.some(card =>
           card.dataset.group === group && card.style.display !== 'none'
         );
         divider.style.display = visible ? '' : 'none';
       });
+
+      requestAnimationFrame(positionGroupDividers);
     });
   });
+
+  requestAnimationFrame(positionGroupDividers);
 });
 </script>
-
 
     </main>
 
