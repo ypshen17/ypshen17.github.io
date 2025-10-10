@@ -504,7 +504,8 @@ document.addEventListener("DOMContentLoaded", () => {
         divider.style.display = 'none';
         return;
       }
-      const offset = targetCard.offsetTop - rowGap / 2;
+      const cardTop = targetCard.offsetTop;
+      const offset = cardTop > 0 ? cardTop - rowGap / 2 : 0;
       divider.style.top = offset + "px";
     });
   }
