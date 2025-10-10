@@ -208,6 +208,7 @@ footer {
   font-size: 2.4rem;  
   cursor: pointer;
   color: black;
+  z-index: 10000;
 }
 
 /* Stage 2 (overlay, not pushing page height) */
