@@ -479,15 +479,15 @@ footer {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.6rem 1.4rem;
-  border-radius: 999px;
+  padding: 0.55rem 1.3rem;
+  border-radius: 0;
   font: 0.82rem "Roboto Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   border: 1px solid var(--accent);
   background: var(--accent);
   color: #fff;
-  box-shadow: 0 6px 16px rgba(0, 0, 191, 0.12);
+  box-shadow: none;
 }
 
 .podcast-button.secondary {
@@ -498,19 +498,19 @@ footer {
 .podcast-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: clamp(1.4rem, 3vw, 2.2rem);
+  gap: clamp(1.2rem, 2.8vw, 2rem);
 }
 
 .player-card {
   position: relative;
   display: grid;
   gap: 0.8rem;
-  padding: 1.2rem;
-  border-radius: 12px;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.12);
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(18px);
+  padding: 1.2rem 1rem 1.1rem;
+  border-radius: 0;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+  background: rgba(200, 220, 240, 0.85);
+  border: none;
+  backdrop-filter: none;
 }
 
 .player-card figure {
@@ -519,9 +519,9 @@ footer {
 
 .player-cover {
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 0;
   aspect-ratio: 1/1;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  box-shadow: none;
 }
 
 .player-cover img {
@@ -573,7 +573,7 @@ footer {
 .progress-track {
   position: relative;
   height: 4px;
-  border-radius: 999px;
+  border-radius: 0;
   background: rgba(0, 0, 0, 0.12);
   overflow: hidden;
 }
@@ -597,22 +597,23 @@ footer {
   height: 36px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.55);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-  font-size: 0.95rem;
+  background: transparent;
+  box-shadow: none;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.82);
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 .player-controls button:hover,
 .player-controls button:focus-visible {
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
 }
 
 .player-actions {
   display: flex;
   justify-content: space-between;
+  align-items: stretch;
   gap: 0.6rem;
   font: 0.72rem "Roboto Mono", monospace;
   text-transform: uppercase;
@@ -620,41 +621,45 @@ footer {
 }
 
 .player-actions a {
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.65);
-  color: inherit;
+  flex: 1;
+  text-align: center;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.75);
   text-decoration: none;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .player-actions a:hover,
 .player-actions a:focus-visible {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.9);
+  color: rgba(0, 0, 0, 0.95);
 }
 
 .tone-rose {
-  background: linear-gradient(180deg, rgba(255, 139, 139, 0.32), rgba(255, 194, 194, 0.6));
+  background: #7fa8c5;
 }
 
 .tone-coral {
-  background: linear-gradient(180deg, rgba(246, 138, 120, 0.35), rgba(255, 206, 173, 0.58));
+  background: #6d9ec0;
 }
 
 .tone-azure {
-  background: linear-gradient(180deg, rgba(136, 187, 255, 0.32), rgba(202, 220, 255, 0.6));
+  background: #5f95ba;
 }
 
 .tone-violet {
-  background: linear-gradient(180deg, rgba(188, 149, 255, 0.32), rgba(232, 210, 255, 0.62));
+  background: #5285ac;
 }
 
 .tone-slate {
-  background: linear-gradient(180deg, rgba(142, 163, 183, 0.32), rgba(201, 214, 228, 0.6));
+  background: #6a8ead;
 }
 
 .tone-blush {
-  background: linear-gradient(180deg, rgba(255, 184, 214, 0.32), rgba(255, 220, 234, 0.62));
+  background: #88aec4;
 }
 
 .podcast-note {
@@ -687,8 +692,7 @@ footer {
     justify-content: center;
   }
   .player-card {
-    padding: 1rem;
-    border-radius: 12px;
+    padding: 1.1rem 0.9rem;
   }
   .player-actions {
     flex-direction: column;
@@ -1479,33 +1483,51 @@ footer {
   position: fixed;
   bottom: 10%;
   right: 10%;
-  background: #fff;
-  border: 1px solid #aaa;
-  padding: 1.2rem;
-  width: 20%;
-  max-width: 92vw;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 20px;
+  padding: 1.4rem 1.6rem 1.2rem;
+  width: min(360px, 85vw);
   z-index: 1000;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(12px);
 }
 
 .snitch-form textarea {
   box-sizing: border-box;
   width: 100%;
   height: 100px;
-  margin-bottom: 0.6rem;
-  padding: 0.6rem;
-  font-size: 0.9rem;
-  border: 1px solid #ddd;
-  resize: both;
+  margin-bottom: 0.9rem;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  resize: none;
 }
 
 .snitch-form button {
   box-sizing: border-box;
   width: 100%;
-  padding: 0.6rem;
+  padding: 0.6rem 0.8rem;
   border: none;
-  font-weight: bold;
+  border-radius: 999px;
+  font: 0.85rem "Roboto Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.75);
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.snitch-form button:hover,
+.snitch-form button:focus-visible {
+  background: rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
 .snitch-feedback {
@@ -1521,8 +1543,24 @@ footer {
   top: 0.4rem;
   right: 0.4rem;
   cursor: pointer;
-  font: bold 1.2rem "Roboto Mono", monospace; color: black;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font: 0.9rem "Roboto Mono", monospace;
+  color: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   line-height: 1;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.close-snitch:hover,
+.close-snitch:focus-visible {
+  background: rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
 .hidden {
