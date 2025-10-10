@@ -137,16 +137,11 @@
       tl.to(scatter, {
         x: "+=" + dx,
         y: "+=" + dy,
-        fontSize: "6rem",
         opacity: 1,
         duration: 1.2,
         delay: i * 0.02
       }, 0);
     });
-
-    // fade in stage2 and nav
-    tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
-    tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
 
     // once landed, pin one set of letters into the final container
     tl.add(() => {
@@ -168,11 +163,8 @@
         const offsetY = beforeRect.top - afterRect.top;
 
         gsap.set(letter, { x: offsetX, y: offsetY, opacity: 1 });
-        gsap.to(letter, {
-          x: 0,
-          y: 0,
-          duration: 0.5,
-          ease: "power2.out"
+        requestAnimationFrame(() => {
+          gsap.set(letter, { x: 0, y: 0, clearProps: "transform" });
         });
       });
 
@@ -188,6 +180,10 @@
       // realign once the letters are anchored in their final container
       alignStage2();
     });
+
+    // fade in stage2 and nav after the letters assemble
+    tl.to(stage2, { opacity: 1, duration: 0.8 }, "+=0.1");
+    tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "<");
   });
 });
 
