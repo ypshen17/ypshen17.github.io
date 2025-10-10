@@ -148,19 +148,45 @@
     tl.to(stage2, { opacity: 1, duration: 0.8 }, 0.2);
     tl.to([homeNav, ".smoke", ".pieces"], { opacity: 1, duration: 0.8 }, "-=0.2");
 
-    // once landed, keep only 11 letters
+    // once landed, pin one set of letters into the final container
     tl.add(() => {
-      compositionContainer.innerHTML = "";
-      for (let i = 0; i < WORD.length; i++) {
-        const letter = scatterLetters[i];
-        compositionContainer.appendChild(letter);
+      const primaryLetters = scatterLetters.slice(0, WORD.length);
+      const extras = scatterLetters.slice(WORD.length);
+
+      // preserve visual position when reparenting into composition container
+      slots.forEach((slot, index) => {
+        const letter = primaryLetters[index];
+        if (!letter) return;
+
+        const beforeRect = letter.getBoundingClientRect();
+        slot.replaceWith(letter);
         letter.style.position = "relative";
         letter.style.display = "inline-block";
-        gsap.set(letter, { x: 0, y: 0, clearProps: "transform" });
-      }
-      scatterLetters.slice(WORD.length).forEach(letter => {
-        gsap.to(letter, { opacity: 0, duration: 0.8 });
+
+        const afterRect = letter.getBoundingClientRect();
+        const offsetX = beforeRect.left - afterRect.left;
+        const offsetY = beforeRect.top - afterRect.top;
+
+        gsap.set(letter, { x: offsetX, y: offsetY, opacity: 1 });
+        gsap.to(letter, {
+          x: 0,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out"
+        });
       });
+
+      // fade the duplicate letters away where they land
+      extras.forEach(letter => {
+        gsap.to(letter, {
+          opacity: 0,
+          duration: 0.6,
+          onComplete: () => letter.remove()
+        });
+      });
+
+      // realign once the letters are anchored in their final container
+      alignStage2();
     });
   });
 });
