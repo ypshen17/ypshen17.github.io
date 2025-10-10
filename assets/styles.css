@@ -813,7 +813,7 @@ footer {
   grid-template-columns: repeat(4, 1fr);
   gap: 1.8rem;
   position: relative;
-  margin: 2.4rem 0 0 0;        /* remove extra gap at edges */
+  margin: 3rem 0 0;        /* top spacing for group dividers */
 }
 @media (max-width: 1080px) { .compositions-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) { .compositions-grid { grid-template-columns: 1fr; } }
@@ -875,7 +875,7 @@ footer {
   content: "";
   position: absolute;
   top: 0;
-  height: 4px;
+  height: 3px;
   background: currentColor;
   opacity: 0.55;
   width: 100%;
@@ -883,7 +883,7 @@ footer {
 
 .composition-group-divider .divider-label {
   position: absolute;
-  top: -0.45rem;
+  top: -0.75rem;
   left: 0;
   padding: 0 0.75rem 0 0;
   font: bold 0.9rem "Roboto Mono", monospace;

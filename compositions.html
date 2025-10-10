@@ -504,28 +504,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (divider.style.display === 'none') divider.style.display = '';
 
-      const rows = new Map();
-      groupCards.forEach(card => {
-        const top = Math.round(card.offsetTop);
-        if (!rows.has(top)) rows.set(top, []);
-        rows.get(top).push(card);
-      });
-
-      const targetEntry = Array.from(rows.entries())
-        .sort((a, b) => {
-          const countDiff = b[1].length - a[1].length;
-          if (countDiff !== 0) return countDiff;
-          return a[0] - b[0];
-        })[0];
-
-      const targetTop = targetEntry ? targetEntry[0] : Math.round(groupCards[0].offsetTop);
-      const topCards = targetEntry ? targetEntry[1] : groupCards;
+      const targetTop = Math.min(...groupCards.map(card => Math.round(card.offsetTop)));
+      const topCards = groupCards.filter(card => Math.round(card.offsetTop) === targetTop);
 
       const minLeft = Math.min(...topCards.map(card => card.offsetLeft));
       const maxRight = Math.max(...topCards.map(card => card.offsetLeft + card.offsetWidth));
 
-      const baseline = targetTop - rowGap * 0.35;
-      const minimum = Math.max(rowGap * 0.4, 12);  /* keep the first group tucked under the filters */
+      const baseline = targetTop - rowGap * 0.6;
+      const minimum = Math.max(rowGap * 0.5, 18);  /* keep the first group tucked under the filters */
       const offsetTop = baseline < minimum ? minimum : baseline;
       divider.style.top = offsetTop + "px";
       const rawWidth = Math.max(0, maxRight - minLeft);
