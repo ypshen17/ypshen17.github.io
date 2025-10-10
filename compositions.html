@@ -510,7 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const right = Math.max(...topCards.map(card => card.offsetLeft + card.offsetWidth));
 
       const baseline = minTop - rowGap / 2;
-      const minimum = rowGap * 0.9;  /*  entire band (line+label)Using 0.4 moves everything up, 0.6 nudges it down.*/
+      const minimum = rowGap * 1;  /*  entire band (line+label)Using 0.4 moves everything up, 0.6 nudges it down.*/
       const offsetTop = baseline < minimum ? minimum : baseline;
       divider.style.top = offsetTop + "px";
       divider.style.left = left + "px";
