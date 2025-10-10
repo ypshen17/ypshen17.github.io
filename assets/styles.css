@@ -875,7 +875,7 @@ footer {
   content: "";
   position: absolute;
   top: 0;
-  height: 6px;
+  height: 4px;
   background: currentColor;
   opacity: 0.55;
   width: 100%;
@@ -883,9 +883,9 @@ footer {
 
 .composition-group-divider .divider-label {
   position: absolute;
-  top: -0.9rem; /*value up (e.g. -0.3rem) to push the label closer to the line, or down (e.g. -0.6rem) to lift it away  */
+  top: -0.45rem;
   left: 0;
-  padding: 0 0.9rem 0 0;
+  padding: 0 0.75rem 0 0;
   font: bold 0.9rem "Roboto Mono", monospace;
   letter-spacing: 0.2rem;
   text-transform: uppercase;
