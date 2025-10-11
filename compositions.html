@@ -530,19 +530,20 @@ document.addEventListener("DOMContentLoaded", () => {
       let width = Math.max(rawWidth, minWidth);
       const gridWidth = grid.clientWidth || width;
 
-      if (width > gridWidth) width = gridWidth;
+      let offsetLeft = groupLeft;
 
-      let offsetLeft;
-      if (width === rawWidth) {
-        offsetLeft = groupLeft;
-      } else {
+      if (width > gridWidth) {
+        width = gridWidth;
+        offsetLeft = 0;
+      } else if (width > rawWidth) {
         const center = groupLeft + rawWidth / 2;
         offsetLeft = center - width / 2;
-        if (!Number.isFinite(offsetLeft)) offsetLeft = 0;
-        const maxLeft = Math.max(0, gridWidth - width);
-        if (offsetLeft < 0) offsetLeft = 0;
-        if (offsetLeft > maxLeft) offsetLeft = maxLeft;
       }
+
+      if (!Number.isFinite(offsetLeft)) offsetLeft = 0;
+      const maxLeft = Math.max(0, gridWidth - width);
+      if (offsetLeft < 0) offsetLeft = 0;
+      if (offsetLeft > maxLeft) offsetLeft = maxLeft;
 
       divider.style.left = offsetLeft + "px";
       divider.style.width = width + "px";
