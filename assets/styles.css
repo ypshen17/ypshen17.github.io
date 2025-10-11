@@ -860,7 +860,12 @@ footer {
 
 
 
-
+.composition-group-dividers {
+  position: absolute;
+  inset: 0;              /* top:0; right:0; bottom:0; left:0 */
+  pointer-events: none;
+  z-index: 0;            /* or higher/lower depending on whether lines should sit above/below cards */
+}
 
 .composition-group-divider {
   position: absolute;
@@ -883,11 +888,11 @@ footer {
 
 .composition-group-divider .divider-label {
   position: absolute;
-  top: -0.9rem; /* vertical gap between label and line */
+  top: -1.2rem; /* vertical gap between label and line */
   left: var(--label-offset, 0);
   padding: 0 0.6rem 0 0;
   font: bold 0.9rem "Roboto Mono", monospace;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.12rem;
   text-transform: uppercase;
   color: currentColor;
   background: #fff;
