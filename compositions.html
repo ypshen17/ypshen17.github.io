@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const computed = getComputedStyle(grid);
     const rowGap = parseFloat(computed.rowGap || computed.gap || "0") || 0;
-    const lift = rowGap > 0 ? rowGap * 0.09 : 12;
+    const lift = rowGap > 0 ? rowGap * 0.1 : 12;
     const gridWidth = grid.clientWidth;
 
     groups.forEach((rowMap, groupName) => {
