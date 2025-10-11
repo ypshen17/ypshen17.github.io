@@ -111,7 +111,7 @@
   </div>
 
 
-
+ <!-- monitor group change for group name -->
 
 <div class="compositions-grid">
   
@@ -122,8 +122,8 @@
     
 
     
-      <div class="composition-group-divider" data-group="Grounds">
-        <span class="divider-label">Grounds</span>
+      <div class="composition-group-divider" data-group="Grounds">  <!-- composition-group-divider -->
+        <span class="divider-label">Grounds</span>                  <!-- group chnage divider-label -->
       </div>
     
 
@@ -206,8 +206,8 @@
     
 
     
-      <div class="composition-group-divider" data-group="Echoes">
-        <span class="divider-label">Echoes</span>
+      <div class="composition-group-divider" data-group="Echoes">  <!-- composition-group-divider -->
+        <span class="divider-label">Echoes</span>                  <!-- group chnage divider-label -->
       </div>
     
 
@@ -290,8 +290,8 @@
     
 
     
-      <div class="composition-group-divider" data-group="Traces">
-        <span class="divider-label">Traces</span>
+      <div class="composition-group-divider" data-group="Traces">  <!-- composition-group-divider -->
+        <span class="divider-label">Traces</span>                  <!-- group chnage divider-label -->
       </div>
     
 
@@ -354,8 +354,8 @@
     
 
     
-      <div class="composition-group-divider" data-group="Forms">
-        <span class="divider-label">Forms</span>
+      <div class="composition-group-divider" data-group="Forms">  <!-- composition-group-divider -->
+        <span class="divider-label">Forms</span>                  <!-- group chnage divider-label -->
       </div>
     
 
@@ -458,8 +458,8 @@
     
 
     
-      <div class="composition-group-divider" data-group="Open">
-        <span class="divider-label">Open</span>
+      <div class="composition-group-divider" data-group="Open">  <!-- composition-group-divider -->
+        <span class="divider-label">Open</span>                  <!-- group chnage divider-label -->
       </div>
     
 
@@ -478,6 +478,7 @@
 </div>
 </section>
 
+<!-- GroupDividers -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const buttons = document.querySelectorAll('.categories .cat');
@@ -487,10 +488,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.querySelector('.compositions-grid');
 
   function positionGroupDividers() {
-    if (!grid) return;
+    if (!grid) return;  //check
     const computed = getComputedStyle(grid);
     const rowGap = parseFloat(computed.rowGap || computed.gap || "0") || 0;
 
+    //divide
     groupDividers.forEach(divider => {
       const group = divider.dataset.group;
       if (!group) return;
@@ -500,23 +502,24 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       if (!groupCards.length) {
-        divider.style.display = 'none';
+        divider.style.display = 'none'; //hide if group is empty
         return;
       }
 
       if (divider.style.display === 'none') divider.style.display = '';
+      
+      // Label alignment: lock to the earliest row this group occupies so the name always hovers above its first cards.
+      const firstRowTop = Math.min(...groupCards.map(card => Math.round(card.offsetTop)));
+      // Span: compute left/right bounds across ALL rows for this group, so the blue rule covers the entire block.
+      const groupLeft = Math.min(...groupCards.map(card => card.offsetLeft));
+      const groupRight = Math.max(...groupCards.map(card => card.offsetLeft + card.offsetWidth));
 
-      const targetTop = Math.min(...groupCards.map(card => Math.round(card.offsetTop)));
-      const topCards = groupCards.filter(card => Math.round(card.offsetTop) === targetTop);
-
-      const minLeft = Math.min(...topCards.map(card => card.offsetLeft));
-      const maxRight = Math.max(...topCards.map(card => card.offsetLeft + card.offsetWidth));
-
-      const baseline = targetTop - rowGap * 0.6;
-      const minimum = Math.max(rowGap * 0.5, 18);  /* keep the first group tucked under the filters */
-      const offsetTop = baseline < minimum ? minimum : baseline;
+      // Lift the divider just above the earliest row; smaller multiplier keeps it closer than before.
+      const baseline = firstRowTop - rowGap * 0.35;
+      const offsetTop = Math.max(0, baseline);
       divider.style.top = offsetTop + "px";
-      const rawWidth = Math.max(0, maxRight - minLeft);
+      //width
+      const rawWidth = Math.max(0, groupRight - groupLeft);
       const minWidth = 96;
       let width = Math.max(rawWidth, minWidth);
       const gridWidth = grid.clientWidth || width;
@@ -525,9 +528,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let offsetLeft;
       if (width === rawWidth) {
-        offsetLeft = minLeft;
+        offsetLeft = groupLeft;
       } else {
-        const center = minLeft + rawWidth / 2;
+        const center = groupLeft + rawWidth / 2;
         offsetLeft = center - width / 2;
         if (!Number.isFinite(offsetLeft)) offsetLeft = 0;
         const maxLeft = Math.max(0, gridWidth - width);
@@ -539,7 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
       divider.style.width = width + "px";
     });
   }
-
+  //if
   let resizeTimer = null;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
@@ -565,6 +568,19 @@ document.addEventListener("DOMContentLoaded", () => {
   requestAnimationFrame(positionGroupDividers);
 });
 </script>
+
+
+<!--Tuning Cheatsheet
+Move all dividers up/down together: 
+  adjust the multipliers in baseline or minimum (compositions.html:72-76).
+Change line thickness: 
+  edit height in .composition-group-divider::after (assets/styles.css:874).
+Label-to-line spacing: 
+  tweak the top offset in .divider-label (assets/styles.css:884).
+Keep first divider further from the filter: 
+  increase .compositions-grid top margin (assets/styles.css:815) or raise the minimum clamp in JS.
+Ensure short rows still get a line: 
+  modify minWidth (compositions.html:78) to force longer or shorter minimum spans.-->
 
     </main>
 

@@ -883,7 +883,7 @@ footer {
 
 .composition-group-divider .divider-label {
   position: absolute;
-  top: -0.75rem;
+  top: -0.9rem; /*vertical gap between label and line*/
   left: 0;
   padding: 0 0.75rem 0 0;
   font: bold 0.9rem "Roboto Mono", monospace;
