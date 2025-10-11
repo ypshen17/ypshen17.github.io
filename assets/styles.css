@@ -900,27 +900,27 @@ footer {
 
 .composition-group-divider[data-group="Main Directions"] {
   color: #000;
-  opacity: 0.7;
+  opacity: 0.4;
 }
 
 .composition-group-divider[data-group="Sonic Explorations"] {
   color: #000;
-  opacity: 0.6;
+  opacity: 0.3;
 }
 
 .composition-group-divider[data-group="Diverse Traces"] {
   color: #000;
-  opacity: 0.5;
+  opacity: 0.2;
 }
 
 .composition-group-divider[data-group="Design Projects"] {
   color: #000;
-  opacity: 0.4;
+  opacity: 0.1;
 }
 
 .composition-group-divider[data-group="Beyond"] {
   color: #000;
-  opacity: 0.3;
+  opacity: 0.05;
 }
 
 @media (max-width: 640px) {
@@ -1012,6 +1012,8 @@ footer {
 
 .sm-note { 
   font-size: 0.9rem;
+  font-weight: bold;
+  color: #0000bf;
 }
 
 /* Right: scrolling media */
@@ -1563,11 +1565,11 @@ footer {
   right: 10%;
   background: rgba(255, 255, 255, 0.95);
   border: none;
-  border-radius: 20px;
+  border-radius: 12px;
   padding: 1.4rem 1.6rem 1.2rem;
   width: min(360px, 85vw);
   z-index: 1000;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(12px);
 }
 
@@ -1576,10 +1578,10 @@ footer {
   width: 100%;
   height: 100px;
   margin-bottom: 0.9rem;
-  padding: 0.7rem 0.8rem;
-  font-size: 0.95rem;
+  padding: 0.75rem;
+  font: 0.9rem "Roboto Mono", monospace;
   border: none;
-  border-radius: 14px;
+  border-radius: 9px;
   background: rgba(0, 0, 0, 0.04);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   resize: none;
@@ -1588,10 +1590,10 @@ footer {
 .snitch-form button {
   box-sizing: border-box;
   width: 100%;
-  padding: 0.6rem 0.8rem;
+  padding: 0.6rem 0.75rem;
   border: none;
-  border-radius: 999px;
-  font: 0.85rem "Roboto Mono", monospace;
+  border-radius: 9px;
+  font: 1.2rem "Roboto Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   background: rgba(0, 0, 0, 0.04);
@@ -1612,7 +1614,7 @@ footer {
   display: block;
   margin-top: 0.6rem;
   font-size: 0.9rem;
-  color: #444;
+  color: #0000bf;
   text-align: center;
 }
 
@@ -1626,11 +1628,11 @@ footer {
   display: grid;
   place-items: center;
   border-radius: 50%;
-  font: 0.9rem "Roboto Mono", monospace;
+  font: 1.2rem "Roboto Mono", monospace;
   color: rgba(0, 0, 0, 0.7);
-  background: rgba(0, 0, 0, 0.05);
+  /*background: rgba(0, 0, 0, 0.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  line-height: 1;
+  line-height: 1;*/
   transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
