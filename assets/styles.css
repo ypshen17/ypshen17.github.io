@@ -1015,8 +1015,7 @@ footer {
 }
 
 .sm-note { 
-  font-size: 0.9rem;
-  font-weight: bold;
+  font: bold 0.9rem "Roboto Mono", monospace;
   color: #0000bf;
 }
 
