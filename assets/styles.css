@@ -1597,7 +1597,7 @@ footer {
   padding: 0.6rem 0.75rem;
   border: none;
   border-radius: 0;
-  font: 1.2rem "Roboto Mono", monospace;
+  font: 0.9rem "Roboto Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   background: rgba(0, 0, 0, 0.04);
@@ -1634,12 +1634,6 @@ footer {
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.close-snitch:hover,
-.close-snitch:focus-visible {
-  background: rgba(0, 0, 0, 0.12);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-}
 
 .hidden {
   display: none;
