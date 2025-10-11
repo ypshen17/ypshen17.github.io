@@ -898,24 +898,29 @@ footer {
   background: #fff;
 }
 
-.composition-group-divider[data-group="Grounds"] {
-  color: #0f2bff;
+.composition-group-divider[data-group="Main Directions"] {
+  color: #000;
+  opacity: 0.7;
 }
 
-.composition-group-divider[data-group="Forms"] {
-  color: #2c5dff;
+.composition-group-divider[data-group="Sonic Explorations"] {
+  color: #000;
+  opacity: 0.6;
 }
 
-.composition-group-divider[data-group="Echoes"] {
-  color: #4781ff;
+.composition-group-divider[data-group="Diverse Traces"] {
+  color: #000;
+  opacity: 0.5;
 }
 
-.composition-group-divider[data-group="Traces"] {
-  color: #66a2ff;
+.composition-group-divider[data-group="Design Projects"] {
+  color: #000;
+  opacity: 0.4;
 }
 
-.composition-group-divider[data-group="Open"] {
-  color: #85c0ff;
+.composition-group-divider[data-group="Beyond"] {
+  color: #000;
+  opacity: 0.3;
 }
 
 @media (max-width: 640px) {
@@ -1003,6 +1008,10 @@ footer {
   font: 1.2rem "Roboto Flex", sans-serif;
   color: black;
   line-height: 1.2;
+}
+
+.sm-note { 
+  font-size: 0.9rem;
 }
 
 /* Right: scrolling media */
