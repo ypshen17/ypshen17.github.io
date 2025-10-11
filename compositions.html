@@ -1,197 +1,599 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Compositions</title>
-  <!-- Link to your CSS file here -->
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <section class="frame compositions-page">
-    <!-- Category filter bar -->
-    <div class="categories spread" id="categories">
-      <button class="cat active" data-filter="all">All</button>
-      <button class="cat" data-filter="Sonic Urbanism">Sonic Urbanism</button>
-      <button class="cat" data-filter="Urban Political Ecology">Urban Political Ecology</button>
-      <button class="cat" data-filter="Rhythm">Rhythm</button>
-      <button class="cat" data-filter="Sensory">Sensory</button>
-      <button class="cat" data-filter="Social Futures">Social Futures</button>
-      <button class="cat" data-filter="Cultural Exchange">Cultural Exchange</button>
-    </div>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Main composition grid -->
-    <div class="compositions-grid">
-      <!-- Jekyll loop to generate compositions -->
-      {% assign sorted = site.compositions | sort: "order" %}
-      {% assign current_group = "" %} <!-- Track group changes -->
-      
-      {% for p in sorted %}
-        <!-- Check if we're entering a new group -->
-        {% assign new_group = "" %}
-        {% if p.group and p.group != current_group %}
-          {% assign new_group = p.group %}
-          {% assign current_group = p.group %}
-        {% endif %}
-        
-        <!-- Generate cover image URL -->
-        {% assign cover_raw = p.cover | to_s %}
-        {% if cover_raw contains '://' %}
-          {% assign cover_url = cover_raw %}
-        {% else %}
-          {% assign cover_url = site.cloudflare_assets | append: cover_raw %}
-        {% endif %}
-        
-        <!-- Insert group divider if new group starts -->
-        {% if new_group != "" %}
-          <div class="composition-group-divider" data-group="{{ new_group }}">
-            <span class="divider-label">{{ new_group }}</span>
-          </div>
-        {% endif %}
-        
-        <!-- Composition card component -->
-        <article class="composition-card" 
-                 data-category="{{ p.categories | join: ',' }}" 
-                 {% if p.group %}data-group="{{ p.group }}"{% endif %}>
-          <a href="{{ p.url | relative_url }}" class="card-link">
-            <!-- Image with fallback -->
-            {% if p.cover %}
-              <img src="{{ cover_url }}" 
-                   alt="{{ p.title }} cover" 
-                   loading="lazy" 
-                   decoding="async">
-            {% else %}
-              <img src="{{ '/assets/placeholder.jpg' | relative_url }}" 
-                   alt="{{ p.title }} cover" 
-                   loading="lazy" 
-                   decoding="async">
-            {% endif %}
-            
-            <!-- Metadata section -->
-            <div class="card-meta">
-              <div class="card-cat">{{ p.categories | join: ' &#183; ' }}</div>
-              <h3 class="card-title">{{ p.title }}</h3>
-            </div>
-          </a>
-        </article>
-      {% endfor %}
-    </div>
-  </section>
+<title>
+  
+    compositions · Yipeng Shen
+  
+</title>
 
-  <!-- JavaScript for interactive behavior -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Get DOM elements
-      const buttons = document.querySelectorAll('.categories .cat'); // Filter buttons
-      const cards = document.querySelectorAll('.composition-card'); // Composition cards
-      const cardsList = Array.from(cards); // Convert to array for easier handling
-      const groupDividers = Array.from(document.querySelectorAll('.composition-group-divider')); // Group headers
-      const grid = document.querySelector('.compositions-grid'); // Main grid container
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>compositions | Yipeng Shen</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="compositions" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Personal Website - Sonic Urbanism and Urban Design" />
+<meta property="og:description" content="Personal Website - Sonic Urbanism and Urban Design" />
+<link rel="canonical" href="https://ypshen17.github.io/compositions.html" />
+<meta property="og:url" content="https://ypshen17.github.io/compositions.html" />
+<meta property="og:site_name" content="Yipeng Shen" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="compositions" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Personal Website - Sonic Urbanism and Urban Design","headline":"compositions","url":"https://ypshen17.github.io/compositions.html"}</script>
+<!-- End Jekyll SEO tag -->
 
-      /**
-       * Positions group dividers correctly based on card layout
-       * This function recalculates positions whenever the layout changes
-       */
-      function positionGroupDividers() {
-        if (!grid) return; // Exit if grid isn't loaded
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="https://assets.yipengshen.com/home/favicon.png" />
+<link rel="shortcut icon" type="image/x-icon" href="https://assets.yipengshen.com/home/favicon.ico" />
+
+<!-- Fonts: Roboto Mono + Roboto Flex -->
+<!-- Fonts+ -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto+Flex:opsz,wght@8..144,400..700&display=swap" rel="stylesheet">
+
+
+<!-- Styles -->
+<link rel="stylesheet" href="/assets/styles.css?v=3">
+<script src="/assets/site.js" defer></script>
+
+
+
+    <meta name="robots" content="noindex, noarchive, nofollow">
+  </head>
+  <body class="inner">
+
+    
+      <!-- Global navigation (for all pages except home) -->
+<nav class="global-nav">
+  <!-- Left side: site title + page label -->
+  <div class="nav-left">
+    <a href="/" class="site-title">YIPENG SHEN</a>
+    
+      <span class="page-title">
+        <a href="/compositions">compositionS</a>
         
-        // Get the gap between rows from CSS
-        const rowGap = parseFloat(getComputedStyle(grid).rowGap || "0") || 0;
+      </span>
+    
+  </div>
+
+  <!-- Right side: desktop nav -->
+  <div class="nav-right desktop-nav">
+    <a href="/compositions">Compositions</a>
+    <a href="/visions">Visions</a>
+    <a href="/wondering">Wondering</a>
+    <a href="/about">About</a>
+    <a href="mailto:yipeng.shen@mail.polimi.it">@</a>
+    <a href="https://instagram.com/azure_yp" target="_blank">IG</a>
+    <a href="https://linkedin.com/in/ypshen17" target="_blank">IN</a>
+  </div>
+
+  <!-- Mobile hamburger -->
+  <button class="hamburger" id="hamburger" type="button" aria-label="Open menu">
+    <span aria-hidden="true">&#9776;</span>
+  </button>
+</nav>
+
+<!-- Mobile overlay menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" id="closeMenu" type="button" aria-label="Close menu">&times;</button>
+  <div class="mobile-links">
+    <a href="/compositions">compositions</a>
+    <a href="/visions">Visions</a>
+    <a href="/wondering">Wondering</a>
+    <a href="/about">About</a>
+    <a href="mailto:yipeng.shen@mail.polimi.it">Email</a>
+    <a href="https://instagram.com/azure_yp" target="_blank">IG</a>
+    <a href="https://linkedin.com/in/ypshen17" target="_blank">IN</a>
+  </div>
+</div>
+
+    
+
+    <main>
+      <section class="frame compositions-page">
+  <!-- Category filter bar -->
+  <div class="categories spread" id="categories">
+    <button class="cat active" data-filter="all">All</button>
+    <button class="cat" data-filter="Sonic Urbanism">Sonic Urbanism</button>
+    <button class="cat" data-filter="Urban Political Ecology">Urban Political Ecology</button>
+    <button class="cat" data-filter="Rhythm">Rhythm</button>
+    <button class="cat" data-filter="Sensory">Sensory</button>
+    <button class="cat" data-filter="Social Futures">Social Futures</button>
+    <button class="cat" data-filter="Cultural Exchange">Cultural Exchange</button>
+  <!--  <button class="cat" data-filter="Architecture">Architecture</button>
+    <button class="cat" data-filter="Urban Design">Urban Design</button>
+    <button class="cat" data-filter="Music">Music</button>-->
+  </div>
+
+
+ <!-- monitor group change for group name -->
+
+<div class="compositions-grid">
+  
+    
+    
+
+    
+    
+
+    
+      <div class="composition-group-divider" data-group="Grounds">  <!-- composition-group-divider -->
+        <span class="divider-label">Grounds</span>                  <!-- group chnage divider-label -->
+      </div>
+    
+
+    <article class="composition-card" data-category="Sonic Urbanism,Rhythm,Sensory,Social Futures,Cultural Exchange,Urban Design" data-group="Grounds">
+      <a href="/compositions/24-sonic-urbanism/" class="card-link">
         
-        // Process each group divider
-        groupDividers.forEach(divider => {
-          const group = divider.dataset.group; // The group this divider represents
-          
-          // Find all visible cards in this group
-          const groupCards = cardsList.filter(card => 
-            card.dataset.group === group && card.style.display !== 'none'
-          );
-          
-          // Hide divider if no cards are visible
-          if (groupCards.length === 0) {
-            divider.style.display = 'none';
-            return;
-          }
-          
-          // Make sure divider is visible
-          if (divider.style.display === 'none') divider.style.display = '';
-          
-          // Find the top-most row of cards in this group
-          const firstRowTop = Math.min(...groupCards.map(card => Math.round(card.offsetTop)));
-          
-          // Calculate the full width spanned by this group
-          const groupLeft = Math.min(...groupCards.map(card => card.offsetLeft));
-          const groupRight = Math.max(...groupCards.map(card => card.offsetLeft + card.offsetWidth));
-          
-          // Position the divider just above the first row
-          const baseline = firstRowTop - rowGap * 0.35;
-          const offsetTop = Math.max(0, baseline);
-          divider.style.top = offsetTop + "px";
-          
-          // Ensure divider has sufficient width to cover all cards
-          const rawWidth = Math.max(0, groupRight - groupLeft);
-          const minWidth = 96; // Minimum width constraint
-          let width = Math.max(rawWidth, minWidth);
-          const gridWidth = grid.clientWidth || width;
-          
-          // Constrain width to fit within the grid
-          if (width > gridWidth) width = gridWidth;
-          
-          // Calculate horizontal position
-          let offsetLeft;
-          if (width === rawWidth) {
-            offsetLeft = groupLeft; // Align with left edge
-          } else {
-            // Center the divider within the group span
-            const center = groupLeft + rawWidth / 2;
-            offsetLeft = center - width / 2;
-            
-            // Boundary checks to prevent overflow
-            if (!Number.isFinite(offsetLeft)) offsetLeft = 0;
-            const maxLeft = Math.max(0, gridWidth - width);
-            if (offsetLeft < 0) offsetLeft = 0;
-            if (offsetLeft > maxLeft) offsetLeft = maxLeft;
-          }
-          
-          // Apply calculated position
-          divider.style.left = offsetLeft + "px";
-          divider.style.width = width + "px";
-        });
+          <img src="https://assets.yipengshen.com/compositions/sonic-urbanism/cover.jpg" alt="A Sonic Urbanism Passeggiata cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Sonic Urbanism &#183; Rhythm &#183; Sensory &#183; Social Futures &#183; Cultural Exchange &#183; Urban Design</div>
+          <h3 class="card-title">A Sonic Urbanism Passeggiata</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Urban Political Ecology,Social Futures,with Environmental Justice,Urban Design" data-group="Grounds">
+      <a href="/compositions/22-commoning/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/commoning/cover.jpg" alt="Towards More-Than-Human Commoning cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Urban Political Ecology &#183; Social Futures &#183; with Environmental Justice &#183; Urban Design</div>
+          <h3 class="card-title">Towards More-Than-Human Commoning</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Urban Political Ecology,Rhythm,Social Futures,in Time Policy,Urban Design" data-group="Grounds">
+      <a href="/compositions/19-right-to-time/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/time/cover.jpg" alt="The Right to the Time cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Urban Political Ecology &#183; Rhythm &#183; Social Futures &#183; in Time Policy &#183; Urban Design</div>
+          <h3 class="card-title">The Right to the Time</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Urban Political Ecology,Cultural Exchange,in Urban Ethnography,Urban Design" data-group="Grounds">
+      <a href="/compositions/20-fence-space/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/fence/cover.jpg" alt="On|Off the Fence Space cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Urban Political Ecology &#183; Cultural Exchange &#183; in Urban Ethnography &#183; Urban Design</div>
+          <h3 class="card-title">On|Off the Fence Space</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+      <div class="composition-group-divider" data-group="Echoes">  <!-- composition-group-divider -->
+        <span class="divider-label">Echoes</span>                  <!-- group chnage divider-label -->
+      </div>
+    
+
+    <article class="composition-card" data-category="Sonic Urbanism,Rhythm,Sensory,Publication" data-group="Echoes">
+      <a href="/compositions/16-musical-cities/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/musical-cities/cover.jpg" alt="A Study on Sara Adhitya’s Musical Cities cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Sonic Urbanism &#183; Rhythm &#183; Sensory &#183; Publication</div>
+          <h3 class="card-title">A Study on Sara Adhitya’s Musical Cities</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Sonic Urbanism,Rhythm,Sensory,Cultural Exchange,Urban Design" data-group="Echoes">
+      <a href="/compositions/15-commusication/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/commusication/cover.jpg" alt="COMMUSICATION cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Sonic Urbanism &#183; Rhythm &#183; Sensory &#183; Cultural Exchange &#183; Urban Design</div>
+          <h3 class="card-title">COMMUSICATION</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Sensory,Light as a Way,to Speak in Silence,Cultural Exchange,Architecture" data-group="Echoes">
+      <a href="/compositions/08-through/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/through/cover.jpg" alt="THROUGH cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Sensory &#183; Light as a Way &#183; to Speak in Silence &#183; Cultural Exchange &#183; Architecture</div>
+          <h3 class="card-title">THROUGH</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Sensory,Light as a Way,to Listen in Music,Architecture" data-group="Echoes">
+      <a href="/compositions/09-theatre/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/theatre/cover.jpg" alt="Music Hall — Florida Cinema of Banda Primitiva cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Sensory &#183; Light as a Way &#183; to Listen in Music &#183; Architecture</div>
+          <h3 class="card-title">Music Hall — Florida Cinema of Banda Primitiva</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+      <div class="composition-group-divider" data-group="Traces">  <!-- composition-group-divider -->
+        <span class="divider-label">Traces</span>                  <!-- group chnage divider-label -->
+      </div>
+    
+
+    <article class="composition-card" data-category="Social Futures,on Screen,Publication" data-group="Traces">
+      <a href="/compositions/41-miyisuo/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/miyisuo/cover.jpg" alt="MiYiSuo Short Articles cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Social Futures &#183; on Screen &#183; Publication</div>
+          <h3 class="card-title">MiYiSuo Short Articles</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Social Futures,in Imagination,Cultural Exchange,Urban Design" data-group="Traces">
+      <a href="/compositions/43-competitions/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/competitions/cover.jpg" alt="Competitions cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Social Futures &#183; in Imagination &#183; Cultural Exchange &#183; Urban Design</div>
+          <h3 class="card-title">Competitions</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Rhythm,Sensory,Personal Brand" data-group="Traces">
+      <a href="/compositions/44-self-identity/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/self-identity/cover.jpg" alt="Yipeng Shen's Self-identity System cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Rhythm &#183; Sensory &#183; Personal Brand</div>
+          <h3 class="card-title">Yipeng Shen's Self-identity System</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+      <div class="composition-group-divider" data-group="Forms">  <!-- composition-group-divider -->
+        <span class="divider-label">Forms</span>                  <!-- group chnage divider-label -->
+      </div>
+    
+
+    <article class="composition-card" data-category="Cultural Exchange,on Stage,Urban Design" data-group="Forms">
+      <a href="/compositions/21-old-stage/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/old-stage/cover.jpg" alt="Old Stage for New Life cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Cultural Exchange &#183; on Stage &#183; Urban Design</div>
+          <h3 class="card-title">Old Stage for New Life</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Sensory,Cultural Exchange,in Scent,Architecture,Urban Design" data-group="Forms">
+      <a href="/compositions/18-green-valley/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/green-valley/cover.jpg" alt="Green Valley in Marrakech cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Sensory &#183; Cultural Exchange &#183; in Scent &#183; Architecture &#183; Urban Design</div>
+          <h3 class="card-title">Green Valley in Marrakech</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Rhythm,Social Futures,in Stillness,Urban Design" data-group="Forms">
+      <a href="/compositions/17-slash/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/slash/cover.jpg" alt="/SLASH/ cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Rhythm &#183; Social Futures &#183; in Stillness &#183; Urban Design</div>
+          <h3 class="card-title">/SLASH/</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Rhythm,Social Futures,in Movement,Urban Design" data-group="Forms">
+      <a href="/compositions/14-recode/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/recode/cover.jpg" alt="Recode cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Rhythm &#183; Social Futures &#183; in Movement &#183; Urban Design</div>
+          <h3 class="card-title">Recode</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+
+    <article class="composition-card" data-category="Social Futures,on the Coast,Cultural Exchange,Urban Design" data-group="Forms">
+      <a href="/compositions/23-nuovi-porti/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/nuovi-porti/cover.jpg" alt="Nuovi Porti per Nuova Portualità cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat">Social Futures &#183; on the Coast &#183; Cultural Exchange &#183; Urban Design</div>
+          <h3 class="card-title">Nuovi Porti per Nuova Portualità</h3>
+        </div>
+      </a>
+    </article>
+  
+    
+    
+
+    
+    
+
+    
+      <div class="composition-group-divider" data-group="Open">  <!-- composition-group-divider -->
+        <span class="divider-label">Open</span>                  <!-- group chnage divider-label -->
+      </div>
+    
+
+    <article class="composition-card" data-category="" data-group="Open">
+      <a href="/compositions/100-tobecontinued/" class="card-link">
+        
+          <img src="https://assets.yipengshen.com/compositions/placeholder.jpg" alt="Under Construction cover" loading="lazy" decoding="async">
+        
+        <div class="card-meta">
+          <div class="card-cat"></div>
+          <h3 class="card-title">Under Construction</h3>
+        </div>
+      </a>
+    </article>
+  
+</div>
+</section>
+
+<!-- GroupDividers -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll('.categories .cat');
+  const cards = document.querySelectorAll('.composition-card');
+  const cardsList = Array.from(cards);
+  const groupDividers = Array.from(document.querySelectorAll('.composition-group-divider'));
+  const grid = document.querySelector('.compositions-grid');
+
+  function positionGroupDividers() {
+    if (!grid) return;  //check
+    const computed = getComputedStyle(grid);
+    const rowGap = parseFloat(computed.rowGap || computed.gap || "0") || 0;
+
+    //divide
+    groupDividers.forEach(divider => {
+      const group = divider.dataset.group;
+      if (!group) return;
+
+      const groupCards = cardsList.filter(card =>
+        card.dataset.group === group && card.style.display !== 'none'
+      );
+
+      if (!groupCards.length) {
+        divider.style.display = 'none'; //hide if group is empty
+        return;
       }
+
+      if (divider.style.display === 'none') divider.style.display = '';
       
-      // Handle window resizing
-      let resizeTimer = null;
-      window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(positionGroupDividers, 120); // Debounce to improve performance
+      // Label alignment: lock to the earliest row this group occupies so the name hovers above its first cards.
+      const firstRowTop = Math.min(...groupCards.map(card => Math.round(card.offsetTop)));
+      const topRowCards = groupCards.filter(card => Math.round(card.offsetTop) === firstRowTop);
+      const topRowLeft = Math.min(...topRowCards.map(card => card.offsetLeft));
+
+      // Span: compute left/right bounds across ALL rows for this group, so the blue rule covers the entire block.
+      const groupLeft = Math.min(...groupCards.map(card => card.offsetLeft));
+      const groupRight = Math.max(...groupCards.map(card => card.offsetLeft + card.offsetWidth));
+
+      // Lift the divider just above the earliest row; smaller multiplier keeps it close without overlapping cards.
+      const baseline = firstRowTop - rowGap * 0.25;
+      const offsetTop = Math.max(0, baseline);
+      divider.style.top = offsetTop + "px";
+
+      // Horizontal span widened to cover every card in the group with a minimum width for single-card rows.
+      const rawWidth = Math.max(0, groupRight - groupLeft);
+      const minWidth = 96;
+      let width = Math.max(rawWidth, minWidth);
+      const gridWidth = grid.clientWidth || width;
+
+      if (width > gridWidth) width = gridWidth;
+
+      let offsetLeft;
+      if (width === rawWidth) {
+        offsetLeft = groupLeft;
+      } else {
+        const center = groupLeft + rawWidth / 2;
+        offsetLeft = center - width / 2;
+        if (!Number.isFinite(offsetLeft)) offsetLeft = 0;
+        const maxLeft = Math.max(0, gridWidth - width);
+        if (offsetLeft < 0) offsetLeft = 0;
+        if (offsetLeft > maxLeft) offsetLeft = maxLeft;
+      }
+
+      divider.style.left = offsetLeft + "px";
+      divider.style.width = width + "px";
+      divider.style.setProperty("--label-offset", (topRowLeft - offsetLeft) + "px");
+    });
+  }
+  //if
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(positionGroupDividers, 120);
+  });
+  window.addEventListener('load', positionGroupDividers);
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      cardsList.forEach(card => {
+        const cats = card.dataset.category.split(',');
+        card.style.display = (filter === 'all' || cats.includes(filter)) ? '' : 'none';
       });
-      
-      // Run on page load
-      window.addEventListener('load', positionGroupDividers);
-      
-      // Setup category filtering
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const filter = btn.dataset.filter; // Get selected category
-          
-          // Update active button state
-          buttons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          
-          // Show/hide cards based on selection
-          cardsList.forEach(card => {
-            const cats = card.dataset.category.split(',');
-            card.style.display = (filter === 'all' || cats.includes(filter)) ? '' : 'none';
-          });
-          
-          // Recalculate divider positions after filtering
-          requestAnimationFrame(positionGroupDividers);
-        });
-      });
-      
-      // Initial positioning
+
       requestAnimationFrame(positionGroupDividers);
     });
-  </script>
-</body>
+  });
+
+  requestAnimationFrame(positionGroupDividers);
+});
+</script>
+
+
+<!--Tuning Cheatsheet
+Move all dividers up/down together: 
+  adjust the multipliers in baseline or minimum (compositions.html:72-76).
+Change line thickness: 
+  edit height in .composition-group-divider::after (assets/styles.css:874).
+Label-to-line spacing: 
+  tweak the top offset in .divider-label (assets/styles.css:884).
+Keep first divider further from the filter: 
+  increase .compositions-grid top margin (assets/styles.css:815) or raise the minimum clamp in JS.
+Ensure short rows still get a line: 
+  modify minWidth (compositions.html:78) to force longer or shorter minimum spans.-->
+
+    </main>
+
+    <footer>
+  <p>&copy; 2025 Yipeng Shen</p>
+
+  
+</footer>
+
+  </body>
 </html>
