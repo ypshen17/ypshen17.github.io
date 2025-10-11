@@ -519,7 +519,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Lift the divider just above the earliest row; smaller multiplier keeps it close without overlapping cards.
       const baseline = firstRowTop - rowGap * 0.25;
-      const offsetTop = Math.max(0, baseline);
+      const minLift = rowGap > 0 ? rowGap * 0.25 : 12;
+      const offsetTop = Math.max(minLift, baseline);
       divider.style.top = offsetTop + "px";
 
       // Horizontal span widened to cover every card in the group with a minimum width for single-card rows.
