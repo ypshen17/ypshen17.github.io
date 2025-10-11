@@ -389,7 +389,7 @@ footer {
   color: inherit;
   background: #fff7;
   backdrop-filter: saturate(110%) blur(2px);
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -852,6 +852,9 @@ footer {
 .card-cat {
   font: bold 0.9rem "Roboto Mono", monospace;
   color: var(--accent);
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 .card-title {
   font: bold 1.2rem "Roboto Mono", monospace;
@@ -910,17 +913,17 @@ footer {
 
 .composition-group-divider[data-group="Diverse Traces"] {
   color: #000;
-  opacity: 0.2;
+  opacity: 0.3;
 }
 
 .composition-group-divider[data-group="Design Projects"] {
   color: #000;
-  opacity: 0.1;
+  opacity: 0.3;
 }
 
 .composition-group-divider[data-group="Beyond"] {
   color: #000;
-  opacity: 0.05;
+  opacity: 0.2;
 }
 
 @media (max-width: 640px) {
@@ -1377,7 +1380,8 @@ footer {
   background: none; 
   border: 0; 
   cursor: pointer;
-  font: bold 1.8rem "Roboto Mono", monospace; color: black;
+  font: bold 1.8rem "Roboto Mono", monospace; 
+  color: black;
 }
 
 /* ——— Wondering flexible media grid ——— */
@@ -1565,7 +1569,7 @@ footer {
   right: 10%;
   background: rgba(255, 255, 255, 0.95);
   border: none;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 1.4rem 1.6rem 1.2rem;
   width: min(360px, 85vw);
   z-index: 1000;
@@ -1581,7 +1585,7 @@ footer {
   padding: 0.75rem;
   font: 0.9rem "Roboto Mono", monospace;
   border: none;
-  border-radius: 9px;
+  border-radius: 0;
   background: rgba(0, 0, 0, 0.04);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   resize: none;
@@ -1592,7 +1596,7 @@ footer {
   width: 100%;
   padding: 0.6rem 0.75rem;
   border: none;
-  border-radius: 9px;
+  border-radius: 0;
   font: 1.2rem "Roboto Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -1623,17 +1627,11 @@ footer {
   top: 0.4rem;
   right: 0.4rem;
   cursor: pointer;
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  font: 1.2rem "Roboto Mono", monospace;
-  color: rgba(0, 0, 0, 0.7);
-  /*background: rgba(0, 0, 0, 0.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  line-height: 1;*/
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  background: none; 
+  border: 0; 
+  font: bold 1.8rem "Roboto Mono", monospace; 
+  color: black;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .close-snitch:hover,
