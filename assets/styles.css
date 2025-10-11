@@ -840,6 +840,7 @@ footer {
 
 .card-meta {
   position: absolute;
+  box-sizing: border-box;     /* so padding doesn't overflow width:100% */
   bottom: 0;
   left: 0;
   width: 100%;
