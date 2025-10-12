@@ -387,7 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (obj.tags || []).forEach(t => {
       const s = document.createElement('span');
       s.className = 'cat-tag';
-      s.textContent = `#${t}`;
+      s.textContent = `${t}`; //`#${t}`;
       tagsEl.appendChild(s);
     });
     mediaEl.innerHTML = obj.cover ? `<img src="${obj.cover}" alt="">` : '';
