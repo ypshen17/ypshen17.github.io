@@ -457,7 +457,6 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  width: 100%;
   overflow: hidden;
   background: linear-gradient(180deg, #ffffff 0%, rgba(243, 229, 203, 0.28) 110%);
 }
