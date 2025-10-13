@@ -1,27 +1,12 @@
 (() => {
-  const grid = document.querySelector('.podcast-grid');
-  const iframe = document.getElementById('podcast-soundcloud');
-  if (!grid || !iframe || !window.SC || typeof SC.Widget !== 'function') {
+  const cards = Array.from(document.querySelectorAll('.podcast-grid .player-card'));
+  if (!cards.length || !window.SC || typeof SC.Widget !== 'function') {
     return;
   }
 
-  const widget = SC.Widget(iframe);
-  const cards = Array.from(grid.querySelectorAll('.player-card'));
-  if (!cards.length) {
-    return;
-  }
-
-  const indexLookup = new Map();
-  const metadata = new Map();
-  const playlistUrl = grid.dataset.playlistUrl || iframe.dataset.playlistUrl || '';
   const favorites = new Set();
-
-  const state = {
-    ready: false,
-    activeIndex: null,
-    isPlaying: false,
-    sounds: [],
-  };
+  const players = [];
+  let activePlayer = null;
 
   function formatTime(ms) {
     if (typeof ms !== 'number' || Number.isNaN(ms) || ms < 0) {
@@ -33,68 +18,7 @@
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   }
 
-  function updateCardStates() {
-    cards.forEach((card) => {
-      const meta = metadata.get(card);
-      if (!meta) return;
-      const index = meta.index;
-      const isActive = index === state.activeIndex;
-      card.classList.toggle('is-active', isActive);
-      card.classList.toggle('is-playing', isActive && state.isPlaying);
-      if (!isActive) {
-        if (meta.progress) meta.progress.style.width = '0%';
-        if (meta.current) meta.current.textContent = '0:00';
-      }
-    });
-  }
-
-  function handleToggle(card) {
-    if (!state.ready) return;
-    const meta = metadata.get(card);
-    if (!meta) return;
-    const targetIndex = meta.index;
-    if (targetIndex === null || Number.isNaN(targetIndex)) return;
-
-  if (state.activeIndex === targetIndex) {
-    if (state.isPlaying) {
-      widget.pause();
-    } else {
-      widget.play();
-    }
-    return;
-  }
-
-  state.activeIndex = targetIndex;
-  resetActiveCard(targetIndex);
-  state.isPlaying = true;
-  updateCardStates();
-  widget.skip(targetIndex);
-  widget.play();
-  }
-
-  function handleSeek(offset) {
-    if (!state.ready || state.activeIndex === null) return;
-    const sound = state.sounds[state.activeIndex];
-    const duration = sound ? sound.duration : null;
-    widget.getPosition((position) => {
-      const next = Math.max(0, position + offset);
-      const clamped = typeof duration === 'number' ? Math.min(next, Math.max(duration - 500, 0)) : next;
-      widget.seekTo(clamped);
-    });
-  }
-
-  function toggleFavorite(button) {
-    const pressed = button.getAttribute('aria-pressed') === 'true';
-    const newState = !pressed;
-    button.setAttribute('aria-pressed', newState ? 'true' : 'false');
-    const card = button.closest('.player-card');
-    const meta = card ? metadata.get(card) : null;
-    if (!meta) return;
-    if (newState) {
-      favorites.add(meta.index);
-    } else {
-      favorites.delete(meta.index);
-    }
+  function updateFavoriteStorage() {
     try {
       localStorage.setItem('podcastFavorites', JSON.stringify(Array.from(favorites)));
     } catch (_) {
@@ -102,151 +26,222 @@
     }
   }
 
-  function hydrateFavorites() {
+  function syncFavoriteButtons() {
+    players.forEach((player) => {
+      if (player.meta.favorite) {
+        const isFav = favorites.has(player.favoriteKey);
+        player.meta.favorite.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+      }
+    });
+  }
+
+  function resetPlayer(player) {
+    if (!player) return;
+    player.isPlaying = false;
+    player.card.classList.remove('is-playing');
+    if (player.card !== activePlayer?.card) {
+      player.card.classList.remove('is-active');
+    }
+    if (player.meta.progress) {
+      player.meta.progress.style.width = '0%';
+    }
+    if (player.meta.current) {
+      player.meta.current.textContent = '0:00';
+    }
+  }
+
+  function pauseOthers(except) {
+    players.forEach((player) => {
+      if (player !== except && player.widget && player.isPlaying) {
+        player.widget.pause();
+      }
+    });
+  }
+
+  function seekPlayer(player, offset) {
+    if (!player?.widget) return;
+    player.widget.getPosition((position) => {
+      const duration = typeof player.duration === 'number' ? player.duration : null;
+      const next = Math.max(0, position + offset);
+      const clamped = duration ? Math.min(next, Math.max(duration - 500, 0)) : next;
+      player.widget.seekTo(clamped);
+    });
+  }
+
+  function toggleFavorite(player) {
+    if (!player.meta.favorite) return;
+    if (favorites.has(player.favoriteKey)) {
+      favorites.delete(player.favoriteKey);
+      player.meta.favorite.setAttribute('aria-pressed', 'false');
+    } else {
+      favorites.add(player.favoriteKey);
+      player.meta.favorite.setAttribute('aria-pressed', 'true');
+    }
+    updateFavoriteStorage();
+  }
+
+  function openShare(player) {
+    const meta = player.meta;
+    const url = player.shareUrl || (meta.share && meta.share.getAttribute('href'));
+    if (!url) return;
+    window.open(url, '_blank', 'noopener');
+  }
+
+  function disableControls(meta) {
+    const buttons = meta.buttons || [];
+    buttons.forEach((btn) => {
+      if (!btn) return;
+      if (btn.dataset.action === 'share') {
+        return;
+      }
+      btn.setAttribute('disabled', 'true');
+      btn.setAttribute('aria-disabled', 'true');
+    });
+  }
+
+  function initialiseFavorites() {
     try {
       const saved = JSON.parse(localStorage.getItem('podcastFavorites') || '[]');
       saved.forEach((value) => favorites.add(value));
     } catch (_) {
       favorites.clear();
     }
-    cards.forEach((card) => {
-      const meta = metadata.get(card);
-      if (!meta || !meta.favorite) return;
-      const isFav = favorites.has(meta.index);
-      meta.favorite.setAttribute('aria-pressed', isFav ? 'true' : 'false');
-    });
   }
 
-  function openShare(meta) {
-    const url =
-      meta.shareOverride ||
-      (meta.share && meta.share.getAttribute('href')) ||
-      playlistUrl ||
-      null;
-    if (!url) return;
-    window.open(url, '_blank', 'noopener');
-  }
+  function buildPlayer(card, index) {
+    const iframe = card.querySelector('.soundcloud-frame');
+    const trackId = card.dataset.scId;
+    const secret = card.dataset.scSecret;
+    const shareAttr = card.dataset.scShare;
 
-  function bindCard(card) {
-    const index = Number(card.dataset.trackIndex);
-  const meta = {
-      index,
+    const meta = {
       progress: card.querySelector('[data-role="progress-fill"]'),
       current: card.querySelector('[data-role="current-time"]'),
       duration: card.querySelector('[data-role="duration"]'),
       favorite: card.querySelector('[data-action="favorite"]'),
       share: card.querySelector('[data-player-share]'),
-      shareOverride: null,
+      buttons: Array.from(card.querySelectorAll('[data-action]')),
     };
-  metadata.set(card, meta);
-  indexLookup.set(index, card);
-  if (meta.current) meta.current.textContent = '0:00';
-  if (meta.progress) meta.progress.style.width = '0%';
 
-  card.addEventListener('click', (event) => {
-      const button = event.target.closest('[data-action]');
-      if (!button || !card.contains(button)) {
-        return;
-      }
-      event.preventDefault();
-      const action = button.getAttribute('data-action');
-      switch (action) {
-        case 'toggle':
-          handleToggle(card);
-          break;
-        case 'seek-back':
-          handleSeek(-15000);
-          break;
-        case 'seek-forward':
-          handleSeek(15000);
-          break;
-        case 'favorite':
-          toggleFavorite(button);
-          break;
-        case 'share':
-          openShare(meta);
-          break;
-        default:
-          break;
-      }
-    });
-  }
+    if (meta.current) meta.current.textContent = '0:00';
+    if (meta.progress) meta.progress.style.width = '0%';
 
-  function applySoundMetadata() {
-    widget.getSounds((sounds = []) => {
-      state.sounds = sounds;
-      sounds.forEach((sound, idx) => {
-        const card = indexLookup.get(idx);
-        if (!card) return;
-        const meta = metadata.get(card);
-        if (!meta) return;
+    const favoriteKey = trackId || `card-${index}`;
+
+    if (!trackId || !iframe) {
+      card.classList.add('is-unavailable');
+      disableControls(meta);
+      return {
+        card,
+        widget: null,
+        meta,
+        favoriteKey,
+        shareUrl: shareAttr || (meta.share && meta.share.href) || null,
+        duration: null,
+        isPlaying: false,
+      };
+    }
+
+    const baseUrl = `https://api.soundcloud.com/tracks/${trackId}${secret ? `?secret_token=${secret}` : ''}`;
+    const embedSrc = `https://w.soundcloud.com/player/?url=${encodeURIComponent(baseUrl)}&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false&color=%230A1033`;
+    iframe.src = embedSrc;
+
+    const widget = SC.Widget(iframe);
+    const player = {
+      card,
+      widget,
+      meta,
+      favoriteKey,
+      shareUrl: shareAttr || (meta.share && meta.share.href) || null,
+      duration: null,
+      isPlaying: false,
+    };
+
+    widget.bind(SC.Widget.Events.READY, () => {
+      widget.getDuration((duration) => {
+        player.duration = duration;
         if (meta.duration) {
-          meta.duration.textContent = formatTime(sound.duration);
-        }
-        if (sound && sound.permalink_url) {
-          const secret = sound.secret_token || sound.secretToken;
-          meta.shareOverride = secret
-            ? `${sound.permalink_url}?secret_token=${secret}`
-            : sound.permalink_url;
+          meta.duration.textContent = formatTime(duration);
         }
       });
-    });
-  }
-
-  function resetActiveCard(index) {
-    const card = indexLookup.get(index);
-    const meta = card ? metadata.get(card) : null;
-    if (meta) {
-      if (meta.progress) meta.progress.style.width = '0%';
-      if (meta.current) meta.current.textContent = '0:00';
-    }
-  }
-
-  function setupWidgetListeners() {
-    widget.bind(SC.Widget.Events.READY, () => {
-      state.ready = true;
-      applySoundMetadata();
-      hydrateFavorites();
     });
 
     widget.bind(SC.Widget.Events.PLAY, () => {
-      widget.getCurrentSoundIndex((idx) => {
-        if (typeof idx === 'number') {
-          state.activeIndex = idx;
-          state.isPlaying = true;
-          updateCardStates();
-        }
-      });
+      pauseOthers(player);
+      activePlayer = player;
+      player.isPlaying = true;
+      card.classList.add('is-active', 'is-playing');
     });
 
     widget.bind(SC.Widget.Events.PAUSE, () => {
-      state.isPlaying = false;
-      updateCardStates();
+      player.isPlaying = false;
+      card.classList.remove('is-playing');
     });
 
     widget.bind(SC.Widget.Events.FINISH, () => {
-      if (state.activeIndex !== null) {
-        resetActiveCard(state.activeIndex);
+      if (activePlayer === player) {
+        activePlayer = null;
       }
-      state.isPlaying = false;
-      updateCardStates();
+      resetPlayer(player);
     });
 
     widget.bind(SC.Widget.Events.PLAY_PROGRESS, (event) => {
-      if (state.activeIndex === null) return;
-      const card = indexLookup.get(state.activeIndex);
-      if (!card) return;
-      const meta = metadata.get(card);
-      if (!meta) return;
       if (meta.progress) {
-        meta.progress.style.width = `${Math.min(Math.max(event.relativePosition, 0), 1) * 100}%`;
+        const width = Math.min(Math.max(event.relativePosition, 0), 1) * 100;
+        meta.progress.style.width = `${width}%`;
       }
       if (meta.current) {
         meta.current.textContent = formatTime(event.currentPosition);
       }
     });
+
+    return player;
   }
 
-  cards.forEach(bindCard);
-  setupWidgetListeners();
+  initialiseFavorites();
+
+  cards.forEach((card, index) => {
+    const player = buildPlayer(card, index);
+    players.push(player);
+  });
+
+  syncFavoriteButtons();
+
+  cards.forEach((card, index) => {
+    const player = players[index];
+    if (!player) return;
+
+    card.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-action]');
+      if (!button || !card.contains(button)) return;
+      if (button.disabled) return;
+      event.preventDefault();
+
+      switch (button.dataset.action) {
+        case 'toggle':
+          if (!player.widget) return;
+          if (player.isPlaying) {
+            player.widget.pause();
+          } else {
+            pauseOthers(player);
+            player.widget.play();
+          }
+          break;
+        case 'seek-back':
+          seekPlayer(player, -15000);
+          break;
+        case 'seek-forward':
+          seekPlayer(player, 15000);
+          break;
+        case 'favorite':
+          toggleFavorite(player);
+          break;
+        case 'share':
+          openShare(player);
+          break;
+        default:
+          break;
+      }
+    });
+  });
 })();
