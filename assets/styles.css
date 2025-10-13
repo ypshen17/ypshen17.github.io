@@ -448,14 +448,12 @@ footer {
   
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  width: min(1200px, 100%);
-  margin: 0 auto 5rem;
+  gap: 1.8rem;
+  width: 100%;
 }
 
 .podcast-hero {
   display: grid;
-  gap: 0.6rem;
   padding: 1.8rem 0 0.6rem 0;
 }
 
@@ -483,7 +481,7 @@ footer {
   text-align: left;
 }
 
-/*.podcast-platforms {
+.podcast-platforms {
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
@@ -509,7 +507,7 @@ footer {
   background: transparent;
   color: var(--accent);
 }
-*/
+
 .podcast-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);/*6-column grid  (auto-fit, minmax(240px, 1fr)); */
