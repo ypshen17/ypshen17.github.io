@@ -456,7 +456,7 @@ footer {
   padding-left: 3.6rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  /*gap: 3rem;*/
   overflow: hidden;
   background: linear-gradient(180deg, #ffffff 0%, rgba(243, 229, 203, 0.28) 110%);
 }
@@ -467,7 +467,7 @@ footer {
 
 .podcast-hero {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.2rem;
   max-width: 960px;
 }
 
@@ -475,14 +475,14 @@ footer {
   margin: 0;
   font: 0.9rem "Roboto Mono", monospace;
   text-transform: uppercase;
-  letter-spacing: 0.28em;
+  /*letter-spacing: 0.28em;*/
   color: rgba(10, 16, 51, 0.55);
 }
 
 .podcast-title {
   margin: 0;
   font-size: 2.4rem;
-  letter-spacing: -0.02em;
+  /*letter-spacing: -0.02em;*/
   color: var(--podcast-navy);
 }
 
@@ -497,8 +497,8 @@ footer {
 .podcast-platforms {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1.2rem;
+  /*gap: 1rem;
+  margin-top: 1.2rem;*/
 }
 
 .podcast-button {
@@ -510,7 +510,7 @@ footer {
   border-radius: 0;
   font: 0.9rem "Roboto Mono", monospace;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   background: var(--podcast-blue);
   color: #fff;
   transition: transform 0.2s ease, background 0.2s ease;
