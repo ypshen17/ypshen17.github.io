@@ -452,12 +452,13 @@ footer {
 .podcast-page {
   padding-top: 6rem;
   padding-right: 3.6rem;
-  padding-bottom: 4rem;
+  padding-bottom: 3.6rem;
   padding-left: 3.6rem;
   display: flex;
   flex-direction: column;
   gap: 3rem;
   width: 100%;
+  overflow: hidden;
   background: linear-gradient(180deg, #ffffff 0%, rgba(243, 229, 203, 0.28) 110%);
 }
 
@@ -467,13 +468,13 @@ footer {
 
 .podcast-hero {
   display: grid;
-  gap: 1.6rem;
+  gap: 1.5rem;
   max-width: 960px;
 }
 
 .podcast-kicker {
   margin: 0;
-  font: 0.85rem "Roboto Mono", monospace;
+  font: 0.9rem "Roboto Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.28em;
   color: rgba(10, 16, 51, 0.55);
@@ -481,7 +482,7 @@ footer {
 
 .podcast-title {
   margin: 0;
-  font-size: 3.6rem;
+  font-size: 2.4rem;
   letter-spacing: -0.02em;
   color: var(--podcast-navy);
 }
@@ -491,24 +492,24 @@ footer {
   max-width: 720px;
   font: 1.2rem "Roboto Flex", sans-serif;
   color: rgba(10, 16, 51, 0.85);
-  line-height: 1.35;
+  line-height: 1.2;
 }
 
 .podcast-platforms {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 1.4rem;
+  margin-top: 1.2rem;
 }
 
 .podcast-button {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.7rem 1.6rem;
+  padding: 0.6rem 1.5rem;
   border: 1px solid currentColor;
   border-radius: 0;
-  font: 0.82rem "Roboto Mono", monospace;
+  font: 0.9rem "Roboto Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   background: var(--podcast-blue);
@@ -535,7 +536,7 @@ footer {
 .podcast-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 2.4rem;
+  gap: 1.8rem;
   width: 100%;
 }
 
@@ -1155,7 +1156,7 @@ footer {
   text-align: left;
 }
 .composition-title {
-  font: bold 1.5rem "Roboto Mono", monospace;
+  font: bold 2.4rem "Roboto Mono", monospace;
   margin-bottom: 0.3rem;
   color: black;
 }
