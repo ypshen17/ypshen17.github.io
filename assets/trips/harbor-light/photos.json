@@ -1,0 +1,32 @@
+[
+  {
+    "id": "p1",
+    "src": "/assets/trips/harbor-light/photo-p1.svg",
+    "lat": 22.2858,
+    "lng": 114.158,
+    "heading": 72,
+    "time": "2024-05-12T05:45:00+08:00",
+    "status": "observed",
+    "tag": "Ferry wake"
+  },
+  {
+    "id": "p2",
+    "src": "/assets/trips/harbor-light/photo-p2.svg",
+    "lat": 22.2879,
+    "lng": 114.1465,
+    "heading": 130,
+    "time": "2024-05-12T12:15:00+08:00",
+    "status": "observed",
+    "tag": "Market canopy"
+  },
+  {
+    "id": "p3",
+    "src": "/assets/trips/harbor-light/photo-p3.svg",
+    "lat": 22.2935,
+    "lng": 114.1652,
+    "heading": 40,
+    "time": "2024-05-12T19:10:00+08:00",
+    "status": "manual",
+    "tag": "Evening hush"
+  }
+]

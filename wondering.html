@@ -41,6 +41,7 @@
 
 <!-- Styles -->
 <link rel="stylesheet" href="/assets/styles.css?v=3">
+
 <script src="/assets/site.js" defer></script>
 
 
@@ -70,6 +71,7 @@
   <div class="nav-right desktop-nav">
     <a href="/compositions">Compositions</a>
     <a href="/visions">Visions</a>
+    <a href="/trips">Trips</a>
     <a href="/wondering">Wondering</a>
     <a href="/about">About</a>
     <a href="mailto:yipeng.shen@mail.polimi.it">@</a>
@@ -89,6 +91,7 @@
   <div class="mobile-links">
     <a href="/compositions">compositions</a>
     <a href="/visions">Visions</a>
+    <a href="/trips">Trips</a>
     <a href="/wondering">Wondering</a>
     <a href="/about">About</a>
     <a href="mailto:yipeng.shen@mail.polimi.it">Email</a>
@@ -205,6 +208,15 @@
       <h3>Fun with Flowers</h3>
       <p>A quiet, watercolor garden you can grow &amp; listen to.</p>
       <span class="cta">Enter the Garden &rarr;</span>
+    </div>
+  </a>
+  <a class="garden-card" href="/trips/?from=wondering"
+     onclick="try{localStorage.setItem('came_from_wondering','1')}catch(e){}">
+    <div class="thumb" style="background-image:url('/assets/trips/harbor-light/cover.svg')"></div>
+    <div class="meta">
+      <h3>Trips Archive</h3>
+      <p>Composed days tracing food, movement, light, and rest across a city.</p>
+      <span class="cta">Open the Trips &rarr;</span>
     </div>
   </a>
 </section>

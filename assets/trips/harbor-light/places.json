@@ -1,0 +1,89 @@
+[
+  {
+    "id": "place-ferry",
+    "name": "Star Ferry Dawn Crossing",
+    "lat": 22.2856,
+    "lng": 114.1588,
+    "best_window": "05:30-06:15",
+    "approach": "Arrive two ferries early to watch the crew prepare the deck.",
+    "stay_min": 20,
+    "exit_cue": "Twice the bell rings for final boarding.",
+    "taste_pair": "Thermos jasmine tea",
+    "sound": "Low engine thrum, gulls passing in counterpoint.",
+    "access": "Step-free from pier 7 lift, incline at gangway 1:20.",
+    "tag": "Rhythm",
+    "photo_id": "p1",
+    "research": {
+      "claim": "Observed 4-minute queue with step-free boarding slope 1:20.",
+      "evidence": "Ticket timestamp 05:42 + inclinometer reading noted in field log.",
+      "method": "Timed entry to departure with synchronized recorder; slope measured using Suunto PM-5.",
+      "status": "observed"
+    },
+    "composition": {
+      "staging": "Board two departures early, hold to starboard so the sunrise frames the skyline.",
+      "best_window": "05:30-06:00 golden margin",
+      "approach": "Follow crew prep rhythm to sync footfalls with engine wake.",
+      "exit": "Disembark after second horn to stay ahead of commuters.",
+      "taste_pair": "Thermos jasmine tea",
+      "sound_note": "Bass hum with gull descant."
+    }
+  },
+  {
+    "id": "place-market",
+    "name": "Sheung Wan Wet Market Galleries",
+    "lat": 22.2878,
+    "lng": 114.1461,
+    "best_window": "11:45-12:30",
+    "approach": "Take the moving walkway up three flights, left at the citrus stand.",
+    "stay_min": 35,
+    "exit_cue": "When the mezzanine lamps flicker on for lunch rush.",
+    "taste_pair": "Pomelo slices with chili salt",
+    "sound": "Vendors calling in bright thirds, chopping block rhythm.",
+    "access": "Lift at entrance B, narrow aisles midday.",
+    "tag": "Backstage",
+    "photo_id": "p2",
+    "research": {
+      "claim": "Logged 68 dB average and 2 min 10 s queue for lift B at 12:04.",
+      "evidence": "Sound meter LEQ on Zoom F3, lift CCTV timestamp via attendant log.",
+      "method": "Stationary measurement with tripod mic, verified queue using synced photo timestamps.",
+      "status": "observed"
+    },
+    "composition": {
+      "staging": "Ride lift B, pause on mezzanine to sample pomelo, trace catwalk shadow bands.",
+      "best_window": "11:50-12:20 canopy glow",
+      "approach": "Arrive via escalator to align with vendor chorus.",
+      "exit": "Slip out when neon flickers on.",
+      "taste_pair": "Pomelo slices with chili salt",
+      "sound_note": "Triplet cleaver cadence."
+    }
+  },
+  {
+    "id": "place-promenade",
+    "name": "Central Harbourfront Lawn",
+    "lat": 22.2932,
+    "lng": 114.1649,
+    "best_window": "19:00-19:40",
+    "approach": "Loop the footbridge to stay above the traffic wash.",
+    "stay_min": 25,
+    "exit_cue": "Ferry horn three times from Kowloon pier.",
+    "taste_pair": "Sea salt dark chocolate",
+    "sound": "Balancing acts of busking violin and harbor wind.",
+    "access": "Ramp entry at Tamar Park, benches every 15m.",
+    "tag": "Quiet",
+    "photo_id": "p3",
+    "research": {
+      "claim": "Comfort score 4.2/5 with shade sail deployed and wind 6 kt.",
+      "evidence": "Shade/seat checklist completed 19:12, HKO wind archive Sai Wan station.",
+      "method": "Comfort rubric logged every 10 minutes; cross-checked with weather API download.",
+      "status": "observed"
+    },
+    "composition": {
+      "staging": "Lay the mat facing east, cue field recorder on tripod for arriving ferries.",
+      "best_window": "19:00-19:40 shimmer band",
+      "approach": "Loop footbridge to skim above traffic wash.",
+      "exit": "Pack after third horn from Kowloon pier.",
+      "taste_pair": "Sea salt dark chocolate",
+      "sound_note": "Wind ribbon + distant violin."
+    }
+  }
+]

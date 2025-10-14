@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <defs>
+    <linearGradient id="ferryGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#050a30"/>
+      <stop offset="100%" stop-color="#0e5dff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="1000" fill="url(#ferryGrad)"/>
+  <circle cx="220" cy="820" r="140" fill="#f6f1e3" opacity="0.3"/>
+  <rect x="200" y="640" width="520" height="140" fill="#f6f1e3" opacity="0.5"/>
+  <text x="80" y="160" font-family="Roboto Mono, monospace" font-size="64" fill="#f6f1e3">
+    Dawn Ferry Wake
+  </text>
+</svg>

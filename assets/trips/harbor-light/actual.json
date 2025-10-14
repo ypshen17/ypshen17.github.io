@@ -1,0 +1,26 @@
+[
+  {
+    "t": "05:28",
+    "dur": 52,
+    "title": "Extended ferry observation",
+    "category": "movement"
+  },
+  {
+    "t": "06:35",
+    "dur": 25,
+    "title": "Escalator hillside ascent",
+    "category": "movement"
+  },
+  {
+    "t": "12:00",
+    "dur": 65,
+    "title": "Market sound study",
+    "category": "research"
+  },
+  {
+    "t": "19:05",
+    "dur": 150,
+    "title": "Harborfront recording session",
+    "category": "rest"
+  }
+]

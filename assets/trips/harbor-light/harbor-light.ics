@@ -1,0 +1,31 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Yipeng Shen//Trips Calendar//EN
+BEGIN:VEVENT
+UID:harbor-light-1@ypshen17
+DTSTAMP:20240501T000000Z
+DTSTART:20240511T213000Z
+DTEND:20240511T220500Z
+SUMMARY:Dawn ferry departure
+LOCATION:Tsim Sha Tsui Pier 8
+DESCRIPTION:Ferry crosses to Central; arrive two departures early.
+END:VEVENT
+BEGIN:VEVENT
+UID:harbor-light-2@ypshen17
+DTSTAMP:20240501T000000Z
+DTSTART:20240512T034500Z
+DTEND:20240512T044500Z
+SUMMARY:Sheung Wan market window
+LOCATION:Sheung Wan Centre Market
+DESCRIPTION:Document vendors and light wells during lunch prep.
+END:VEVENT
+BEGIN:VEVENT
+UID:harbor-light-3@ypshen17
+DTSTAMP:20240501T000000Z
+DTSTART:20240512T110000Z
+DTEND:20240512T120000Z
+SUMMARY:Harbourfront quiet watch
+LOCATION:Central Harbourfront Event Space
+DESCRIPTION:Position mics and measure comfort score inputs.
+END:VEVENT
+END:VCALENDAR

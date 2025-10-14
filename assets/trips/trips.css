@@ -1,0 +1,1002 @@
+/* Trips archive and study styles */
+
+/* ---------- Trips Archive ---------- */
+.trips-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  padding: clamp(4rem, 6vw, 6rem) clamp(1.5rem, 5vw, 6rem) 1rem;
+  background: #f6f1e3;
+  color: #000;
+}
+
+.trips-hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.8rem, 4vw, 4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.trips-hero p {
+  font-size: clamp(1.1rem, 1.4vw, 1.3rem);
+  line-height: 1.6;
+}
+
+.trips-hero-meta dl {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+}
+
+.trips-hero-meta dt {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.trips-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem clamp(1.5rem, 5vw, 6rem) 0;
+}
+
+.trips-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.trips-chip {
+  background: #fff;
+  color: #000;
+  border: 1px solid #d3d0c4;
+  border-radius: 999px;
+  padding: 0.4rem 1.2rem;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.trips-chip:hover,
+.trips-chip:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.trips-chip.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.trips-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Roboto Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.trips-sort select {
+  border: 1px solid #d3d0c4;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.95rem;
+  background: #fff;
+  cursor: pointer;
+}
+
+.trips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.4rem);
+  padding: clamp(2rem, 5vw, 5rem) clamp(1.5rem, 5vw, 6rem) clamp(4rem, 6vw, 6rem);
+}
+
+.trips-card {
+  border: 1px solid #d3d0c4;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.trips-card.entering {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.trips-card-link {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.trips-card-cover {
+  position: relative;
+  width: 100%;
+  padding-top: 66%;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(0, 0, 191, 0.08), rgba(0, 0, 0, 0.1));
+}
+
+.trips-cover-lqip {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(0, 0, 191, 0.24), transparent 70%);
+  transform: scale(1.05);
+  transition: opacity 0.3s ease;
+}
+
+.trips-card-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.trips-card-cover.loaded img {
+  opacity: 1;
+}
+
+.trips-card-cover.loaded .trips-cover-lqip {
+  opacity: 0;
+}
+
+.trips-card-body {
+  padding: 1.4rem 1.4rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+
+.trips-card h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+}
+
+.trips-card-city {
+  margin: 0.3rem 0 0;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.trips-card-thesis {
+  margin: 0;
+  line-height: 1.5;
+  color: #333;
+}
+
+.trips-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.trips-card-tags li {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(0, 0, 191, 0.08);
+  color: var(--accent);
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+}
+
+.trips-card-meta {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.trips-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+}
+
+.trips-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* ---------- Trips Study Page ---------- */
+.trip-body main.trip-main {
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.2rem, 5vw, 4rem) clamp(6rem, 8vw, 8rem);
+}
+
+.trip-page {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.trip-toc {
+  position: sticky;
+  top: 6rem;
+  align-self: start;
+  border: 1px solid #d3d0c4;
+  border-radius: 16px;
+  padding: 1.5rem;
+  background: #fffef9;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  max-height: calc(100vh - 8rem);
+  overflow: auto;
+}
+
+.trip-toc h2 {
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 1rem;
+}
+
+.trip-toc ol {
+  padding-left: 1.2rem;
+  margin: 1rem 0 2rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.trip-toc a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.trip-toc a.current {
+  color: var(--accent);
+}
+
+.trip-mode-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid #d3d0c4;
+}
+
+.trip-mode-toggle .mode-btn {
+  border: 1px solid #d3d0c4;
+  border-radius: 999px;
+  padding: 0.5rem 0.6rem;
+  font-family: "Roboto Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.trip-mode-toggle .mode-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.trip-content {
+  display: grid;
+  gap: clamp(3rem, 5vw, 5rem);
+}
+
+.trip-section {
+  scroll-margin-top: 6rem;
+}
+
+.trip-page[data-mode="research"] [data-mode-copy="composition"],
+.trip-page[data-mode="composition"] [data-mode-copy="research"] {
+  display: none;
+}
+
+.trip-page[data-mode="research"] [data-mode-panel="composition"] {
+  display: none;
+}
+
+.trip-page[data-mode="composition"] [data-mode-panel="research"] {
+  display: none;
+}
+
+.trip-section h2 {
+  margin-top: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.trip-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.trip-hero-media {
+  border-radius: 18px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 0, 191, 0.16), transparent 70%);
+}
+
+.trip-hero-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.trip-hero-copy h1 {
+  margin: 0.4rem 0 1rem;
+  font-size: clamp(2.8rem, 5vw, 4.6rem);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.trip-city {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.trip-thesis {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+}
+
+.trip-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  list-style: none;
+}
+
+.trip-tags li {
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 191, 0.35);
+  text-transform: uppercase;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+.trip-beats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.4rem;
+}
+
+.trip-beat {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.9rem;
+  background: rgba(0, 0, 191, 0.08);
+  color: var(--accent);
+  border-radius: 999px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.8rem;
+}
+
+.trip-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.meta-label {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.meta-value {
+  display: block;
+  font-size: 1.05rem;
+  margin-top: 0.35rem;
+}
+
+.trip-transit {
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.trip-mode-intro p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 1rem;
+}
+
+.trip-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.trip-action {
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  padding: 0.6rem 1.1rem;
+  border-radius: 12px;
+  font-family: "Roboto Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.trip-action:hover,
+.trip-action:focus-visible {
+  background: var(--accent);
+  color: #fff;
+}
+
+.trip-method-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.trip-method {
+  border: 1px solid #d3d0c4;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.05);
+}
+
+.trip-map-embed iframe {
+  width: 100%;
+  min-height: 420px;
+  border: 0;
+  border-radius: 18px;
+  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.1);
+}
+
+.trip-map-placeholder {
+  border: 1px dashed #c7c3b5;
+  border-radius: 18px;
+  min-height: 260px;
+  display: grid;
+  place-items: center;
+  font-family: "Roboto Mono", monospace;
+  color: #888;
+}
+
+.trip-map-note {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.trip-3d-wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.trip-drop-zone {
+  border: 1px dashed rgba(0, 0, 191, 0.35);
+  border-radius: 16px;
+  padding: 1.5rem;
+  background: rgba(0, 0, 191, 0.04);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.trip-drop-zone.is-dragging {
+  border-color: var(--accent);
+  background: rgba(0, 0, 191, 0.1);
+}
+
+.trip-drop-zone input {
+  display: none;
+}
+
+.trip-3d-viewer {
+  border: 1px solid #d3d0c4;
+  border-radius: 16px;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr minmax(160px, 200px);
+  gap: 1rem;
+  background: #fff;
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.05);
+}
+
+.trip-3d-image {
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 0, 191, 0.12), rgba(0, 0, 0, 0.1));
+  min-height: 220px;
+  background-size: cover;
+  background-position: center;
+}
+
+.trip-3d-meta {
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.trip-3d-meta dt {
+  font-weight: bold;
+}
+
+.trip-3d-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.trip-3d-thumb {
+  border: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trip-3d-thumb.active {
+  box-shadow: 0 0 0 3px var(--accent);
+}
+
+.trip-3d-thumb:hover {
+  transform: translateY(-4px);
+}
+
+.trip-3d-thumb-image {
+  display: block;
+  width: 100%;
+  padding-top: 56%;
+  background-size: cover;
+  background-position: center;
+}
+
+.trip-3d-thumb-meta {
+  display: block;
+  padding: 0.75rem 1rem;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.85rem;
+}
+
+.trip-score-lane {
+  border: 1px solid #d3d0c4;
+  border-radius: 16px;
+  padding: 1rem 1.2rem 1.4rem;
+  background: #fffef9;
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.04);
+}
+
+.trip-score-lane h3 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.8rem;
+}
+
+.trip-score-items {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.trip-score-item {
+  border: 1px solid rgba(0, 0, 191, 0.25);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 191, 0.05);
+  display: grid;
+  grid-template-columns: 120px 1fr 100px;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.trip-score-item:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.trip-score-item:hover {
+  transform: translateY(-2px);
+  background: rgba(0, 0, 191, 0.12);
+}
+
+.trip-plan-timeline {
+  margin-top: 2rem;
+}
+
+.trip-timeline-wrap {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid #d3d0c4;
+  border-radius: 16px;
+  padding: 1.2rem;
+  background: #fff;
+  box-shadow: 0 16px 26px rgba(0, 0, 0, 0.05);
+}
+
+.trip-timeline-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1rem;
+  align-items: center;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.85rem;
+}
+
+.trip-timeline-label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.trip-timeline-track {
+  position: relative;
+  min-height: 44px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.trip-timeline-block {
+  position: relative;
+  margin-left: calc(var(--start) * 0.8px);
+  min-width: calc(var(--duration) * 0.8px);
+  background: rgba(0, 0, 191, 0.15);
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  display: grid;
+  gap: 0.2rem;
+  color: #000;
+}
+
+.trip-timeline-block strong {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.trip-place-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.trip-place-card {
+  display: grid;
+  grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+  gap: 1.5rem;
+  border: 1px solid #d3d0c4;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trip-place-card.is-highlighted {
+  box-shadow: 0 0 0 4px rgba(0, 0, 191, 0.35);
+  transform: translateY(-4px);
+}
+
+.trip-place-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.trip-place-body {
+  padding: 1.4rem 1.6rem 1.6rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.trip-place-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.trip-place-head h3 {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.trip-place-tag {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.trip-place-panel {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  background: rgba(0, 0, 0, 0.02);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.trip-place-panel[hidden] {
+  display: none;
+}
+
+.trip-place-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.trip-place-focus {
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-family: "Roboto Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.trip-place-focus:hover,
+.trip-place-focus:focus-visible {
+  background: var(--accent);
+  color: #fff;
+}
+
+.trip-place-focus:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.trip-place-composition-meta {
+  padding: 0.8rem 0 0 1.1rem;
+  margin: 0;
+  list-style: disc;
+  display: grid;
+  gap: 0.4rem;
+  color: #444;
+}
+
+.trip-evidence-inline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+.trip-evidence-card {
+  border: 1px solid #d3d0c4;
+  border-radius: 12px;
+  padding: 1.2rem;
+  background: #fff;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.05);
+}
+
+.trip-evidence-card h3 {
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.trip-reflections,
+.trip-limits ul,
+.trip-sources ul {
+  list-style: disc;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.trip-freeform {
+  margin-top: 1.4rem;
+  line-height: 1.6;
+}
+
+.trip-limits-sources {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.trip-evidence-drawer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 5000;
+}
+
+.trip-evidence-drawer.is-open {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.trip-evidence-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.trip-evidence-panel {
+  position: absolute;
+  inset: auto 0 0 0;
+  background: #fffef9;
+  border-radius: 24px 24px 0 0;
+  padding: 2rem clamp(1.5rem, 5vw, 3rem) clamp(3rem, 6vw, 4rem);
+  transform: translateY(24px);
+  transition: transform 0.3s ease;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.trip-evidence-drawer.is-open .trip-evidence-panel {
+  transform: translateY(0);
+}
+
+.trip-evidence-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.trip-evidence-close {
+  border: 0;
+  background: transparent;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #333;
+}
+
+.trip-evidence-body {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.trip-evidence-drawer-item {
+  border: 1px solid #d3d0c4;
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  background: #fff;
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.05);
+}
+
+.trip-evidence-drawer-item header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.trip-evidence-type {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.trip-evidence-mode {
+  margin: 0.6rem 0;
+}
+
+@media (max-width: 1120px) {
+  .trip-page {
+    grid-template-columns: 100%;
+  }
+  .trip-toc {
+    position: static;
+    max-height: none;
+    margin-bottom: 2rem;
+  }
+  .trip-hero {
+    grid-template-columns: 100%;
+  }
+  .trip-3d-wrapper {
+    grid-template-columns: 100%;
+  }
+  .trip-place-card {
+    grid-template-columns: 100%;
+  }
+}
+
+@media (max-width: 720px) {
+  .trips-hero {
+    grid-template-columns: 1fr;
+  }
+  .trips-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .trips-card {
+    border-radius: 14px;
+  }
+  .trip-body main.trip-main {
+    padding-inline: 1.2rem;
+  }
+  .trip-score-item {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+  }
+  .trip-timeline-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trips-card,
+  .trips-chip,
+  .trip-place-card,
+  .trip-score-item,
+  .trip-3d-thumb {
+    transition: none;
+  }
+  .trip-evidence-panel {
+    transition: none;
+  }
+}
