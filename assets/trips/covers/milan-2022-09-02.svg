@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="milanArrival" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#040820"/>
+      <stop offset="50%" stop-color="#191d4b"/>
+      <stop offset="100%" stop-color="#f2ede0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#milanArrival)"/>
+  <g fill="#f2ede0" font-family="Roboto Mono, monospace">
+    <text x="80" y="180" font-size="110">Move to Milan</text>
+    <text x="80" y="260" font-size="52">Study period begins · 2 Sept 2022</text>
+    <text x="80" y="330" font-size="44">NO 947 · Tianjin → Milano Malpensa</text>
+  </g>
+  <path d="M160 620 L240 420 L320 620 Z" fill="rgba(242,237,224,0.2)"/>
+  <path d="M400 620 L480 360 L560 620 Z" fill="rgba(242,237,224,0.2)"/>
+  <rect x="700" y="420" width="260" height="220" fill="rgba(242,237,224,0.22)"/>
+  <circle cx="970" cy="220" r="90" fill="rgba(242,237,224,0.4)"/>
+</svg>

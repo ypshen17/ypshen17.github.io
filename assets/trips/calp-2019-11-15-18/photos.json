@@ -1,0 +1,32 @@
+[
+  {
+    "id": "cp1",
+    "src": "/assets/trips/calp-2019-11-15-18/photo-cp1.svg",
+    "lat": 38.6425,
+    "lng": 0.0701,
+    "heading": 110,
+    "time": "2019-11-16T06:45:00+01:00",
+    "status": "observed",
+    "tag": "Dawn salinity transect"
+  },
+  {
+    "id": "cp2",
+    "src": "/assets/trips/calp-2019-11-15-18/photo-cp2.svg",
+    "lat": 38.6452,
+    "lng": 0.0697,
+    "heading": 45,
+    "time": "2019-11-16T12:20:00+01:00",
+    "status": "observed",
+    "tag": "Posidonia meadow dive"
+  },
+  {
+    "id": "cp3",
+    "src": "/assets/trips/calp-2019-11-15-18/photo-cp3.svg",
+    "lat": 38.6459,
+    "lng": 0.0691,
+    "heading": 220,
+    "time": "2019-11-17T18:40:00+01:00",
+    "status": "manual",
+    "tag": "Evening harbor acoustics"
+  }
+]

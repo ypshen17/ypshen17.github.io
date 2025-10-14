@@ -1,0 +1,26 @@
+[
+  {
+    "t": "06:05",
+    "dur": 75,
+    "title": "Extended salinity + hex suitability log",
+    "category": "research"
+  },
+  {
+    "t": "10:20",
+    "dur": 45,
+    "title": "Data upload + MaxEnt recalibration",
+    "category": "analysis"
+  },
+  {
+    "t": "11:45",
+    "dur": 80,
+    "title": "Posidonia dive with epiphyte counts",
+    "category": "research"
+  },
+  {
+    "t": "18:10",
+    "dur": 110,
+    "title": "Boardwalk acoustic + crowd density log",
+    "category": "research"
+  }
+]

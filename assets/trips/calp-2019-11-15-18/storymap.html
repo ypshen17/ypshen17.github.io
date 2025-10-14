@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calp Coastal Study StoryMap</title>
+  <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Roboto Mono", monospace;
+      background: #f6f1e7;
+      color: #111;
+    }
+    .storymap-shell {
+      display: grid;
+      grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+      height: 100vh;
+    }
+    .storymap-panel {
+      overflow-y: auto;
+      padding: 2rem 1.5rem;
+      background: rgba(255, 255, 255, 0.96);
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .storymap-panel h1 {
+      font-size: 1.8rem;
+      margin-top: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .storymap-step {
+      padding: 1rem 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+    }
+    .storymap-step.active {
+      color: #0000bf;
+    }
+    .storymap-step h2 {
+      margin: 0;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .storymap-step p {
+      margin: 0.4rem 0 0;
+      line-height: 1.4;
+      font-family: "Roboto Flex", sans-serif;
+    }
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+    .legend {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+      font-size: 0.85rem;
+    }
+    .legend span {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-right: 0.4rem;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="storymap-shell">
+    <aside class="storymap-panel">
+      <h1>Calp Coastal Suitability</h1>
+      <p>Adapting the Oysterbnb workflow, this storymap overlays MaxEnt habitat scores with field evidence gathered
+        15–18 November 2019 around the Port of Calpe. Scroll or tap through the steps to focus each site.</p>
+      <div class="storymap-step active" data-step="0">
+        <h2>Seawall transect</h2>
+        <p>Surface salinity 37.8 PSU &amp; DO 7.1 mg/L. MaxEnt suitability 0.64. Dawn blue hour captures the thermal
+          gradient between seawall concrete and bulkhead water.</p>
+      </div>
+      <div class="storymap-step" data-step="1">
+        <h2>Posidonia meadow</h2>
+        <p>Hex-bin shoot density benchmark (580 shoots/m²). Suitability 0.82 driven by stable salinity and slope
+          &lt; 12°. Underwater photogrammetry extends Oysterbnb GIS stack to the Mediterranean.</p>
+      </div>
+      <div class="storymap-step" data-step="2">
+        <h2>Boardwalk acoustics</h2>
+        <p>Comfort score 3.9/5 at 19:00 with Leq 64 dB(A), NE wind 9 kt. Suits evening rest nodes balancing tourism and
+          local fishing rhythms.</p>
+      </div>
+    </aside>
+    <div style="position: relative;">
+      <div id="map"></div>
+      <div class="legend">
+        <div><span style="background:#0f7f8f;"></span> Field measurement</div>
+        <div><span style="background:#f4a261;"></span> Suitability hex (Oysterbnb scale)</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+  <script>
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+      center: [0.0705, 38.6435],
+      zoom: 14.4,
+      pitch: 45,
+      bearing: -20
+    });
+
+    const steps = [
+      {
+        name: 'Seawall transect',
+        center: [0.0704, 38.6419],
+        zoom: 15.6,
+        bearing: -10,
+        pitch: 55,
+        popup: '<strong>Seawall Transect</strong><br>Salinity 37.8 PSU · DO 7.1 mg/L<br>Suitability 0.64 (hex 12B).'
+      },
+      {
+        name: 'Posidonia meadow',
+        center: [0.0698, 38.6451],
+        zoom: 15.3,
+        bearing: 25,
+        pitch: 55,
+        popup: '<strong>Posidonia Meadow</strong><br>580 shoots/m² · Suitability 0.82<br>Hypersaline stability zone.'
+      },
+      {
+        name: 'Boardwalk acoustics',
+        center: [0.0692, 38.6459],
+        zoom: 15.1,
+        bearing: -40,
+        pitch: 50,
+        popup: '<strong>Boardwalk Acoustic Line</strong><br>Comfort 3.9/5 · Leq 64 dB(A)<br>Wind 9 kt NE.'
+      }
+    ];
+
+    map.on('load', () => {
+      map.addSource('sites', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: steps.map((step, index) => ({
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: step.center
+            },
+            properties: {
+              title: step.name,
+              idx: index
+            }
+          }))
+        }
+      });
+
+      map.addLayer({
+        id: 'site-points',
+        type: 'circle',
+        source: 'sites',
+        paint: {
+          'circle-radius': 10,
+          'circle-color': '#0f7f8f',
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-width': 2
+        }
+      });
+
+      map.addSource('suitability-hex', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates: [[
+                  [0.0693, 38.6467],
+                  [0.0682, 38.6459],
+                  [0.0693, 38.6451],
+                  [0.0712, 38.6451],
+                  [0.0723, 38.6459],
+                  [0.0712, 38.6467],
+                  [0.0693, 38.6467]
+                ]]
+              },
+              properties: { hex: '0.78 suitability' }
+            },
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates: [[
+                  [0.0698, 38.6442],
+                  [0.0686, 38.6434],
+                  [0.0698, 38.6426],
+                  [0.0716, 38.6426],
+                  [0.0727, 38.6434],
+                  [0.0716, 38.6442],
+                  [0.0698, 38.6442]
+                ]]
+              },
+              properties: { hex: '0.64 suitability' }
+            }
+          ]
+        }
+      });
+
+      map.addLayer({
+        id: 'suitability-fill',
+        type: 'fill',
+        source: 'suitability-hex',
+        paint: {
+          'fill-color': '#f4a261',
+          'fill-opacity': 0.25
+        }
+      });
+
+      map.addLayer({
+        id: 'suitability-outline',
+        type: 'line',
+        source: 'suitability-hex',
+        paint: {
+          'line-color': '#f4a261',
+          'line-width': 2
+        }
+      });
+
+      const popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false });
+
+      function activateStep(index) {
+        const step = steps[index];
+        map.easeTo({
+          center: step.center,
+          zoom: step.zoom,
+          pitch: step.pitch,
+          bearing: step.bearing,
+          duration: 1400
+        });
+        popup.setLngLat(step.center).setHTML(step.popup).addTo(map);
+        document.querySelectorAll('.storymap-step').forEach((el) => {
+          el.classList.toggle('active', Number(el.dataset.step) === index);
+        });
+      }
+
+      document.querySelectorAll('.storymap-step').forEach((el) => {
+        el.addEventListener('click', () => activateStep(Number(el.dataset.step)));
+      });
+
+      activateStep(0);
+    });
+  </script>
+</body>
+</html>

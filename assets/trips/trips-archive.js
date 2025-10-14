@@ -1,9 +1,9 @@
 (() => {
   const grid = document.getElementById("tripsGrid");
   const sortSelect = document.getElementById("tripsSort");
-  const chips = document.querySelectorAll(".trips-chip");
+  const chipsContainer = document.getElementById("tripsFilterChips");
   const dataScript = document.getElementById("tripsArchiveData");
-  if (!grid || !sortSelect || !dataScript) return;
+  if (!grid || !sortSelect || !dataScript || !chipsContainer) return;
 
   const baseUrl = (grid.dataset.baseurl || "").replace(/\/$/, "");
 
@@ -39,10 +39,17 @@
     article.dataset.distance = trip.distance_km;
     article.dataset.sortShortest = trip.sort_shortest || trip.distance_km || 0;
     article.dataset.quiet = trip.quiet || false;
+    article.dataset.published = trip.published ? "true" : "false";
 
-    const cardLink = document.createElement("a");
+    const isPublished = Boolean(trip.published);
+    const cardLink = document.createElement(isPublished ? "a" : "div");
     cardLink.className = "trips-card-link";
-    cardLink.href = buildUrl(`/trips/${trip.slug}/`);
+    if (isPublished) {
+      cardLink.href = buildUrl(`/trips/${trip.slug}/`);
+    } else {
+      cardLink.classList.add("coming-soon");
+      cardLink.setAttribute("aria-disabled", "true");
+    }
 
     const cover = document.createElement("div");
     cover.className = "trips-card-cover";
@@ -79,6 +86,7 @@
     meta.innerHTML = `
       <span>${trip.distance_km} km</span>
       ${trip.beats && trip.beats.length ? `<span>${trip.beats[0]}</span>` : ""}
+      ${!isPublished ? `<span>Coming soon</span>` : ""}
     `;
 
     body.appendChild(tagList);
@@ -153,12 +161,32 @@
     render();
   }
 
-  chips.forEach((chip) => {
-    const filterValue = chip.dataset.filter;
-    chip.setAttribute("aria-pressed", "false");
-    chip.addEventListener("click", () => toggleFilter(filterValue, chip));
-  });
+  function buildFilterChips() {
+    const tags = new Set();
+    tripsData.forEach((trip) => {
+      (trip.tags || []).forEach((tag) => tags.add(tag));
+    });
+    const sortedTags = Array.from(tags).sort((a, b) => a.localeCompare(b));
 
+    chipsContainer.innerHTML = "";
+    if (sortedTags.length === 0) {
+      chipsContainer.innerHTML = `<span class="trips-empty">No tags available yet.</span>`;
+      return;
+    }
+
+    sortedTags.forEach((tag) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "trips-chip";
+      chip.dataset.filter = tag;
+      chip.textContent = tag;
+      chip.setAttribute("aria-pressed", "false");
+      chip.addEventListener("click", () => toggleFilter(tag, chip));
+      chipsContainer.appendChild(chip);
+    });
+  }
+
+  buildFilterChips();
   sortSelect.addEventListener("change", handleSortChange);
   render();
 })();

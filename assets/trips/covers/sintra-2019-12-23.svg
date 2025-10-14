@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="sintraSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f3a64"/>
+      <stop offset="60%" stop-color="#1f7a8c"/>
+      <stop offset="100%" stop-color="#f3ebe0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sintraSky)"/>
+  <g fill="#f3ebe0" font-family="Roboto Mono, monospace">
+    <text x="80" y="190" font-size="110">Sintra Day</text>
+    <text x="80" y="270" font-size="56">Moors · Pena Palace · 23 December 2019</text>
+    <text x="80" y="350" font-size="46">Hillside humidity and tiled light</text>
+  </g>
+  <path d="M0 560 Q220 480 420 540 T 900 520 T 1200 540 V 800 H 0 Z" fill="rgba(15,58,100,0.6)"/>
+  <circle cx="960" cy="220" r="110" fill="rgba(243,235,224,0.35)"/>
+  <path d="M260 540 L360 360 L460 540 Z" fill="rgba(243,235,224,0.2)"/>
+  <path d="M620 540 L760 320 L900 540 Z" fill="rgba(243,235,224,0.2)"/>
+</svg>

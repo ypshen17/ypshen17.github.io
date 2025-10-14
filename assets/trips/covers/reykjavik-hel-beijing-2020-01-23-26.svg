@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="transitArc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#020312"/>
+      <stop offset="50%" stop-color="#09204f"/>
+      <stop offset="100%" stop-color="#dfe9f5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#transitArc)"/>
+  <g fill="#dfe9f5" font-family="Roboto Mono, monospace">
+    <text x="80" y="180" font-size="100">Reykjavík → Helsinki → Beijing</text>
+    <text x="80" y="260" font-size="52">Transit chain · 23–26 Jan 2020</text>
+    <text x="80" y="330" font-size="44">Cold cabin microclimates & circadian drift</text>
+  </g>
+  <path d="M180 580 C 360 280, 720 280, 980 540" stroke="#dfe9f5" stroke-width="8" fill="none"/>
+  <circle cx="200" cy="580" r="12" fill="#dfe9f5"/>
+  <circle cx="980" cy="540" r="12" fill="#dfe9f5"/>
+  <circle cx="620" cy="400" r="12" fill="#dfe9f5"/>
+</svg>

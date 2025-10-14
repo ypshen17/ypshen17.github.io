@@ -1,0 +1,31 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Yipeng Shen//Trips Calendar//EN
+BEGIN:VEVENT
+UID:calp-2019-11-16-salinity@ypshen17
+DTSTAMP:20191110T000000Z
+DTSTART:20191116T052000Z
+DTEND:20191116T062500Z
+SUMMARY:Seawall salinity transect
+LOCATION:La Fossa seawall, Calp
+DESCRIPTION:Conduct salinity and dissolved oxygen profile with YSI ProDSS.
+END:VEVENT
+BEGIN:VEVENT
+UID:calp-2019-11-16-posidonia@ypshen17
+DTSTAMP:20191110T000000Z
+DTSTART:20191116T104000Z
+DTEND:20191116T120500Z
+SUMMARY:Posidonia meadow photogrammetry
+LOCATION:Port of Calpe research ladder
+DESCRIPTION:Underwater photo quadrats and MaxEnt suitability validation.
+END:VEVENT
+BEGIN:VEVENT
+UID:calp-2019-11-16-acoustics@ypshen17
+DTSTAMP:20191110T000000Z
+DTSTART:20191116T171000Z
+DTEND:20191116T190000Z
+SUMMARY:Boardwalk acoustic logging
+LOCATION:Calp port boardwalk
+DESCRIPTION:Binaural sound survey linked to Oysterbnb comfort rubric.
+END:VEVENT
+END:VCALENDAR

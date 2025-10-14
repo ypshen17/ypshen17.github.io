@@ -124,6 +124,14 @@
   height: 100%;
 }
 
+.trips-card-link.coming-soon {
+  pointer-events: none;
+  opacity: 0.85;
+}
+.trips-card-link.coming-soon .trips-card-meta span:last-child {
+  color: #8a7f72;
+}
+
 .trips-card-cover {
   position: relative;
   width: 100%;

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <defs>
+    <linearGradient id="cp2Sea" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#012f46"/>
+      <stop offset="100%" stop-color="#0f7f8f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="1000" fill="url(#cp2Sea)"/>
+  <g fill="rgba(255,255,255,0.2)">
+    <circle cx="280" cy="520" r="160"/>
+    <circle cx="620" cy="640" r="220"/>
+  </g>
+  <g fill="#d9f4f8" font-family="Roboto Mono, monospace">
+    <text x="80" y="160" font-size="64">Posidonia</text>
+    <text x="80" y="240" font-size="64">Meadow Dive</text>
+  </g>
+  <path d="M480 880 C 520 760, 540 620, 600 520" stroke="#d9f4f8" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <path d="M540 880 C 600 760, 640 640, 700 520" stroke="#d9f4f8" stroke-width="10" fill="none" stroke-linecap="round"/>
+</svg>

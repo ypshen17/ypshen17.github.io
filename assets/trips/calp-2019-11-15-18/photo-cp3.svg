@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <defs>
+    <linearGradient id="cp3Night" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#030617"/>
+      <stop offset="50%" stop-color="#071d3f"/>
+      <stop offset="100%" stop-color="#102d5e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="1000" fill="url(#cp3Night)"/>
+  <g fill="rgba(255,255,255,0.35)">
+    <circle cx="780" cy="220" r="80"/>
+    <rect x="120" y="640" width="760" height="120" rx="18"/>
+  </g>
+  <path d="M160 680 Q 320 540, 520 600 T 840 680" stroke="#f2f6fb" stroke-width="6" fill="none" stroke-dasharray="14 10"/>
+  <g fill="#f2f6fb" font-family="Roboto Mono, monospace">
+    <text x="80" y="180" font-size="60">Harbor Acoustic Sweep</text>
+    <text x="80" y="260" font-size="48">18:40 field log</text>
+  </g>
+</svg>

@@ -1,0 +1,26 @@
+[
+  {
+    "t": "06:00",
+    "dur": 60,
+    "title": "Seawall salinity + DO transect",
+    "category": "research"
+  },
+  {
+    "t": "10:30",
+    "dur": 30,
+    "title": "Data entry and calibration",
+    "category": "analysis"
+  },
+  {
+    "t": "11:30",
+    "dur": 75,
+    "title": "Posidonia photogrammetry dive",
+    "category": "research"
+  },
+  {
+    "t": "18:00",
+    "dur": 90,
+    "title": "Boardwalk acoustic logging",
+    "category": "research"
+  }
+]

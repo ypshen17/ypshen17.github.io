@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <defs>
+    <linearGradient id="cp1Sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a2158"/>
+      <stop offset="60%" stop-color="#0f4c81"/>
+      <stop offset="100%" stop-color="#e6f3f8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="1000" fill="url(#cp1Sky)"/>
+  <path d="M0 650 C 220 620, 480 640, 720 700 S 1000 780, 1000 780 V 1000 H 0 Z" fill="#04314b"/>
+  <g fill="#e6f3f8" font-family="Roboto Mono, monospace" font-size="64">
+    <text x="60" y="160">Dawn Salinity</text>
+    <text x="60" y="240">Transect</text>
+  </g>
+  <circle cx="320" cy="520" r="80" fill="rgba(230,243,248,0.3)"/>
+  <path d="M320 600 L320 780" stroke="#e6f3f8" stroke-width="12" stroke-linecap="round"/>
+</svg>

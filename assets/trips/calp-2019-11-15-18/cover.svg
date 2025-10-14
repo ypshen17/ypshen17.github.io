@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="calpSea" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#001a5c"/>
+      <stop offset="40%" stop-color="#0047a3"/>
+      <stop offset="75%" stop-color="#1aa7c9"/>
+      <stop offset="100%" stop-color="#f5ede3"/>
+    </linearGradient>
+    <linearGradient id="calpLight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.0)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.35)"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#calpSea)"/>
+  <path d="M0 520 C 220 450, 480 470, 760 540 S 1200 640, 1200 640 V 800 H 0 Z" fill="rgba(0, 20, 60, 0.6)"/>
+  <path d="M0 610 C 280 560, 540 600, 820 670 S 1200 760, 1200 760 V 800 H 0 Z" fill="rgba(0, 20, 60, 0.35)"/>
+  <rect x="720" y="0" width="480" height="800" fill="url(#calpLight)"/>
+  <g fill="#f5ede3" font-family="Roboto Mono, monospace">
+    <text x="80" y="180" font-size="120">Calp Coast Days</text>
+    <text x="80" y="280" font-size="60">Port of Calpe · November 2019</text>
+    <text x="80" y="360" font-size="48">Tracing seagrass, salinity, and tourism rhythms</text>
+  </g>
+  <g stroke="#f5ede3" stroke-width="8" stroke-linecap="round">
+    <path d="M360 520 Q420 430, 500 450" fill="none"/>
+    <path d="M520 470 Q560 500, 620 480" fill="none"/>
+    <path d="M650 500 Q700 520, 780 500" fill="none"/>
+  </g>
+</svg>

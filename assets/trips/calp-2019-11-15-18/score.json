@@ -1,0 +1,88 @@
+{
+  "food": [
+    {
+      "t": "07:20",
+      "dur": 20,
+      "name": "Porto Calpe breakfast log",
+      "note": "Citrus and toast mirrored with salinity readings",
+      "price_hint": "$"
+    },
+    {
+      "t": "13:40",
+      "dur": 45,
+      "name": "Seagrass-inspired arroz a banda tasting",
+      "note": "Interviewed chef about sustainable sourcing",
+      "price_hint": "$$"
+    },
+    {
+      "t": "19:10",
+      "dur": 30,
+      "name": "Fisher cooperative octopus plate",
+      "note": "Paired with evening acoustic logging",
+      "price_hint": "$"
+    }
+  ],
+  "movement": [
+    {
+      "t": "06:05",
+      "dur": 15,
+      "mode": "Walk",
+      "from": "Hotel Porto Calpe",
+      "to": "La Fossa seawall transect"
+    },
+    {
+      "t": "11:10",
+      "dur": 12,
+      "mode": "Kayak",
+      "from": "Port launch",
+      "to": "Posidonia marker"
+    },
+    {
+      "t": "17:50",
+      "dur": 10,
+      "mode": "Walk",
+      "from": "Hotel",
+      "to": "Boardwalk acoustic line"
+    }
+  ],
+  "light": [
+    {
+      "t": "06:40",
+      "dur": 35,
+      "type": "Blue hour",
+      "place": "Seawall transect"
+    },
+    {
+      "t": "12:00",
+      "dur": 55,
+      "type": "Zenith shimmer",
+      "place": "Posidonia meadow"
+    },
+    {
+      "t": "18:20",
+      "dur": 50,
+      "type": "Golden hour",
+      "place": "Port boardwalk"
+    }
+  ],
+  "rest": [
+    {
+      "t": "10:00",
+      "dur": 25,
+      "place": "Hotel shaded terrace",
+      "note": "Data entry + battery swap"
+    },
+    {
+      "t": "15:30",
+      "dur": 30,
+      "place": "Ifach Natural Park lookout",
+      "note": "Observing tourist flow vs. tide charts"
+    },
+    {
+      "t": "21:30",
+      "dur": 40,
+      "place": "Balcony hydrophone review",
+      "note": "Annotating acoustic anomalies"
+    }
+  ]
+}

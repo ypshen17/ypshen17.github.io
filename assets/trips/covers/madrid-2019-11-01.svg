@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="madridGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a40"/>
+      <stop offset="60%" stop-color="#0000bf"/>
+      <stop offset="100%" stop-color="#f5efe0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#madridGradient)"/>
+  <g fill="#f5efe0" font-family="Roboto Mono, monospace">
+    <text x="80" y="190" font-size="120">Madrid Hop</text>
+    <text x="80" y="290" font-size="58">UX 4060 · Valencia → Madrid</text>
+    <text x="80" y="370" font-size="48">1 November 2019</text>
+  </g>
+  <circle cx="950" cy="520" r="180" fill="rgba(255,255,255,0.1)"/>
+  <path d="M820 620 Q900 560 1030 580" stroke="#f5efe0" stroke-width="8" fill="none" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="barcaNight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070045"/>
+      <stop offset="50%" stop-color="#211680"/>
+      <stop offset="100%" stop-color="#f6e7d8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#barcaNight)"/>
+  <g fill="#f6e7d8" font-family="Roboto Mono, monospace">
+    <text x="80" y="190" font-size="110">Barcelona Weekend</text>
+    <text x="80" y="280" font-size="56">Casa Fuster · CaixaForum · December 2019</text>
+    <text x="80" y="360" font-size="46">Citywalks, modernisme light, night jazz</text>
+  </g>
+  <path d="M160 620 L250 420 L340 620 Z" fill="rgba(246,231,216,0.18)"/>
+  <path d="M400 620 L520 340 L640 620 Z" fill="rgba(246,231,216,0.25)"/>
+  <path d="M700 620 L820 380 L940 620 Z" fill="rgba(246,231,216,0.2)"/>
+  <circle cx="980" cy="230" r="90" fill="rgba(246,231,216,0.4)"/>
+</svg>

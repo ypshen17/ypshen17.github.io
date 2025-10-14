@@ -1,0 +1,86 @@
+[
+  {
+    "id": "calp-seawall",
+    "name": "La Fossa Seawall Transect",
+    "lat": 38.6419,
+    "lng": 0.0704,
+    "best_window": "06:20-07:10",
+    "approach": "Set tripod on the seawall ledge, level sensor at 30 cm above water.",
+    "stay_min": 35,
+    "exit_cue": "First paddleboard group crosses the transect line.",
+    "taste_pair": "Orange peel cold brew",
+    "sound": "Low tide slap against concrete, gull harmonics.",
+    "access": "Step-free ramp from Avenida Juan Carlos I; guardrail notch for equipment.",
+    "tag": "Coast",
+    "photo_id": "cp1",
+    "research": {
+      "claim": "Surface salinity 37.8 PSU with dissolved oxygen 7.1 mg/L at 06:45.",
+      "evidence": "YSI ProDSS log + titration vial sample cross-checked with Copernicus CMEMS daily raster.",
+      "method": "Collected vertical salinity/DO profile every 0.5 m, geotagged via Garmin 66i, compared to MaxEnt suitability surface adapted from Oysterbnb workflow.",
+      "status": "observed"
+    },
+    "composition": {
+      "staging": "Face east, align hydrophone with incoming tide lanes to keep water pulsing below 65 dB.",
+      "approach": "Walk the seawall when streetlights switch off to catch the blue gradient on Calpe Rock.",
+      "exit": "Pack when the paddleboarders disturb the surface sheen.",
+      "taste_pair": "Orange peel cold brew",
+      "sound_note": "Concrete resonance adds a subtle 92 Hz hum."
+    }
+  },
+  {
+    "id": "calp-posidonia",
+    "name": "Posidonia Benchmark Meadow",
+    "lat": 38.6451,
+    "lng": 0.0698,
+    "best_window": "11:40-13:00",
+    "approach": "Drop from the research ladder, follow guide rope 12 m to meadow marker.",
+    "stay_min": 45,
+    "exit_cue": "Secchi disk visibility drops below 15 m or fishing charter enters zone.",
+    "taste_pair": "Seaweed rice cracker",
+    "sound": "Snorkel bubbles, distant halyard bells, shrimp snaps.",
+    "access": "Requires dive flag; ladder clearance 0.8 m at mid-tide.",
+    "tag": "Light",
+    "photo_id": "cp2",
+    "research": {
+      "claim": "Posidonia shoot density 580 shoots/m² with epiphyte cover under 12%.",
+      "evidence": "Quadrat photos + ImageJ counts; cross-validated with Generalitat Valenciana benthic survey 2018.",
+      "method": "Replicated Oysterbnb MaxEnt workflow using salinity, turbidity, and slope rasters to model meadow extent; ground-truthed with underwater photogrammetry.",
+      "status": "observed"
+    },
+    "composition": {
+      "staging": "Hover 1.5 m above the canopy to watch sun pillars through the seagrass.",
+      "approach": "Descend slowly to avoid turbidity spike; match breath to gentle swell.",
+      "exit": "Clap twice on ladder rung to signal wrap.",
+      "taste_pair": "Seaweed rice cracker",
+      "sound_note": "Shrimp snaps punctuate a calm 58 dB(A) chorus."
+    }
+  },
+  {
+    "id": "calp-night",
+    "name": "Port Boardwalk Acoustic Line",
+    "lat": 38.6458,
+    "lng": 0.0692,
+    "best_window": "18:20-19:30",
+    "approach": "Set binaural rig midway between churro stall and fishing co-op gate.",
+    "stay_min": 30,
+    "exit_cue": "When wind shifts above 12 kt from NE as logged at buoy 6123.",
+    "taste_pair": "Locally cured octopus slice",
+    "sound": "Busker guitar layering with halyard rattles and low tourist groups.",
+    "access": "Flat timber deck, tactile strips at stair edges.",
+    "tag": "Rest",
+    "photo_id": "cp3",
+    "research": {
+      "claim": "Evening composite comfort score 3.9/5 with average Leq 64 dB and wind chill 18°C.",
+      "evidence": "Binaural Tascam DR-05X log + AEMET buoy 6123 wind dataset + Oysterbnb comfort rubric adaptation.",
+      "method": "Applied Oysterbnb hex suitability scale to boardwalk microclimate: normalized sound, wind, and crowd counts in 5-minute bins.",
+      "status": "observed"
+    },
+    "composition": {
+      "staging": "Angle seating to face Ifach silhouette, sync tasting with passing fishing crews.",
+      "approach": "Arrive before golden hour to reserve bench and calibrate rig.",
+      "exit": "Leave when the NE gust crosses 12 kt or sound level climbs past 68 dB.",
+      "taste_pair": "Locally cured octopus slice",
+      "sound_note": "Layered strum at 120 bpm over halyard clinks."
+    }
+  }
+]
