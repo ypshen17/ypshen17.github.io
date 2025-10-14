@@ -1,0 +1,59 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "transect",
+        "name": "La Fossa Seawall Transect",
+        "mode": "research",
+        "salinity": 37.8,
+        "do_mg_l": 7.1,
+        "suitability": 0.64,
+        "time": "06:45",
+        "narrative_research": "Surface salinity 37.8 PSU; DO 7.1 mg/L. Matches CMEMS tile 0.64 bin.",
+        "narrative_composition": "Blue hour sheen on seawall; align breathing with low 92 Hz hum."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [0.0704, 38.6419]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "posidonia",
+        "name": "Posidonia Benchmark Meadow",
+        "mode": "research",
+        "salinity": 38.1,
+        "shoot_density": 580,
+        "suitability": 0.82,
+        "time": "12:05",
+        "narrative_research": "Quadrat photo count: 580 shoots/m2, epiphytes 12%. MaxEnt >0.8.",
+        "narrative_composition": "Hover 1.5 m above the canopy to watch sun pillars through seagrass."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [0.0698, 38.6451]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "boardwalk",
+        "name": "Port Boardwalk Acoustic Line",
+        "mode": "research",
+        "leq_db": 64,
+        "wind_kt": 9,
+        "comfort": 3.9,
+        "time": "19:00",
+        "narrative_research": "Comfort 3.9/5: Leq 64 dB(A), wind 9 kt NE, crowd index 0.62.",
+        "narrative_composition": "Guitar + halyard rhythm; serve octopus when ferry horn cues 120 bpm."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [0.0692, 38.6459]
+      }
+    }
+  ]
+}

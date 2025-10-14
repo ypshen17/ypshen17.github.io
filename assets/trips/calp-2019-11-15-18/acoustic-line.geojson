@@ -1,0 +1,22 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "boardwalk-line",
+        "name": "Boardwalk Listening Line",
+        "leq_db": 64,
+        "comfort": 3.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [0.0688, 38.6456],
+          [0.0692, 38.6459],
+          [0.0698, 38.6461]
+        ]
+      }
+    }
+  ]
+}

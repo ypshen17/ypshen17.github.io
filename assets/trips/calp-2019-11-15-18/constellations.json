@@ -1,0 +1,56 @@
+[
+  {
+    "id": "const-blue-hour",
+    "name": "Blue Hour Interface",
+    "group": "Harbor Resonance",
+    "time": "06:48",
+    "location": "La Fossa seawall bench 3",
+    "photo_id": "cp1",
+    "senses": ["Sound", "Light", "Water"],
+    "research": {
+      "claim": "Sound pressure peak 62 dB(A) with 92 Hz wall hum in phase with incoming swell.",
+      "method": "FFT snapshot from binaural rig compared against Oysterbnb frequency bins; matched to CMEMS salinity stability.",
+      "meaning": "Confirms seawall concrete amplifies low frequency bands that visitors feel through handrails."
+    },
+    "composition": {
+      "invitation": "Rest elbows on the rail, inhale with the swell, let the ferry horn mark a slow step change.",
+      "gesture": "Share thermos tea after the second bus horn fades."
+    }
+  },
+  {
+    "id": "const-posidonia",
+    "name": "Meadow Pulse",
+    "group": "Submerged Chorus",
+    "time": "12:14",
+    "location": "Posidonia marker rope",
+    "photo_id": "cp2",
+    "senses": ["Sound", "Touch", "Light"],
+    "research": {
+      "claim": "Shrimp snaps peaked at 2.3 snaps per second when PAR sensor read 560 umol.",
+      "method": "Hydrophone log segmented to 10 second windows; paired with underwater lux readings and Oysterbnb comfort rubric template.",
+      "meaning": "Shows micro habitat thrives when midday light hits canopy; supports limiting fin kicks to preserve clarity."
+    },
+    "composition": {
+      "invitation": "Hover 1.5 m above the canopy, match breath to shrimp pulses, note how sun pillars bend with each exhale.",
+      "gesture": "Gift seaweed crackers once snorkel buddy logs three pulses in a row."
+    }
+  },
+  {
+    "id": "const-boardwalk",
+    "name": "Dockside Counterpoint",
+    "group": "Harbor Resonance",
+    "time": "19:12",
+    "location": "Port boardwalk bench 5",
+    "photo_id": "cp3",
+    "senses": ["Sound", "Smell", "Air"],
+    "research": {
+      "claim": "Leq 64 dB(A) with crowd index 0.62; NE wind 9 kt carried anise scent from churro stand.",
+      "method": "Used Oysterbnb comfort scale with five minute bins; annotated smell notes to tie audio to culinary prompts.",
+      "meaning": "Demonstrates how food vendors modulate atmosphere without overwhelming acoustic space."
+    },
+    "composition": {
+      "invitation": "Sit facing Ifach silhouette, taste octopus slice when busker shifts to 120 bpm, pack up before gust hits 12 kt.",
+      "gesture": "Hand visitor the spare cushion when crowd index crosses 0.7."
+    }
+  }
+]

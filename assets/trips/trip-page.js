@@ -11,6 +11,8 @@
   const scoreContainer = document.getElementById("tripScoreLanes");
   const galleryContainer = document.getElementById("trip3dGallery");
   const planTimeline = document.getElementById("tripPlanTimeline");
+  const constellationsContainer = document.getElementById("tripConstellations");
+  const constellationsFilters = document.getElementById("tripConstellationFilters");
   const mapNotes = root.querySelectorAll("#trip-map [data-mode-copy]");
   const viewer = document.getElementById("trip3dViewer");
   const evidenceInline = document.getElementById("tripEvidenceInline");
@@ -27,7 +29,9 @@
     score: null,
     plan: null,
     actual: null,
-    evidence: []
+    evidence: [],
+    constellations: [],
+    constellationFilters: new Set()
   };
 
   const url = new URL(window.location.href);
@@ -84,6 +88,7 @@
     });
 
     renderPlaceCards(state.places, state.photos, { reRender: true });
+    renderConstellations(state.constellations, { reRender: true });
     try {
       localStorage.setItem(`trip-mode-${slug}`, nextMode);
     } catch (err) {
@@ -223,6 +228,152 @@
     setTimeout(() => card.classList.remove("is-highlighted"), 1600);
   }
 
+  function scrollToConstellation(constellationId) {
+    if (!constellationsContainer) return;
+    const card = constellationsContainer.querySelector(`[data-constellation-id="${constellationId}"]`);
+    if (!card) return;
+    card.classList.add("is-highlighted");
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => card.classList.remove("is-highlighted"), 1600);
+  }
+
+  function filterConstellations(list = []) {
+    if (!state.constellationFilters || state.constellationFilters.size === 0) {
+      return list.slice();
+    }
+    return list.filter((item) => state.constellationFilters.has(item.group));
+  }
+
+  function renderConstellationFilters(constellations = []) {
+    if (!constellationsFilters) return;
+    const groups = Array.from(
+      new Set(
+        (constellations || [])
+          .map((item) => item.group)
+          .filter((group) => Boolean(group))
+      )
+    ).sort((a, b) => a.localeCompare(b));
+
+    constellationsFilters.innerHTML = "";
+
+    if (!groups.length) {
+      constellationsFilters.innerHTML = `<p class="trip-constellation-empty">Constellations coming soon.</p>`;
+      return;
+    }
+
+    const allBtn = document.createElement("button");
+    allBtn.type = "button";
+    allBtn.className = "trip-constellation-chip";
+    if (state.constellationFilters.size === 0) {
+      allBtn.classList.add("active");
+    }
+    allBtn.setAttribute("aria-pressed", state.constellationFilters.size === 0 ? "true" : "false");
+    allBtn.textContent = "All";
+    allBtn.addEventListener("click", () => {
+      state.constellationFilters.clear();
+      renderConstellationFilters(state.constellations);
+      renderConstellations(state.constellations);
+    });
+    constellationsFilters.appendChild(allBtn);
+
+    groups.forEach((group) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "trip-constellation-chip";
+      chip.dataset.group = group;
+      const isActive = state.constellationFilters.has(group);
+      chip.classList.toggle("active", isActive);
+      chip.setAttribute("aria-pressed", isActive ? "true" : "false");
+      chip.textContent = group;
+      chip.addEventListener("click", () => {
+        if (state.constellationFilters.has(group)) {
+          state.constellationFilters.delete(group);
+        } else {
+          state.constellationFilters.add(group);
+        }
+        renderConstellationFilters(state.constellations);
+        renderConstellations(state.constellations);
+      });
+      constellationsFilters.appendChild(chip);
+    });
+  }
+
+  function renderConstellations(constellations = [], { reRender = false } = {}) {
+    if (!constellationsContainer) return;
+    if (!constellations || constellations.length === 0) {
+      constellationsContainer.innerHTML = `<p class="trip-constellation-empty">Constellations coming soon.</p>`;
+      return;
+    }
+
+    if (reRender) {
+      constellationsContainer.querySelectorAll("[data-mode-panel]").forEach((panel) => {
+        const show = panel.getAttribute("data-mode-panel") === state.mode;
+        panel.hidden = !show;
+        panel.setAttribute("aria-hidden", show ? "false" : "true");
+      });
+      return;
+    }
+
+    const filtered = filterConstellations(constellations);
+    if (!filtered.length) {
+      constellationsContainer.innerHTML = `<p class="trip-constellation-empty">No constellations match the selected themes yet.</p>`;
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    filtered.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "trip-constellation-card";
+      card.dataset.constellationId = item.id || "";
+      card.dataset.group = item.group || "";
+
+      const senses = (item.senses || [])
+        .map((sense) => `<span class="trip-constellation-sense">${sense}</span>`)
+        .join("");
+
+      card.innerHTML = `
+        <header class="trip-constellation-head">
+          <div>
+            <h3>${item.name || ""}</h3>
+            <p class="trip-constellation-meta">
+              ${item.time || ""}${item.location ? ` · ${item.location}` : ""}
+            </p>
+          </div>
+          ${item.group ? `<span class="trip-constellation-group">${item.group}</span>` : ""}
+        </header>
+        ${senses ? `<div class="trip-constellation-senses">${senses}</div>` : ""}
+        <div class="trip-constellation-panel" data-mode-panel="research">
+          ${item.research?.claim ? `<p class="trip-constellation-claim">${item.research.claim}</p>` : ""}
+          ${item.research?.method ? `<p class="trip-constellation-method"><strong>Method:</strong> ${item.research.method}</p>` : ""}
+          ${item.research?.meaning ? `<p class="trip-constellation-meaning"><strong>Meaning:</strong> ${item.research.meaning}</p>` : ""}
+        </div>
+        <div class="trip-constellation-panel" data-mode-panel="composition">
+          ${item.composition?.invitation ? `<p class="trip-constellation-invite">${item.composition.invitation}</p>` : ""}
+          ${item.composition?.gesture ? `<p class="trip-constellation-gesture"><strong>Gesture:</strong> ${item.composition.gesture}</p>` : ""}
+        </div>
+        <div class="trip-constellation-actions">
+          ${item.photo_id ? `<button type="button" class="trip-constellation-focus" data-photo-id="${item.photo_id}">Open related photo</button>` : ""}
+        </div>
+      `;
+
+      if (item.photo_id) {
+        const focusBtn = card.querySelector(".trip-constellation-focus");
+        focusBtn?.addEventListener("click", () => {
+          focusPhoto(item.photo_id, { updateQuery: true });
+          if (item.id) {
+            scrollToConstellation(item.id);
+          }
+        });
+      }
+
+      fragment.appendChild(card);
+    });
+
+    constellationsContainer.innerHTML = "";
+    constellationsContainer.appendChild(fragment);
+    renderConstellations(constellations, { reRender: true });
+  }
+
   function renderPlaceCards(places, photos, { reRender = false } = {}) {
     if (!placesContainer) return;
     if (!reRender) {
@@ -324,9 +475,9 @@
     if (image) {
       image.style.backgroundImage = `url(${photo.src})`;
     }
-    if (timeNode) timeNode.textContent = photo.time || "—";
-    if (statusNode) statusNode.textContent = photo.status || "—";
-    if (tagNode) tagNode.textContent = photo.tag || "—";
+    if (timeNode) timeNode.textContent = photo.time || "--";
+    if (statusNode) statusNode.textContent = photo.status || "--";
+    if (tagNode) tagNode.textContent = photo.tag || "--";
 
     galleryContainer?.querySelectorAll(".trip-3d-thumb").forEach((thumb) => {
       thumb.classList.toggle("active", thumb.dataset.photoId === photoId);
@@ -335,6 +486,11 @@
     const relatedPlace = state.places.find((place) => place.photo_id === photoId);
     if (relatedPlace) {
       scrollToPlace(relatedPlace.id);
+    }
+
+    const relatedConstellation = state.constellations.find((item) => item.photo_id === photoId);
+    if (relatedConstellation) {
+      scrollToConstellation(relatedConstellation.id);
     }
 
     if (updateQuery) {
@@ -523,35 +679,33 @@
 
   function bootstrap() {
     const dataPromises = [
-      dataset.photos ? fetch(dataset.photos).then((res) => res.json()) : Promise.resolve([]),
-      dataset.places ? fetch(dataset.places).then((res) => res.json()) : Promise.resolve([]),
-      dataset.score ? fetch(dataset.score).then((res) => res.json()) : Promise.resolve(null)
+      dataset.photos ? fetch(dataset.photos).then((res) => res.json()).catch(() => []) : Promise.resolve([]),
+      dataset.places ? fetch(dataset.places).then((res) => res.json()).catch(() => []) : Promise.resolve([]),
+      dataset.score ? fetch(dataset.score).then((res) => res.json()).catch(() => null) : Promise.resolve(null),
+      dataset.constellations ? fetch(dataset.constellations).then((res) => res.json()).catch(() => []) : Promise.resolve([])
     ];
 
-    if (dataset.plan) {
-      dataPromises.push(fetch(dataset.plan).then((res) => res.json()).catch(() => []));
-    } else {
-      dataPromises.push(Promise.resolve([]));
-    }
-
-    if (dataset.actual) {
-      dataPromises.push(fetch(dataset.actual).then((res) => res.json()).catch(() => []));
-    } else {
-      dataPromises.push(Promise.resolve([]));
-    }
+    dataPromises.push(
+      dataset.plan ? fetch(dataset.plan).then((res) => res.json()).catch(() => []) : Promise.resolve([]),
+      dataset.actual ? fetch(dataset.actual).then((res) => res.json()).catch(() => []) : Promise.resolve([])
+    );
 
     Promise.all(dataPromises)
-      .then(([photos, places, score, plan, actual]) => {
+      .then(([photos, places, score, constellations, plan, actual]) => {
         state.photos = photos || [];
         state.places = places || [];
         state.score = score || {};
         state.plan = plan || [];
         state.actual = actual || [];
+        state.constellations = constellations || [];
+        state.constellationFilters = new Set();
 
         renderGallery(state.photos);
         renderPlaceCards(state.places, state.photos);
         renderScoreLanes(state.score, state.places);
         renderPlanComparison(state.plan, state.actual);
+        renderConstellationFilters(state.constellations);
+        renderConstellations(state.constellations);
 
         const photoParam = url.searchParams.get("photo");
         if (photoParam) {

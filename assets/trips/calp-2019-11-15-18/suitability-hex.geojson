@@ -1,0 +1,45 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hex-north",
+        "score": 0.78,
+        "label": "Suitability 0.78"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [0.0689, 38.6466],
+          [0.0682, 38.6459],
+          [0.0689, 38.6452],
+          [0.0707, 38.6452],
+          [0.0714, 38.6459],
+          [0.0707, 38.6466],
+          [0.0689, 38.6466]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hex-south",
+        "score": 0.64,
+        "label": "Suitability 0.64"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [0.0692, 38.6442],
+          [0.0683, 38.6434],
+          [0.0692, 38.6426],
+          [0.0710, 38.6426],
+          [0.0719, 38.6434],
+          [0.0710, 38.6442],
+          [0.0692, 38.6442]
+        ]]
+      }
+    }
+  ]
+}
