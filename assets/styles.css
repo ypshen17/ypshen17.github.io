@@ -56,14 +56,14 @@ footer {
 
 /* Left side */
 .global-nav .site-title {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: black;
   text-decoration: none;
 }
 .global-nav .page-title {
   margin-left: 1.8rem;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: var(--accent);
   text-transform: uppercase;
 }
@@ -186,8 +186,8 @@ footer {
 
 .fof-ui {
   position: absolute;
-  top: 1.8rem;
-  left: max(2rem, 4vw);
+  top: 6rem;
+  left: 3.6rem;
   z-index: 10;
   color: #000;
   font-family: "Roboto Flex", sans-serif;
@@ -195,41 +195,45 @@ footer {
 }
 
 .fof-ui h1 {
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-size: 2.4rem;
   margin: 0;
-  letter-spacing: -0.02em;
+  /*letter-spacing: -0.02em;*/
 }
 
 .fof-ui p {
-  margin: 0.6rem 0 0;
-  font-size: 1rem;
-  line-height: 1.5;
+  margin-top: 1.2rem;
+  max-width: 720px;
+  font: 1.2rem "Roboto Flex", sans-serif;
+  color: rgba(10, 16, 51, 0.85);
+  line-height: 1.2;
 }
 
 .fof-controls {
-  margin-top: 1rem;
+  margin-top: 1.2rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
 }
 
 .fof-btn {
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid #0000bf;
-  border-radius: 999px;
-  padding: 0.45rem 1.05rem;
-  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid currentColor;
+  border-radius: 0;
   font: 0.9rem "Roboto Mono", monospace;
-  transition: all 0.2s ease;
-  color: #0000bf;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: var(--podcast-blue);
+  color: #fff;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .fof-btn:hover,
 .fof-btn:focus-visible {
-  background: #0000bf;
-  color: #fff;
-  outline: none;
+  transform: translateY(-2px);
+  background: var(--podcast-ink);
 }
 
 #canvas-holder {

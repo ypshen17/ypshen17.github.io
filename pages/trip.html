@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include head.html %}
+    <meta name="robots" content="noindex, noarchive, nofollow">
+  </head>
+  <body class="inner trip-body" data-page="trip">
+    {% include nav.html %}
+
+    <main class="trip-main">
+      <div
+        class="trip-page"
+        data-trip-slug="{{ page.slug }}"
+        data-mode="{{ page.mode_default | default: 'research' }}"
+        data-photos="{{ page.photos_json }}"
+        data-places="{{ page.places_json }}"
+        data-score="{{ page.score_json }}"
+        data-plan="{{ page.plan_json | default: '' }}"
+        data-actual="{{ page.actual_json | default: '' }}"
+        data-mode-default="{{ page.mode_default | default: 'research' }}"
+        data-ics="{{ page.ics | default: '' }}"
+        data-map-embed="{{ page.map_embed | default: '' }}"
+        data-comfort-score="{{ page.comfort_score | default: '' }}"
+        data-constellations="{{ page.constellations_json | default: '' }}"
+      >
+        <aside class="trip-toc" aria-label="Study sections">
+          <nav>
+            <h2>Contents</h2>
+            <ol>
+              <li><a href="#trip-header">Header</a></li>
+              <li><a href="#trip-methods">Methods</a></li>
+              <li><a href="#trip-map">Map</a></li>
+              <li><a href="#trip-3d">Auto 3D</a></li>
+              <li><a href="#trip-score">Day Score</a></li>
+              <li><a href="#trip-constellations">Constellations</a></li>
+              <li><a href="#trip-places">Place Cards</a></li>
+              <li><a href="#trip-evidence">Evidence</a></li>
+              <li><a href="#trip-reflections">Reflections</a></li>
+              <li><a href="#trip-limits">Limits &amp; Sources</a></li>
+            </ol>
+            <div class="trip-mode-toggle" role="group" aria-label="Display mode">
+              <button type="button" class="mode-btn" data-mode="research">Research</button>
+              <button type="button" class="mode-btn" data-mode="composition">Composition</button>
+            </div>
+          </nav>
+        </aside>
+
+        <article class="trip-content">
+          <section id="trip-header" class="trip-section">
+            <header class="trip-hero">
+              <div class="trip-hero-media" role="presentation">
+                <img src="{{ page.cover }}" alt="" loading="lazy">
+              </div>
+              <div class="trip-hero-copy">
+                <p class="trip-city">{{ page.city }} · {{ page.dates }}</p>
+                <h1>{{ page.title }}</h1>
+                <p class="trip-thesis">{{ page.thesis }}</p>
+                <ul class="trip-tags">
+                  {% for tag in page.tags %}
+                    <li>{{ tag }}</li>
+                  {% endfor %}
+                </ul>
+                <div class="trip-beats">
+                  {% for beat in page.beats %}
+                    <span class="trip-beat">{{ beat }}</span>
+                  {% endfor %}
+                </div>
+                <div class="trip-meta-grid">
+                  <div>
+                    <span class="meta-label">Distance</span>
+                    <span class="meta-value">{{ page.distance_km }} km</span>
+                  </div>
+                  {% if page.day_overview.sunrise %}
+                  <div>
+                    <span class="meta-label">Sunrise</span>
+                    <span class="meta-value">{{ page.day_overview.sunrise }}</span>
+                  </div>
+                  {% endif %}
+                  {% if page.day_overview.sunset %}
+                  <div>
+                    <span class="meta-label">Sunset</span>
+                    <span class="meta-value">{{ page.day_overview.sunset }}</span>
+                  </div>
+                  {% endif %}
+                  {% if page.comfort_score %}
+                  <div>
+                    <span class="meta-label">Comfort score (Research)</span>
+                    <span class="meta-value">{{ page.comfort_score }}</span>
+                  </div>
+                  {% endif %}
+                </div>
+                {% if page.day_overview.transit_modes %}
+                <div class="trip-transit">
+                  <span class="meta-label">Transit modes</span>
+                  <span class="meta-value">
+                    {{ page.day_overview.transit_modes | join: ', ' }}
+                  </span>
+                </div>
+                {% endif %}
+                <div class="trip-mode-intro">
+                  <p data-mode-copy="research">{{ page.research_intro }}</p>
+                  <p data-mode-copy="composition">{{ page.composition_intro }}</p>
+                </div>
+                <div class="trip-hero-actions">
+                  {% if page.ics %}
+                    <a class="trip-action" href="{{ page.ics }}" download>Download calendar</a>
+                  {% endif %}
+                  <button class="trip-action trip-evidence-open" type="button">Open evidence drawer</button>
+                </div>
+              </div>
+            </header>
+          </section>
+
+          <section id="trip-methods" class="trip-section">
+            <h2>Methods</h2>
+            <div class="trip-method-list">
+              {% for method in page.methods %}
+                <article class="trip-method">
+                  <h3>{{ method.title }}</h3>
+                  <p>{{ method.description }}</p>
+                </article>
+              {% endfor %}
+            </div>
+          </section>
+
+          <section id="trip-map" class="trip-section">
+            <h2>Map</h2>
+            <div class="trip-map-embed">
+              {% if page.map_embed %}
+                <iframe src="{{ page.map_embed }}" title="Story Map for {{ page.title }}" loading="lazy" allowfullscreen></iframe>
+              {% else %}
+                <div class="trip-map-placeholder">StoryMap embed pending</div>
+              {% endif %}
+            </div>
+            <p class="trip-map-note" data-mode-copy="research">
+              Slide captions highlight accountable claims and evidence jump-outs.
+            </p>
+            <p class="trip-map-note" data-mode-copy="composition">
+              Slide captions stage the visitor flow with light and sound cues.
+            </p>
+          </section>
+
+          <section id="trip-3d" class="trip-section">
+            <h2>Auto 3D photo pins</h2>
+            <div class="trip-3d-wrapper">
+              <div class="trip-drop-zone" role="button" tabindex="0" aria-controls="trip3dGallery">
+                <p>Drag a photo with EXIF data to map it. Space or Enter opens your file picker.</p>
+                <input type="file" accept="image/*" class="trip-drop-input" aria-hidden="true">
+              </div>
+              <div class="trip-3d-viewer" id="trip3dViewer" aria-live="polite">
+                <div class="trip-3d-preview">
+                  <div class="trip-3d-image" role="img" aria-label="Selected photo preview"></div>
+                </div>
+                <dl class="trip-3d-meta">
+                  <div>
+                    <dt>Time</dt>
+                    <dd data-3d-field="time">—</dd>
+                  </div>
+                  <div>
+                    <dt>Status</dt>
+                    <dd data-3d-field="status">—</dd>
+                  </div>
+                  <div>
+                    <dt>Tag</dt>
+                    <dd data-3d-field="tag">—</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+            <div class="trip-3d-gallery" id="trip3dGallery" aria-label="Photo pins"></div>
+          </section>
+
+          <section id="trip-score" class="trip-section">
+            <div class="trip-section-header">
+              <h2>Day Score ribbon</h2>
+              <p>Click an item to scroll to the linked place card and focus its map marker.</p>
+            </div>
+            <div class="trip-score-lanes" id="tripScoreLanes" role="list"></div>
+            <div class="trip-plan-timeline" id="tripPlanTimeline" aria-label="Planned versus observed comparison"></div>
+          </section>
+
+          <section id="trip-constellations" class="trip-section">
+            <div class="trip-section-header">
+              <h2>Sensory constellations</h2>
+              <p>{{ page.constellations_intro }}</p>
+            </div>
+            <div class="trip-constellation-filters" id="tripConstellationFilters" role="group" aria-label="Constellation themes"></div>
+            <div class="trip-constellation-list" id="tripConstellations" aria-live="polite"></div>
+          </section>
+
+          <section id="trip-places" class="trip-section">
+            <div class="trip-section-header">
+              <h2>Place cards</h2>
+              <p>Mode toggle switches between research claims and composition staging.</p>
+            </div>
+            <div class="trip-place-list" id="tripPlaces" aria-live="polite"></div>
+          </section>
+
+          <section id="trip-evidence" class="trip-section">
+            <h2>Evidence drawer</h2>
+            <p>Evidence items appear in both modes; provenance and capture time are noted.</p>
+            <div class="trip-evidence-inline" id="tripEvidenceInline"></div>
+          </section>
+
+          <section id="trip-reflections" class="trip-section">
+            <h2>Reflections</h2>
+            <ul class="trip-reflections">
+              {% for reflection in page.reflections %}
+                <li>{{ reflection }}</li>
+              {% endfor %}
+            </ul>
+            <div class="trip-freeform">
+              {{ content }}
+            </div>
+          </section>
+
+          <section id="trip-limits" class="trip-section">
+            <div class="trip-limits-sources">
+              <div class="trip-limits">
+                <h2>Limits</h2>
+                <ul>
+                  {% for limit in page.limits %}
+                    <li>{{ limit }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="trip-sources">
+                <h2>Sources</h2>
+                <ul>
+                  {% for source in page.sources %}
+                    <li>
+                      <a href="{{ source.url }}">{{ source.label }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <script type="application/json" id="tripEvidenceData">
+      {{ page.evidence_items | jsonify }}
+    </script>
+
+    <div class="trip-evidence-drawer" id="tripEvidenceDrawer" aria-hidden="true">
+      <div class="trip-evidence-backdrop" tabindex="-1"></div>
+      <div class="trip-evidence-panel" role="dialog" aria-modal="true" aria-labelledby="tripEvidenceTitle">
+        <header class="trip-evidence-head">
+          <h2 id="tripEvidenceTitle">Evidence</h2>
+          <button type="button" class="trip-evidence-close" aria-label="Close evidence drawer">×</button>
+        </header>
+        <div class="trip-evidence-body" id="tripEvidenceBody"></div>
+      </div>
+    </div>
+
+    {% include footer.html %}
+    <script src="{{ '/assets/trips/trip-page.js' | relative_url }}" defer></script>
+  </body>
+</html>
