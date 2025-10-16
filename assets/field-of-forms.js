@@ -18,8 +18,6 @@ let shapeImgs = {};
 let currentBrush = "blue";
 let hasDrawn = false;
 let audioPrimed = false;
-let lastBrushTime = 0;
-let fadeActive = false;
 
 // Sound system
 let reverb;
@@ -29,6 +27,11 @@ let drawEnvelopes = [];
 let drawVoiceIndex = 0;
 let ambientTimer = null;
 let soundOn = loadPref("fieldof_sound", true); // persistent toggle
+
+// --- trail memory (keeps color) ---
+let trail = [];
+const MAX_TRAIL = 80;   // ~10 strokes × ~8 shapes
+const FADE_RATE = 0.965; // per-frame alpha multiplier
 
 /* -------------------- preload -------------------- */
 function preload() {
@@ -51,7 +54,7 @@ function preload() {
 function setup() {
   const canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("canvas-holder");
-  background(255);
+  background(250);               // soft off-white for contrast
 
   pixelDensity(1);
   frameRate(48);
@@ -62,32 +65,35 @@ function setup() {
   setupUI(canvas);
   setupAmbientModulation();
   runIntroAnimation();
-
-  // initialize sound toggle UI
   initAudioToggle();
 }
 
 /* --------------------- draw loop ----------------- */
 function draw() {
-  if (!fadeActive && !mouseIsPressed) return;
+  if (!hasDrawn && !mouseIsPressed) return;
 
-  if (fadeActive) {
-    const elapsed = millis() - lastBrushTime;
-    if (elapsed > 90000) { // keep brush visible longer
-      fadeActive = false;
-    } else {
-      // much softer opacity for slower decay
-      const fadeAlpha = 
-        elapsed < 3000 ? 15 :
-        elapsed < 20000 ? 8 :
-        elapsed < 80000 ? 4 :
-        2; // near-invisible wash
-      noStroke();
-      fill(255, 250, 245, fadeAlpha);
-      rect(0, 0, width, height);
-    }
+  background(250);
+
+  // redraw trail (oldest → newest), each with its own alpha
+  for (let i = 0; i < trail.length; i++) {
+    const s = trail[i];
+    if (s.alpha <= 1) continue;
+
+    push();
+    translate(s.x, s.y);
+    rotate(radians(s.rot));
+    imageMode(CENTER);
+    tint(red(s.col), green(s.col), blue(s.col), s.alpha);
+    image(shapeImgs[s.shape], 0, 0, s.size, s.size);
+    pop();
+
+    s.alpha *= FADE_RATE; // slow dissolve but keep hue
   }
 
+  // clean fully faded
+  trail = trail.filter((s) => s.alpha > 2);
+
+  // live drawing
   if (mouseIsPressed && (mouseX !== pmouseX || mouseY !== pmouseY)) {
     drawBrush(mouseX, mouseY, pmouseX, pmouseY);
     if (!hasDrawn) fadeOutTooltip();
@@ -103,19 +109,15 @@ function touchMoved() {
 }
 
 /* ---------------- drawing logic ------------------ */
-function randomChoice(arr) {
-  return arr[int(random(arr.length))];
-}
+function randomChoice(arr) { return arr[int(random(arr.length))]; }
 
 function drawBrush(x, y, px, py) {
   const brush = brushes[currentBrush];
   if (!brush) return;
 
   const d = dist(x, y, px, py);
-  lastBrushTime = millis();
-  fadeActive = true;
 
-  // More open spacing (less dense)
+  // airy spacing
   const stepSpacing = map(d, 0, 60, 16, 42, true);
   if (d < stepSpacing / 2 && random() < 0.6) return;
 
@@ -126,33 +128,32 @@ function drawBrush(x, y, px, py) {
     const shape = randomChoice(brush.shapes);
     const img = shapeImgs[shape];
 
-    // avoid too frequent black
+    // avoid too much black
     let col;
-    do {
-      col = color(random(brush.palette));
-    } while (brightness(col) < 20 && random() < 0.6);
+    do { col = color(random(brush.palette)); }
+    while (brightness(col) < 20 && random() < 0.6);
 
     const sizeBase = map(d, 0, 60, brush.minSize, brush.maxSize, true);
-    const scaleJitter = random(0.8, 1.5);
-    const rotJitter = random(-brush.rotation * 1.4, brush.rotation * 1.4);
+    const size = sizeBase * random(0.8, 1.5);
+    const rot = random(-brush.rotation * 1.4, brush.rotation * 1.4);
     const radial = random(-brush.maxSize * 0.25, brush.maxSize * 0.25);
     const ang = random(TWO_PI);
-    const size = sizeBase * scaleJitter;
 
+    const posX = x + radial * cos(ang);
+    const posY = y + radial * sin(ang);
+
+    // draw now
     push();
-    translate(x + radial * cos(ang), y + radial * sin(ang));
-    rotate(radians(rotJitter));
+    translate(posX, posY);
+    rotate(radians(rot));
     imageMode(CENTER);
-    const a = random(160, 245);
-    if (img) {
-      tint(red(col), green(col), blue(col), a);
-      image(img, 0, 0, size, size);
-    } else {
-      noStroke();
-      fill(red(col), green(col), blue(col), a);
-      circle(0, 0, size);
-    }
+    tint(red(col), green(col), blue(col), 255);
+    image(img, 0, 0, size, size);
     pop();
+
+    // store for color-faithful fading
+    trail.push({ x: posX, y: posY, shape, col, size, rot, alpha: 255 });
+    if (trail.length > MAX_TRAIL) trail.shift();
   });
 
   playReactiveTone(brush, d);
@@ -160,14 +161,14 @@ function drawBrush(x, y, px, py) {
 
 /* -------------------- setup helpers -------------- */
 function setupSound() {
-  userStartAudio().then(() => audioPrimed = true).catch(() => audioPrimed = false);
+  userStartAudio().then(() => (audioPrimed = true)).catch(() => (audioPrimed = false));
   reverb = new p5.Reverb();
   reverb.drywet(0.3);
 
+  // reactive voices
   const voiceCount = 4;
   drawVoices = [];
   drawEnvelopes = [];
-
   for (let i = 0; i < voiceCount; i++) {
     const osc = new p5.Oscillator("sine");
     const env = new p5.Envelope();
@@ -181,9 +182,8 @@ function setupSound() {
   }
 
   // ambient C E G B (maj7)
-  const baseFreqs = [261.63, 329.63, 392.00, 493.88];
+  const baseFreqs = [261.63, 329.63, 392.0, 493.88];
   const waves = ["sine", "triangle", "sine", "triangle"];
-
   ambient = baseFreqs.map((f, i) => {
     const v = new p5.Oscillator(waves[i]);
     v.freq(f);
@@ -238,16 +238,28 @@ function setupTooltip() {
 }
 
 function setupUI(canvas) {
-  const buttons = document.querySelectorAll(".fof-btn, .fof-btn-white");
+  // bind both blue and white buttons, + anything with data-action
+  const buttons = document.querySelectorAll(".fof-btn, .fof-btn-white, [data-action]");
   buttons.forEach((btn) => {
     btn.addEventListener("click", (event) => {
       const { brush, action } = event.currentTarget.dataset;
+
       if (brush && brushes[brush]) currentBrush = brush;
-      if (action === "clear") background(255);
-      if (action === "save") saveCanvas("field-of-forms", "png");
+
+      if (action === "clear") {
+        background(250);
+        trail = [];                   // clear stored strokes too
+      }
+
+      if (action === "save") {
+        // ensure we save the p5 canvas
+        saveCanvas("field-of-forms", "png");
+      }
+
       primeAudio();
     });
   });
+
   canvas.mousePressed(primeAudio);
   canvas.touchStarted(primeAudio);
 }
@@ -276,7 +288,7 @@ function runIntroAnimation() {
 function primeAudio() {
   if (audioPrimed) return;
   userStartAudio()
-    .then(() => audioPrimed = true)
+    .then(() => (audioPrimed = true))
     .catch(() => getAudioContext()?.resume?.());
 }
 
@@ -307,9 +319,9 @@ function fadeOutTooltip() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  background(255);
+  background(250);
   hasDrawn = false;
-  fadeActive = false;
+  trail = [];
 }
 
 function ensureTrailingSlash(p) {
@@ -338,15 +350,8 @@ function initAudioToggle() {
   });
 }
 
-function savePref(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
+function savePref(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
 function loadPref(key, fallback) {
-  try {
-    const raw = localStorage.getItem(key);
-    if (raw === null) return fallback;
-    return JSON.parse(raw);
-  } catch {
-    return fallback;
-  }
+  try { const raw = localStorage.getItem(key); return raw === null ? fallback : JSON.parse(raw); }
+  catch { return fallback; }
 }
