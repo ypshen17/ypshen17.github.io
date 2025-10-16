@@ -1,23 +1,31 @@
 /* -------------------------------------------------
    Field of Forms · Interactive Drawing + Soundscape
+   with Brush Preview + Palette Swap Keys
    ------------------------------------------------- */
 
 const FOF_SHAPES = [
-  "diamond",
-  "leaf",
-  "flower",
-  "cross",
-  "dot",
-  "dot-outline",
-  "starburst",
-  "star4",
+  "diamond", "leaf", "flower", "cross",
+  "dot", "dot-outline", "starburst", "star4",
 ];
 
 let brushes = {};
 let shapeImgs = {};
 let currentBrush = "blue";
-let hasDrawn = false;
 let audioPrimed = false;
+let hasDrawn = false;
+
+// Off-screen layer (for performance)
+let pg;
+
+// Preview bubble
+let preview = {
+  x: 0,
+  y: 0,
+  col: null,
+  shape: null,
+  size: 48,
+  visible: false,
+};
 
 // Sound system
 let reverb;
@@ -26,19 +34,11 @@ let drawVoices = [];
 let drawEnvelopes = [];
 let drawVoiceIndex = 0;
 let ambientTimer = null;
-let soundOn = loadPref("fieldof_sound", true); // persistent toggle
-
-// --- trail memory (keeps color) ---
-let trail = [];
-const MAX_TRAIL = 4000;   // safety limit
-const FADE_RATE = 0.995;  // slower = more persistent color
+let soundOn = loadPref("fieldof_sound", true);
 
 /* -------------------- preload -------------------- */
 function preload() {
-  const base = ensureTrailingSlash(
-    window.__FOF_SHAPE_BASE__ || "/assets/shapes/"
-  );
-
+  const base = ensureTrailingSlash(window.__FOF_SHAPE_BASE__ || "/assets/shapes/");
   FOF_SHAPES.forEach((name) => {
     shapeImgs[name] = loadImage(`${base}${name}.svg`, undefined, () => {
       const g = createGraphics(60, 60);
@@ -56,7 +56,8 @@ function preload() {
 function setup() {
   const canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("canvas-holder");
-  background(250);
+  pg = createGraphics(windowWidth, windowHeight);
+  pg.background(250);
 
   pixelDensity(1);
   frameRate(48);
@@ -68,60 +69,25 @@ function setup() {
   setupAmbientModulation();
   runIntroAnimation();
   initAudioToggle();
+
+  // initialize preview color/shape
+  updatePreview();
 }
 
 /* --------------------- draw loop ----------------- */
 function draw() {
-  if (!hasDrawn && !mouseIsPressed) return;
-
-  background(250);
-
-  // redraw trail (oldest → newest)
-  for (let i = 0; i < trail.length; i++) {
-    const s = trail[i];
-    if (s.alpha <= 1) continue;
-
-    push();
-    translate(s.x, s.y);
-    rotate(radians(s.rot));
-    imageMode(CENTER);
-    tint(red(s.col), green(s.col), blue(s.col), s.alpha);
-    image(shapeImgs[s.shape], 0, 0, s.size, s.size);
-    pop();
-
-    // fade slowly but keep color
-    s.alpha *= FADE_RATE;
-  }
-
-  // clean faded
-  trail = trail.filter((s) => s.alpha > 3);
-
-  // draw new strokes
-  if (mouseIsPressed && (mouseX !== pmouseX || mouseY !== pmouseY)) {
-    drawBrush(mouseX, mouseY, pmouseX, pmouseY);
-    if (!hasDrawn) fadeOutTooltip();
-    hasDrawn = true;
-  }
-}
-
-function touchMoved() {
-  drawBrush(mouseX, mouseY, pmouseX, pmouseY);
-  if (!hasDrawn) fadeOutTooltip();
-  hasDrawn = true;
-  return false;
+  image(pg, 0, 0, width, height); // show main artwork
+  drawPreview();                  // overlay preview bubble
 }
 
 /* ---------------- drawing logic ------------------ */
-function randomChoice(arr) {
-  return arr[int(random(arr.length))];
-}
+function randomChoice(arr) { return arr[int(random(arr.length))]; }
 
 function drawBrush(x, y, px, py) {
   const brush = brushes[currentBrush];
   if (!brush) return;
 
   const d = dist(x, y, px, py);
-
   const stepSpacing = map(d, 0, 60, 16, 42, true);
   if (d < stepSpacing / 2 && random() < 0.6) return;
 
@@ -133,9 +99,8 @@ function drawBrush(x, y, px, py) {
     const img = shapeImgs[shape];
 
     let col;
-    do {
-      col = color(random(brush.palette));
-    } while (brightness(col) < 20 && random() < 0.6);
+    do { col = color(random(brush.palette)); }
+    while (brightness(col) < 20 && random() < 0.6);
 
     const sizeBase = map(d, 0, 60, brush.minSize, brush.maxSize, true);
     const size = sizeBase * random(0.8, 1.5);
@@ -145,27 +110,68 @@ function drawBrush(x, y, px, py) {
     const posX = x + radial * cos(ang);
     const posY = y + radial * sin(ang);
 
-    push();
-    translate(posX, posY);
-    rotate(radians(rot));
-    imageMode(CENTER);
+    pg.push();
+    pg.translate(posX, posY);
+    pg.rotate(radians(rot));
+    pg.imageMode(CENTER);
     const a = random(210, 255);
-    tint(red(col), green(col), blue(col), a);
-    image(img, 0, 0, size, size);
-    pop();
+    pg.tint(red(col), green(col), blue(col), a);
+    pg.image(img, 0, 0, size, size);
+    pg.pop();
 
-    trail.push({ x: posX, y: posY, shape, col, size, rot, alpha: 255 });
-    if (trail.length > MAX_TRAIL) trail.shift();
+    // optional gentle wash to keep texture dynamic
+    if (frameCount % 600 === 0) {
+      pg.noStroke();
+      pg.fill(250, 250, 245, 4);
+      pg.rect(0, 0, pg.width, pg.height);
+    }
   });
 
   playReactiveTone(brush, d);
+  updatePreview(); // refresh preview color each stroke
+}
+
+/* ---------------- preview bubble ----------------- */
+function drawPreview() {
+  if (!preview.visible || !preview.shape) return;
+
+  const img = shapeImgs[preview.shape];
+  if (!img) return;
+
+  push();
+  translate(preview.x, preview.y);
+  imageMode(CENTER);
+  noStroke();
+  const a = 230;
+  tint(red(preview.col), green(preview.col), blue(preview.col), a);
+  image(img, 0, 0, preview.size, preview.size);
+  pop();
+}
+
+function updatePreview() {
+  const brush = brushes[currentBrush];
+  if (!brush) return;
+  preview.shape = randomChoice(brush.shapes);
+  preview.col = color(random(brush.palette));
+}
+
+function mouseMoved() {
+  preview.x = mouseX;
+  preview.y = mouseY;
+  preview.visible = true;
+}
+
+function mousePressed() {
+  preview.visible = true;
+}
+
+function mouseReleased() {
+  preview.visible = true;
 }
 
 /* -------------------- setup helpers -------------- */
 function setupSound() {
-  userStartAudio()
-    .then(() => (audioPrimed = true))
-    .catch(() => (audioPrimed = false));
+  userStartAudio().then(() => (audioPrimed = true)).catch(() => (audioPrimed = false));
   reverb = new p5.Reverb();
   reverb.drywet(0.3);
 
@@ -247,15 +253,17 @@ function setupUI(canvas) {
     btn.addEventListener("click", (event) => {
       const { brush, action } = event.currentTarget.dataset;
 
-      if (brush && brushes[brush]) currentBrush = brush;
+      if (brush && brushes[brush]) {
+        currentBrush = brush;
+        updatePreview();
+      }
 
       if (action === "clear") {
-        background(250);
-        trail = [];
+        pg.background(250);
       }
 
       if (action === "save") {
-        saveCanvas("field-of-forms", "png");
+        save(pg, "field-of-forms.png");
       }
 
       primeAudio();
@@ -266,6 +274,15 @@ function setupUI(canvas) {
   canvas.touchStarted(primeAudio);
 }
 
+/* -------- palette swap keys (1–3) -------- */
+function keyPressed() {
+  if (key === "1") currentBrush = "blue";
+  if (key === "2") currentBrush = "botanic";
+  if (key === "3") currentBrush = "echo";
+  updatePreview();
+}
+
+/* ---------------- ambience ---------------- */
 function setupAmbientModulation() {
   if (ambientTimer) clearInterval(ambientTimer);
   ambientTimer = setInterval(() => {
@@ -300,7 +317,6 @@ function primeAudio() {
     .catch(() => getAudioContext()?.resume?.());
 }
 
-// Restrict to C E G B tones
 function playReactiveTone(brush, distance) {
   if (!soundOn || !drawVoices.length) return;
   const pitchSet = [
@@ -327,14 +343,13 @@ function fadeOutTooltip() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  background(250);
-  hasDrawn = false;
-  trail = [];
+  const newPg = createGraphics(windowWidth, windowHeight);
+  newPg.background(250);
+  newPg.image(pg, 0, 0, windowWidth, windowHeight);
+  pg = newPg;
 }
 
-function ensureTrailingSlash(p) {
-  return p.endsWith("/") ? p : `${p}/`;
-}
+function ensureTrailingSlash(p) { return p.endsWith("/") ? p : `${p}/`; }
 
 /* ---------------- Sound toggle ------------------- */
 function initAudioToggle() {
@@ -358,14 +373,10 @@ function initAudioToggle() {
   });
 }
 
-function savePref(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
+function savePref(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
 function loadPref(key, fallback) {
   try {
     const raw = localStorage.getItem(key);
     return raw === null ? fallback : JSON.parse(raw);
-  } catch {
-    return fallback;
-  }
+  } catch { return fallback; }
 }

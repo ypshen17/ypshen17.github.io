@@ -1522,7 +1522,7 @@ footer {
   left: 1.2rem;       /* push title in from the left */
   right: 1.2rem;      /* optional: prevent overflow on the right */
   padding: 0;       /* reset padding so spacing is consistent */
-  font-size: 3.6rem;
+  font-size: 2.4rem;
   color: black;
   z-index: 1000;
 }
@@ -2012,7 +2012,7 @@ footer {
 }
 
 .about-role {
-  font: bold 2.4rem "Roboto Mono", monospace;
+  font: bold 1.5rem "Roboto Mono", monospace;
   margin-bottom: 0.9rem;
   color: black;
 }
