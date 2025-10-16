@@ -73,10 +73,15 @@ function draw() {
 
   if (fadeActive) {
     const elapsed = millis() - lastBrushTime;
-    if (elapsed > 9000) { // keep brush visible longer
+    if (elapsed > 90000) { // keep brush visible longer
       fadeActive = false;
     } else {
-      const fadeAlpha = elapsed < 300 ? 42 : elapsed < 2500 ? 18 : 8;
+      // much softer opacity for slower decay
+      const fadeAlpha = 
+        elapsed < 3000 ? 15 :
+        elapsed < 20000 ? 8 :
+        elapsed < 80000 ? 4 :
+        2; // near-invisible wash
       noStroke();
       fill(255, fadeAlpha);
       rect(0, 0, width, height);
