@@ -18,10 +18,16 @@ let shapeImgs = {};
 let currentBrush = "blue";
 let hasDrawn = false;
 let audioPrimed = false;
+let lastBrushTime = 0;
+let fadeActive = false;
 
 // Sound
 let reverb;
 let ambient = []; // drone voices
+let drawVoices = [];
+let drawEnvelopes = [];
+let drawVoiceIndex = 0;
+let ambientTimer = null;
 
 /* -------------------- preload -------------------- */
 function preload() {
@@ -50,6 +56,9 @@ function setup() {
   canvas.parent("canvas-holder");
   background(255);
 
+  pixelDensity(1);
+  frameRate(48);
+
   setupSound();               // ambient drone + reverb
   setupBrushes();             // 3 brush families
   setupTooltip();             // center helper
@@ -60,10 +69,21 @@ function setup() {
 
 /* --------------------- draw loop ----------------- */
 function draw() {
-  // gentle trail fade
-  noStroke();
-  fill(255, 12);
-  rect(0, 0, width, height);
+  if (!fadeActive && !mouseIsPressed) {
+    return;
+  }
+
+  if (fadeActive) {
+    const elapsed = millis() - lastBrushTime;
+    if (elapsed > 6000) {
+      fadeActive = false;
+    } else {
+      const fadeAlpha = elapsed < 200 ? 36 : elapsed < 2000 ? 18 : 6;
+      noStroke();
+      fill(255, fadeAlpha);
+      rect(0, 0, width, height);
+    }
+  }
 
   if (mouseIsPressed && (mouseX !== pmouseX || mouseY !== pmouseY)) {
     drawBrush(mouseX, mouseY, pmouseX, pmouseY);
@@ -91,9 +111,11 @@ function drawBrush(x, y, px, py) {
   if (!brush) return;
 
   const d = dist(x, y, px, py);
+  lastBrushTime = millis();
+  fadeActive = true;
 
-  // choose 1–3 shapes per step for richer texture
-  const seqLen = random([1, 2, 3]);
+  // choose up to two shapes per step for layered texture
+  const seqLen = random([1, 2]);
   const shapeSequence = shuffle([...brush.shapes]).slice(0, seqLen);
 
   shapeSequence.forEach(() => {
@@ -136,9 +158,33 @@ function drawBrush(x, y, px, py) {
 /* -------------------- setup helpers -------------- */
 
 function setupSound() {
-  userStartAudio().catch(()=>{}); // will fully resume on first interaction
+  userStartAudio()
+    .then(() => {
+      audioPrimed = true;
+    })
+    .catch(() => {
+      audioPrimed = false;
+    }); // will fully resume on first interaction
 
   reverb = new p5.Reverb();
+  reverb.drywet(0.3);
+
+  const voiceCount = 4;
+  drawVoices = [];
+  drawEnvelopes = [];
+  drawVoiceIndex = 0;
+
+  for (let i = 0; i < voiceCount; i++) {
+    const osc = new p5.Oscillator("sine");
+    const env = new p5.Envelope();
+    env.setADSR(0.02, 0.3, 0.0, 0.25);
+    env.setRange(0, 0);
+    osc.amp(env);
+    osc.start();
+    drawVoices.push(osc);
+    drawEnvelopes.push(env);
+    reverb.process(osc, 4, 2);
+  }
 
   // Ambient drone: C4–E4–G4–B4 (Cmaj7), warm & safe
   const baseFreqs = [261.63, 329.63, 392.0, 493.88];
@@ -147,7 +193,7 @@ function setupSound() {
   ambient = baseFreqs.map((f, i) => {
     const v = new p5.Oscillator(waves[i]);
     v.freq(f);
-    v.amp(0.009);        // very soft
+    v.amp(0.006);        // very soft
     v.start();
     reverb.process(v, 4, 2); // mild space
     return { osc: v, base: f };
@@ -224,11 +270,12 @@ function setupUI(canvas) {
 
 function setupAmbientModulation() {
   // Smooth, tiny motion (no horror!)
-  setInterval(() => {
+  if (ambientTimer) clearInterval(ambientTimer);
+  ambientTimer = setInterval(() => {
     ambient.forEach((layer, i) => {
       const drift = layer.base + sin(frameCount / 400 + i * 0.7) * 1.5; // ±1.5Hz
       layer.osc.freq(drift);
-      layer.osc.amp(0.007 + 0.003 * sin(frameCount / 300 + i));
+      layer.osc.amp(0.005 + 0.003 * sin(frameCount / 360 + i));
     });
   }, 3000);
 }
@@ -266,25 +313,24 @@ function primeAudio() {
 
 // harmonized brush note in Cmaj7 with envelope + reverb
 function playReactiveTone(brush, distance) {
+  if (!drawVoices.length) return;
+
   const pitchSet = [
     261.63, 329.63, 392.0, 493.88, // C4 E4 G4 B4
     523.25, 659.25, 784.0, 987.77  // C5 E5 G5 B5
   ];
 
   const freq = random(pitchSet) + random(-3, 3); // tiny warmth
-  const ampMax = map(distance, 0, 120, 0.02, 0.08, true);
+  const ampMax = map(distance, 0, 120, 0.02, 0.06, true);
 
-  const env = new p5.Envelope();
-  env.setADSR(0.02, 0.35, 0.0, 0.3); // quick bloom, gentle fade
+  const osc = drawVoices[drawVoiceIndex];
+  const env = drawEnvelopes[drawVoiceIndex];
+  drawVoiceIndex = (drawVoiceIndex + 1) % drawVoices.length;
+
+  osc.setType(brush.wave);
+  osc.freq(freq);
   env.setRange(ampMax, 0);
-
-  const v = new p5.Oscillator(brush.wave);
-  v.start();
-  v.freq(freq);
-  v.amp(env);
-  reverb.process(v, 4, 2);
-  env.play(v, 0, 0.02);
-  setTimeout(() => v.stop(), 1000);
+  env.play(osc, 0, 0.02);
 }
 
 /* ---------------- utilities ---------------------- */
@@ -300,6 +346,7 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   background(255);
   hasDrawn = false;
+  fadeActive = false;
 }
 
 function ensureTrailingSlash(p) {
