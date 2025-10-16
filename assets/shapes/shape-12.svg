@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-5ed3cc5d-3f08-48df-af1b-176e079a461e" data-name="0/brush" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <style>
+      .uuid-41d0d0b0-f3de-4d54-86c2-59d4f8ff451d {
+        fill: none;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 7px;
+      }
+    </style>
+  </defs>
+  <circle class="uuid-41d0d0b0-f3de-4d54-86c2-59d4f8ff451d" cx="128" cy="125.44" r="31.42"/>
+</svg>

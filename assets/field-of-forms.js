@@ -32,7 +32,7 @@ let ambientTimer = null;
 /* -------------------- preload -------------------- */
 function preload() {
   const base = ensureTrailingSlash(
-    window.__FOF_SHAPE_BASE__ || "{{ site.cloudflare_assets }}/shapes/"
+    window.__FOF_SHAPE_BASE__ || "/assets/shapes/"
   );
 
   FOF_SHAPES.forEach((name) => {
