@@ -305,7 +305,7 @@ footer {
   background: rgba(255, 255, 255, 0.78);
   padding: 0.6rem 1.2rem;
   border-radius: 999px;
-  border: 1px solid rgba(0, 0, 191, 0.22);
+  border: 0;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   transition: opacity 1s ease;
   backdrop-filter: blur(6px);
@@ -709,7 +709,7 @@ footer {
   background: var(--tone-bg, linear-gradient(135deg, var(--podcast-pale) 0%, #ffffff 90%));
   color: var(--tone-fg, var(--podcast-navy));
   box-shadow: 0 24px 36px -28px rgba(10, 16, 51, 0.45);
-  border: 1px solid rgba(16, 23, 68, 0.08);
+  border: 0;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   --tone-muted: rgba(10, 16, 51, 0.55);
   --tone-progress-bg: rgba(10, 16, 51, 0.18);
@@ -754,7 +754,7 @@ footer {
   height: 3rem;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(10, 16, 51, 0.2);
+  border: 0;
   border-radius: 0;
   transform: translate(-50%, -50%);
   background: rgba(255, 255, 255, 0.86);
@@ -848,7 +848,7 @@ footer {
 
 .icon-button {
   appearance: none;
-  border: 1px solid rgba(10, 16, 51, 0.16);
+  border: 0;
   background: rgba(255, 255, 255, 0.18);
   width: 2.6rem;
   height: 2.6rem;
@@ -1695,7 +1695,7 @@ footer {
   width: min(720px, 92vw);
   max-height: 77vh;              /* <--- LIMIT HEIGHT */
   background: #fff;
-  border: 1px solid #ddd;
+  border: 0;
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
   padding: 1.5rem;
   z-index: 1001;
