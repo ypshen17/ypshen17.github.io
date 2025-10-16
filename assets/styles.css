@@ -172,6 +172,119 @@ footer {
 
 
 
+
+/* -------------------------------------------------
+   Field of Forms
+-------------------------------------------------- */
+.fof-container {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 4rem);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(243, 229, 203, 0.28) 110%);
+  overflow: hidden;
+}
+
+.fof-ui {
+  position: absolute;
+  top: 1.8rem;
+  left: max(2rem, 4vw);
+  z-index: 10;
+  color: #000;
+  font-family: "Roboto Flex", sans-serif;
+  max-width: 320px;
+}
+
+.fof-ui h1 {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.fof-ui p {
+  margin: 0.6rem 0 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.fof-controls {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.fof-btn {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid #0000bf;
+  border-radius: 999px;
+  padding: 0.45rem 1.05rem;
+  cursor: pointer;
+  font: 0.9rem "Roboto Mono", monospace;
+  transition: all 0.2s ease;
+  color: #0000bf;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.fof-btn:hover,
+.fof-btn:focus-visible {
+  background: #0000bf;
+  color: #fff;
+  outline: none;
+}
+
+#canvas-holder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#canvas-holder canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.fof-tip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Roboto Mono", monospace;
+  font-size: 1rem;
+  color: #0000bf;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 191, 0.22);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: opacity 1s ease;
+  backdrop-filter: blur(6px);
+  max-width: 90%;
+  text-align: center;
+  pointer-events: none;
+}
+
+@media (max-width: 960px) {
+  .fof-ui {
+    position: static;
+    padding: 2.4rem 1.4rem 0;
+    max-width: none;
+  }
+
+  .fof-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #canvas-holder {
+    flex: 1;
+  }
+}
+
+
+
+
 /* ---------- Homepage ---------- */
 
 /* Stage 1 */
