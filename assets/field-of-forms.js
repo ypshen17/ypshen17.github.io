@@ -83,7 +83,7 @@ function draw() {
         elapsed < 80000 ? 4 :
         2; // near-invisible wash
       noStroke();
-      fill(255, fadeAlpha);
+      fill(255, 250, 245, fadeAlpha);
       rect(0, 0, width, height);
     }
   }
@@ -238,7 +238,7 @@ function setupTooltip() {
 }
 
 function setupUI(canvas) {
-  const buttons = document.querySelectorAll(".fof-btn");
+  const buttons = document.querySelectorAll(".fof-btn, .fof-btn-white");
   buttons.forEach((btn) => {
     btn.addEventListener("click", (event) => {
       const { brush, action } = event.currentTarget.dataset;
