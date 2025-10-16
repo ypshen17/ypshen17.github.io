@@ -21,24 +21,21 @@ let audioPrimed = false;
 let lastBrushTime = 0;
 let fadeActive = false;
 
-// Sound
+// Sound system
 let reverb;
-let ambient = []; // drone voices
+let ambient = [];
 let drawVoices = [];
 let drawEnvelopes = [];
 let drawVoiceIndex = 0;
 let ambientTimer = null;
+let soundOn = loadPref("fieldof_sound", true); // persistent toggle
 
 /* -------------------- preload -------------------- */
 function preload() {
-  const base = ensureTrailingSlash(
-    window.__FOF_SHAPE_BASE__ || "/assets/shapes/"
-  );
+  const base = ensureTrailingSlash(window.__FOF_SHAPE_BASE__ || "/assets/shapes/");
 
   FOF_SHAPES.forEach((name) => {
-    // allow hyphen key (dot-outline)
     shapeImgs[name] = loadImage(`${base}${name}.svg`, undefined, () => {
-      // fallback placeholder if load fails
       const g = createGraphics(60, 60);
       g.clear();
       g.stroke("#0000bf");
@@ -59,26 +56,27 @@ function setup() {
   pixelDensity(1);
   frameRate(48);
 
-  setupSound();               // ambient drone + reverb
-  setupBrushes();             // 3 brush families
-  setupTooltip();             // center helper
-  setupUI(canvas);            // buttons + audio priming
-  setupAmbientModulation();   // slow drift
-  runIntroAnimation();        // GSAP entry
+  setupSound();
+  setupBrushes();
+  setupTooltip();
+  setupUI(canvas);
+  setupAmbientModulation();
+  runIntroAnimation();
+
+  // initialize sound toggle UI
+  initAudioToggle();
 }
 
 /* --------------------- draw loop ----------------- */
 function draw() {
-  if (!fadeActive && !mouseIsPressed) {
-    return;
-  }
+  if (!fadeActive && !mouseIsPressed) return;
 
   if (fadeActive) {
     const elapsed = millis() - lastBrushTime;
-    if (elapsed > 6000) {
+    if (elapsed > 9000) { // keep brush visible longer
       fadeActive = false;
     } else {
-      const fadeAlpha = elapsed < 200 ? 36 : elapsed < 2000 ? 18 : 6;
+      const fadeAlpha = elapsed < 300 ? 42 : elapsed < 2500 ? 18 : 8;
       noStroke();
       fill(255, fadeAlpha);
       rect(0, 0, width, height);
@@ -100,8 +98,6 @@ function touchMoved() {
 }
 
 /* ---------------- drawing logic ------------------ */
-
-// tiny helper
 function randomChoice(arr) {
   return arr[int(random(arr.length))];
 }
@@ -114,34 +110,37 @@ function drawBrush(x, y, px, py) {
   lastBrushTime = millis();
   fadeActive = true;
 
-  // choose up to two shapes per step for layered texture
+  // More open spacing (less dense)
+  const stepSpacing = map(d, 0, 60, 16, 42, true);
+  if (d < stepSpacing / 2 && random() < 0.6) return;
+
   const seqLen = random([1, 2]);
   const shapeSequence = shuffle([...brush.shapes]).slice(0, seqLen);
 
   shapeSequence.forEach(() => {
     const shape = randomChoice(brush.shapes);
     const img = shapeImgs[shape];
-    const col = color(random(brush.palette));          // random colour per form
+
+    // avoid too frequent black
+    let col;
+    do {
+      col = color(random(brush.palette));
+    } while (brightness(col) < 20 && random() < 0.6);
+
     const sizeBase = map(d, 0, 60, brush.minSize, brush.maxSize, true);
-
-    const scaleJitter = random(0.7, 1.4);              // random scale
-    const rotJitter = random(-brush.rotation * 1.3, brush.rotation * 1.3);
-    const radial = random(-brush.maxSize * 0.15, brush.maxSize * 0.15);
+    const scaleJitter = random(0.8, 1.5);
+    const rotJitter = random(-brush.rotation * 1.4, brush.rotation * 1.4);
+    const radial = random(-brush.maxSize * 0.25, brush.maxSize * 0.25);
     const ang = random(TWO_PI);
-
     const size = sizeBase * scaleJitter;
 
     push();
     translate(x + radial * cos(ang), y + radial * sin(ang));
     rotate(radians(rotJitter));
     imageMode(CENTER);
-
-    // vary alpha for nice overlaps
-    const a = random(180, 255);
-
+    const a = random(160, 245);
     if (img) {
-      // tint() expects RGBA
-      tint(col.levels[0], col.levels[1], col.levels[2], a);
+      tint(red(col), green(col), blue(col), a);
       image(img, 0, 0, size, size);
     } else {
       noStroke();
@@ -151,28 +150,18 @@ function drawBrush(x, y, px, py) {
     pop();
   });
 
-  // harmonized tone for the gesture
   playReactiveTone(brush, d);
 }
 
 /* -------------------- setup helpers -------------- */
-
 function setupSound() {
-  userStartAudio()
-    .then(() => {
-      audioPrimed = true;
-    })
-    .catch(() => {
-      audioPrimed = false;
-    }); // will fully resume on first interaction
-
+  userStartAudio().then(() => audioPrimed = true).catch(() => audioPrimed = false);
   reverb = new p5.Reverb();
   reverb.drywet(0.3);
 
   const voiceCount = 4;
   drawVoices = [];
   drawEnvelopes = [];
-  drawVoiceIndex = 0;
 
   for (let i = 0; i < voiceCount; i++) {
     const osc = new p5.Oscillator("sine");
@@ -186,32 +175,31 @@ function setupSound() {
     reverb.process(osc, 4, 2);
   }
 
-  // Ambient drone: C4–E4–G4–B4 (Cmaj7), warm & safe
-  const baseFreqs = [261.63, 329.63, 392.0, 493.88];
+  // ambient C E G B (maj7)
+  const baseFreqs = [261.63, 329.63, 392.00, 493.88];
   const waves = ["sine", "triangle", "sine", "triangle"];
 
   ambient = baseFreqs.map((f, i) => {
     const v = new p5.Oscillator(waves[i]);
     v.freq(f);
-    v.amp(0.006);        // very soft
+    v.amp(soundOn ? 0.006 : 0);
     v.start();
-    reverb.process(v, 4, 2); // mild space
+    reverb.process(v, 4, 2);
     return { osc: v, base: f };
   });
 }
 
 function setupBrushes() {
-  // NOTE: uses the exact filenames you provided
   brushes = {
     blue: {
       name: "Blue Rhythm",
       shapes: ["diamond", "dot-outline", "dot"],
       palette: ["#0000bf", "#F3E5CB", "#000000"],
       rotation: 6,
-      baseFreq: 440,           // used as center for reactive tone colouring
+      baseFreq: 440,
       wave: "sine",
-      minSize: 18,
-      maxSize: 58,
+      minSize: 20,
+      maxSize: 60,
     },
     botanic: {
       name: "Botanic Flow",
@@ -220,18 +208,18 @@ function setupBrushes() {
       rotation: 18,
       baseFreq: 330,
       wave: "triangle",
-      minSize: 24,
-      maxSize: 70,
+      minSize: 26,
+      maxSize: 74,
     },
     echo: {
       name: "Echo Pulse",
       shapes: ["cross", "star4", "dot"],
-      palette: ["#000000", "#74BBC5", "#F3E5CB", "#666666"],
+      palette: ["#666666", "#74BBC5", "#F3E5CB", "#0000bf"],
       rotation: 28,
       baseFreq: 560,
       wave: "sawtooth",
-      minSize: 16,
-      maxSize: 48,
+      minSize: 18,
+      maxSize: 52,
     },
   };
 }
@@ -249,84 +237,55 @@ function setupUI(canvas) {
   buttons.forEach((btn) => {
     btn.addEventListener("click", (event) => {
       const { brush, action } = event.currentTarget.dataset;
-
-      if (brush && brushes[brush]) {
-        currentBrush = brush;
-      }
-
-      if (action === "clear") {
-        background(255);
-      } else if (action === "save") {
-        saveCanvas("field-of-forms", "png");
-      }
-
+      if (brush && brushes[brush]) currentBrush = brush;
+      if (action === "clear") background(255);
+      if (action === "save") saveCanvas("field-of-forms", "png");
       primeAudio();
     });
   });
-
   canvas.mousePressed(primeAudio);
   canvas.touchStarted(primeAudio);
 }
 
 function setupAmbientModulation() {
-  // Smooth, tiny motion (no horror!)
   if (ambientTimer) clearInterval(ambientTimer);
   ambientTimer = setInterval(() => {
     ambient.forEach((layer, i) => {
-      const drift = layer.base + sin(frameCount / 400 + i * 0.7) * 1.5; // ±1.5Hz
+      const drift = layer.base + sin(frameCount / 500 + i * 0.9) * 1.2;
       layer.osc.freq(drift);
-      layer.osc.amp(0.005 + 0.003 * sin(frameCount / 360 + i));
+      layer.osc.amp(soundOn ? 0.005 + 0.003 * sin(frameCount / 420 + i) : 0, 0.3);
     });
   }, 3000);
 }
 
 function runIntroAnimation() {
   if (!window.gsap) return;
-
   const tl = gsap.timeline({ defaults: { ease: "power2.out", duration: 1.4 } });
   tl.from(".fof-ui h1", { opacity: 0, y: 32, duration: 1.6 })
     .from(".fof-ui p", { opacity: 0, y: 24, duration: 1.1 }, "-=1.0")
     .from(".fof-btn", { opacity: 0, y: 12, stagger: 0.12, duration: 0.5 }, "-=0.6");
-
-  gsap.to(".fof-ui h1", {
-    opacity: 0.85,
-    duration: 2.6,
-    yoyo: true,
-    repeat: -1,
-    ease: "sine.inOut",
-  });
+  gsap.to(".fof-ui h1", { opacity: 0.85, duration: 2.6, yoyo: true, repeat: -1, ease: "sine.inOut" });
 }
 
 /* ---------------- audio helpers ------------------ */
-
 function primeAudio() {
   if (audioPrimed) return;
   userStartAudio()
-    .then(() => (audioPrimed = true))
-    .catch(() => {
-      const ctx = getAudioContext();
-      ctx?.resume?.().then(() => {
-        audioPrimed = ctx && ctx.state === "running";
-      });
-    });
+    .then(() => audioPrimed = true)
+    .catch(() => getAudioContext()?.resume?.());
 }
 
-// harmonized brush note in Cmaj7 with envelope + reverb
+// Restrict to C E G B tones
 function playReactiveTone(brush, distance) {
-  if (!drawVoices.length) return;
-
+  if (!soundOn || !drawVoices.length) return;
   const pitchSet = [
-    261.63, 329.63, 392.0, 493.88, // C4 E4 G4 B4
-    523.25, 659.25, 784.0, 987.77  // C5 E5 G5 B5
+    261.63, 329.63, 392.00, 493.88, 523.25, 659.25, 784.00, 987.77 // C E G B
   ];
-
-  const freq = random(pitchSet) + random(-3, 3); // tiny warmth
-  const ampMax = map(distance, 0, 120, 0.02, 0.06, true);
-
+  const freq = random(pitchSet) + random(-4, 4);
+  const ampMax = map(distance, 0, 120, 0.025, 0.08, true);
   const osc = drawVoices[drawVoiceIndex];
   const env = drawEnvelopes[drawVoiceIndex];
   drawVoiceIndex = (drawVoiceIndex + 1) % drawVoices.length;
-
   osc.setType(brush.wave);
   osc.freq(freq);
   env.setRange(ampMax, 0);
@@ -334,7 +293,6 @@ function playReactiveTone(brush, distance) {
 }
 
 /* ---------------- utilities ---------------------- */
-
 function fadeOutTooltip() {
   const tip = document.getElementById("fof-tip");
   if (!tip) return;
@@ -351,4 +309,39 @@ function windowResized() {
 
 function ensureTrailingSlash(p) {
   return p.endsWith("/") ? p : `${p}/`;
+}
+
+/* ---------------- Sound toggle ------------------- */
+function initAudioToggle() {
+  const btn = document.getElementById("audioToggle");
+  if (!btn) return;
+  btn.setAttribute("aria-pressed", String(soundOn));
+  btn.textContent = `Sound: ${soundOn ? "on" : "off"}`;
+
+  btn.addEventListener("click", () => {
+    soundOn = !soundOn;
+    savePref("fieldof_sound", soundOn);
+    btn.setAttribute("aria-pressed", String(soundOn));
+    btn.textContent = `Sound: ${soundOn ? "on" : "off"}`;
+    const ctx = getAudioContext();
+    if (soundOn) {
+      ctx.resume().catch(() => {});
+      masterVolume(1, 0.3);
+    } else {
+      masterVolume(0, 0.3);
+    }
+  });
+}
+
+function savePref(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+function loadPref(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw === null) return fallback;
+    return JSON.parse(raw);
+  } catch {
+    return fallback;
+  }
 }

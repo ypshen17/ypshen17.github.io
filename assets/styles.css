@@ -191,7 +191,7 @@ footer {
   z-index: 10;
   color: #000;
   font-family: "Roboto Flex", sans-serif;
-  max-width: 320px;
+  max-width: 720px;
 }
 
 .fof-ui h1 {
@@ -218,15 +218,13 @@ footer {
 .fof-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 1.5rem;
+  padding: 0.45rem 0.85rem;
   border: 1px solid currentColor;
-  border-radius: 0;
+  border-radius: 999px;
   font: 0.9rem "Roboto Mono", monospace;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  background: var(--podcast-blue);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
@@ -235,6 +233,38 @@ footer {
   transform: translateY(-2px);
   background: var(--podcast-ink);
 }
+
+.ambiance {
+  position: fixed;
+  left: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  display: flex;
+  gap: 0.6rem;
+  z-index: 80;
+}
+.ambiance button {
+  border: 0;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font: 0.9rem "Roboto Mono", monospace;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 720px) {
+  .ambiance { flex-direction: column; align-items: flex-start; }
+}
+
+
+
+
+
+
+
+
+
+
 
 #canvas-holder {
   position: relative;
