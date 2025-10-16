@@ -30,7 +30,7 @@ let soundOn = loadPref("fieldof_sound", true); // persistent toggle
 
 // --- trail memory (keeps color) ---
 let trail = [];
-const MAX_TRAIL = 800;   // how many shapes are kept ~100 strokes × ~8 shapes
+const MAX_TRAIL = 4000;   // how many shapes are kept ~100 strokes × ~8 shapes
 const FADE_RATE = 0.99; // 0.94 = faster fade, 0.98 = slower per-frame alpha multiplier
 
 /* -------------------- preload -------------------- */
