@@ -135,6 +135,18 @@ function drawBrush(x, y, px, py) {
 
   const d = dist(x, y, px, py);
 
+  // Adjust density based on brush type
+  let spacingFactor = 1.0;
+  let radialFactor = 1.0;
+
+  if (currentBrush === "botanic") {
+    spacingFactor = 1.8; // looser spacing
+    radialFactor = 1.5;  // wider spread
+  } else if (currentBrush === "echo") {
+    spacingFactor = 1.1; // medium tight
+    radialFactor = 1.0;
+  }
+
   const stepSpacing = map(d, 0, 60, 16, 42, true);
   if (d < stepSpacing / 2 && random() < 0.6) return;
 
@@ -172,7 +184,6 @@ function drawBrush(x, y, px, py) {
   });
 
   playReactiveTone(brush, d);
-  updatePreview(); // refresh preview color each stroke
 }
 
 /* ---------------- preview bubble ----------------- */
@@ -205,6 +216,7 @@ function mousePressed() {
 }
 function mouseReleased() {
   preview.visible = true;
+  updatePreview(); // only refresh after finishing a stroke
 }
 
 /* -------------------- setup helpers -------------- */
